@@ -1,6 +1,6 @@
 # CLI 
 
-Ενδεικτικά περιεχόμενα:
+Περιεχόμενα:
 
 - Command line interface (CLI).
 

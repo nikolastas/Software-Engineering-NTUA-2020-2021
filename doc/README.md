@@ -1,6 +1,6 @@
 # Documentation
 
-Ενδεικτικά περιεχόμενα:
+Περιεχόμενα:
 
 - ΕΝΑ αρχείο Visual Paradigm με τα ζητούμενα διαγράμματα.
 - Εγγραφο SRS - Software Requirements Specification.

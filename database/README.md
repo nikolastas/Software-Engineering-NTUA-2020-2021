@@ -1,6 +1,6 @@
 # database
 
-Ενδεικτικά περιεχόμενα:
+Περιεχόμενα:
 
 - Database dump (sql ή json)
 

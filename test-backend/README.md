@@ -1,6 +1,6 @@
 # test-backend
 
-Ενδεικτικά περιεχόμενα:
+Περιεχόμενα:
 
 - Backend tests
 

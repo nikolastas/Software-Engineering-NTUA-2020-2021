@@ -1,5 +1,5 @@
 # Back-end
 
-Ενδεικτικά περιεχόμενα:
+Περιεχόμενα:
 
-- RESTful API.
+- RESTful API
