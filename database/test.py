@@ -13,11 +13,7 @@ try:
 
     )
 except pymysql.Error as e:
-<<<<<<< Updated upstream:database/test.py
-    print(f"Error connecting to pymysql Platform: {e}")
-=======
-    print(f"Error connecting to MariaDB Platform: {e}")
->>>>>>> Stashed changes:test-backend/test.py
+    print(f"Error connecting to mysql Platform: {e}")
     sys.exit(1)
 
 
@@ -77,4 +73,3 @@ for i in range(len(Passes)):
     # break
     cursor.execute(sqlFormula)
     db.commit() #Save Data
-    
