@@ -6,6 +6,7 @@ const app = express();
 
 
 app.use(bodyParser.json());
+
 //initialize routes
 app.use('/interoperability/api', require('./routes/api'));
 app.use('/interoperability/api/admin', require('./routes/admin'));

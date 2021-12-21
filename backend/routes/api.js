@@ -5,10 +5,6 @@ const router = express.Router();
 
 
 
-
-
-
-
 //Get request response
 router.get('/ninjas', function(req, res){
 //     con.query("SELECT * FROM passes", function(err, result, fields){
