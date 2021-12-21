@@ -19,9 +19,9 @@ create table chargestoproviders
     Providerabbr     char(3)   not null,
     Providerabbr2    char(3)   not null,
     primary key (toProviderAbbr, fromProviderAbbr),
-    constraint FKchargesToP451522
+    constraint provider_to
         foreign key (Providername, Providerabbr) references provider (name, abbr),
-    constraint FKchargesToP517075
+    constraint provider_from
         foreign key (Providername2, Providerabbr2) references provider (name, abbr)
 );
 
@@ -54,7 +54,7 @@ create table users
     userID       int(10)   null,
     email        char(255) null,
     Providerabbr char(3)   not null,
-    constraint FKusers274990
+    constraint providername_providerabbr
         foreign key (Providername, Providerabbr) references provider (name, abbr)
 );
 
@@ -76,9 +76,9 @@ create table passes
     timestamp         datetime null,
     charge            float    null,
     primary key (VehiclesvehicleID, StationsstationID, passID),
-    constraint FKpasses303958
+    constraint stationid_to_stationid
         foreign key (StationsstationID) references stations (stationID),
-    constraint FKpasses887350
+    constraint vehicleid_to_vehicle_id
         foreign key (VehiclesvehicleID) references vehicles (vehicleID)
 );
 
