@@ -8,18 +8,25 @@ const moment = require('moment');
 router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res){
     var datefrom = req.params.date_from;
     var dateto = req.params.date_to;
-    
+
+    console.log(datefrom, dateto);
+    var datefromf = "'"+datefrom.slice(0,4) + "-"+ datefrom.slice(4,6)+"-"+
+        datefrom.slice(6,8)+" 00:00:00'";
+    console.log(datefromf);
+
+    var datetof = "'" + dateto.slice(0,4)+"-"+dateto.slice(4,6)+"-"+dateto.slice(6,8) +" 23:59:59'";
+    console.log("datetof = ", datetof);
+
     try{
         console.log('entered');
         var str = "SELECT * FROM passes, stations,vehicles, tag "+"WHERE  passes.VehiclesvehicleID = vehicles.vehicleID and vehicles.tagtagID = tag.tagID and stations.stationID = passes.StationsstationID AND passes.StationsstationID = '"+
         req.params.stationID+"' AND passes.timestamp >= '"+ datefrom.slice(0,4) + "-"+ datefrom.slice(4,6)+"-"+
-        datefrom.slice(6,8)+" 00:00:00' AND passes.timestamp <= '"+dateto.slice(0,4)+"-"+dateto.slice(4,6)+"-"+dateto.slice(6,8) +"23:59:59' "+
+        datefrom.slice(6,8)+" 00:00:00' AND passes.timestamp <= '"+dateto.slice(0,4)+"-"+dateto.slice(4,6)+"-"+dateto.slice(6,8) +" 23:59:59' "+
         "GROUP BY passes.timestamp";
         console.log(str);
-        console.log("koukou");
         con.query(str,
         function(err, result, fields){
-            if (err) throw err
+            if (err) throw err;
             if (result.length > 0){
                 var Station = result[0].stationID;
                 var StationOperator = result[0].Providername;
@@ -55,16 +62,17 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
                     "NumberOfPasess": NumberOfPasses,
                     "PassesList": PassesList
                 });
-            }else{
+            }
+            else{
                 res.status(402);
                 res.send("No Data");
             }
         });
     }catch(err){
         //handle error
-        
+        res.status(500);
+        res.send("Internal Server Error");
     }
-    console.log("ta pame");
 });
 
 module.exports = router;
