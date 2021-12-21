@@ -15,6 +15,7 @@
     "express": "^4.17.2",
     "fast-csv": "^4.3.6",
     "fs": "^0.0.1-security",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1"
   },
   "devDependencies": {
