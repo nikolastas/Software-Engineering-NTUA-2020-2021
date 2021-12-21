@@ -62,7 +62,7 @@ AND tagtagID=tag.tagID
 
 B.
 
-SELECT  Providername, tagProvider, NOW(), passID, stationID, timestamp, vehicleID, charge
+SELECT  Providername, tagProvider, passID, stationID, timestamp, vehicleID, charge
 FROM passes, vehicles, tag, stations
 WHERE passes.VehiclesvehicleID =vehicles.vehicleID AND vehicles.tagtagID=tag.tagID
   AND tag.tagProvider='aodos' #OP2
@@ -71,7 +71,7 @@ WHERE passes.VehiclesvehicleID =vehicles.vehicleID AND vehicles.tagtagID=tag.tag
   AND stations.Providername!=tag.tagProvider #to leei h ekfwnhsh
 
 C.
-SELECT Providername, tagProvider, NOW(),  count(passes.passID), SUM(passes.charge)
+SELECT Providername, tagProvider, count(passes.passID), SUM(passes.charge)
 FROM passes, vehicles, tag, stations
 WHERE passes.VehiclesvehicleID =vehicles.vehicleID AND vehicles.tagtagID=tag.tagID
   AND tag.tagProvider='aodos' #OP2
@@ -81,7 +81,7 @@ WHERE passes.VehiclesvehicleID =vehicles.vehicleID AND vehicles.tagtagID=tag.tag
 D.
 
 
-SELECT Providername, NOW(),  tagProvider , COUNT(passID),SUM(charge)
+SELECT Providername, tagProvider , COUNT(passID),SUM(charge)
 FROM passes, vehicles, tag, stations
 WHERE passes.VehiclesvehicleID =vehicles.vehicleID AND vehicles.tagtagID=tag.tagID
   AND passes.StationsstationID=stations.stationID

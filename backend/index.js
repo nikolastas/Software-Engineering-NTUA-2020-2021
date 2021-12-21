@@ -13,5 +13,4 @@ app.use('/interoperability/api/', require('./routes/endpoints'));
 
 //listen for requests
 app.listen(process.env.port || 9103, function(){
-    console.log('Hello, World');
 });
