@@ -19,7 +19,7 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
         con.query(str,
         function(err, result, fields){
             if (err) throw err
-            console.log(result);
+            console.log(result[0]);
         });
     }catch(err){
         //handle error
