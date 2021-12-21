@@ -4,6 +4,12 @@ SELECT *
 FROM passes 
 WHERE StationsstationID = ? AND timestamp <= ? AND timestamp >= ? && SELECT name FROM provider WHERE name= ?
 
+SELECT *
+FROM passes, stations
+WHERE stations.stationID = passes.StationsstationID 
+and passes.StationsstationID = ? AND passes.timestamp <= ? AND passes.timestamp >= ?
+
+
 -------------------------------------------------------------------------------
 b
 /PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to -> 
