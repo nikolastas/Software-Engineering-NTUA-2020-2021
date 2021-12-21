@@ -13,7 +13,11 @@ try:
 
     )
 except pymysql.Error as e:
+<<<<<<< Updated upstream:database/test.py
     print(f"Error connecting to pymysql Platform: {e}")
+=======
+    print(f"Error connecting to MariaDB Platform: {e}")
+>>>>>>> Stashed changes:test-backend/test.py
     sys.exit(1)
 
 
