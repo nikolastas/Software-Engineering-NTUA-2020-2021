@@ -1,0 +1,297 @@
+{
+    "info": {
+        "_postman_id": "1f93a955-2bc1-4580-9f9c-43392b590d11",
+        "name": "EPOP",
+        "description": "Docmentation for Interoperability API E-Pass Opou Pass.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "/interoperability/api/admin/healthcheck",
+            "id": "284463d4-5c9b-4b84-9a14-6cfc42b241b4",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/admin/healthcheck",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "admin",
+                        "healthcheck"
+                    ]
+                },
+                "description": "## **Description :**\n\nChecks if the connection to the database is up and running and returns a json object accordingly.\n\n## **Return :**\n\nIf the database is up and running :\n\n🟢 **Status Code** : 200\n\n🟢 **Data** : {\"status\":\"OK\"}\n\nelse :\n\n🔴 **Status Code** : 500\n\n🔴 **Data** : {\"status\":\"failed\"}"
+            },
+            "response": []
+        },
+        {
+            "name": "/interoperability/api/admin/resetvehicles",
+            "id": "5ac22985-7344-43ef-8e0a-7aae76d07d44",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/admin/resetvehicles",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "admin",
+                        "resetvehicles"
+                    ]
+                },
+                "description": "## **Description :**\n\nTruncates vehicles table and adds original values as specified in *sampledata01_vehicles_100.csv*\n\n## **Return :**\n\nIf everything done as planned :\n\n🟢 **Status Code** : 200\n\n🟢 **Data** : {\"status\":\"OK\"}\n\nelse :\n\n🔴 **Status Code** : 500\n\n🔴 **Data** : {\"status\":\"failed\"}"
+            },
+            "response": []
+        },
+        {
+            "name": "/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to",
+            "id": "d9d9b847-afee-43b4-aaf7-b36234e002b9",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/PassesAnalysis/aodos/egnatia/20210301/20210601?format=csv",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "PassesAnalysis",
+                        "aodos",
+                        "egnatia",
+                        "20210301",
+                        "20210601"
+                    ],
+                    "query": [
+                        {
+                            "key": "format",
+                            "value": "csv",
+                            "description": "json | csv"
+                        }
+                    ]
+                },
+                "description": "## **Description :**\n\nReturns Passes from a given station from tags that belong to a foreign Operator during a specified period.\n\n## **Return :**\n\nIf everything done as planned :\n\n🟢 **Status Code** : 200\n\n🟢 **Data** : {\n\nop1_ID: String,\n\nop2_ID : String,\n\nRequestTimestamp : String,\n\nPeriodFrom : String,\n\nPeriodTo : String,\n\nNumberOfPasses : Integer,\n\nPassesList : List\n\n\\[\n\nPassIndex : Integer,\n\nPassID : String,\n\nStationID : String,\n\nTimeStamp : String,\n\nVehicleID : String,\n\nPassCharge : Float\n\n\\]\n\n}\n\nelse if no data available :\n\n🟡 **Status Code** : 402\n\n🟡 **Data :** No data\n\nelse if internal error:\n\n🔴 **Status Code** : 500\n\n🔴 **Data** : Internal Server Error"
+            },
+            "response": []
+        },
+        {
+            "name": "/ChargesBy/:op_ID/:date_from/:date_to",
+            "id": "9c03b6e6-ea4f-4151-bdf0-6295cac59bbd",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/ChargesBy/aodos/20200112/20200116?format=csv",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "ChargesBy",
+                        "aodos",
+                        "20200112",
+                        "20200116"
+                    ],
+                    "query": [
+                        {
+                            "key": "format",
+                            "value": "csv",
+                            "description": "json | csv"
+                        }
+                    ]
+                },
+                "description": "## **Description :**\n\nReturns data from passes to operator given from vehicles with tags that belong to distinct operators. If no passes are recorded during the specified period and some operator different to op_ID then nothing is returned for the specific operator and if no passes have been recorded from different operators at all\n\nthen status code 402 and no data is returned.\n\n## **Return :**\n\nIf everything done as planned :\n\n🟢 **Status Code** : 200\n\n🟢 **Data** : {\n\nop_ID: String,\n\nRequestTimestamp : String,\n\nPeriodFrom : String,\n\nPeriodTo : String,\n\nPPOList:\n\n\\[\n\nVisitingOperator : String,\n\nNumberOfPasses : Integer,\n\nPassesCost : Float\n\n\\]\n\n}\n\nelse if no data available :\n\n🟡 **Status Code** : 402\n\n🟡 **Data :** No data\n\nelse if internal error:\n\n🔴 **Status Code** : 500\n\n🔴 **Data** : Internal Server Error"
+            },
+            "response": []
+        },
+        {
+            "name": "/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to",
+            "id": "50e3c8a3-6737-4d0f-a018-12e3c6da9ef4",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/PassesCost/aodos/aodos/20210301/20210601?format=csv",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "PassesCost",
+                        "aodos",
+                        "aodos",
+                        "20210301",
+                        "20210601"
+                    ],
+                    "query": [
+                        {
+                            "key": "format",
+                            "value": "csv",
+                            "description": "json | csv"
+                        }
+                    ]
+                },
+                "description": "## **Description :**\n\nReturns Cost of Passes from tags that belong to op2 to stations that belong to op1 during a specified period.\n\nop1 and op2 can be have the same ID thus specifying that only home Passes will be counted.\n\n## **Return :**\n\nIf everything done as planned :\n\n🟢 **Status Code** : 200\n\n🟢 **Data** : {\n\nop1_ID: String,\n\nop2_ID : String,\n\nRequestTimestamp : String,\n\nPeriodFrom : String,\n\nPeriodTo : String,\n\nNumberOfPasses : Integer,\n\nPassesCost : Float\n\n}\n\nelse if no data available :\n\n🟡 **Status Code** : 402\n\n🟡 **Data :** No data\n\nelse if internal error:\n\n🔴 **Status Code** : 500\n\n🔴 **Data** : Internal Server Error"
+            },
+            "response": []
+        },
+        {
+            "name": "/PassesPerStation/:stationID/:date_from/:date_to",
+            "id": "15d4cd1a-4c6b-4ed8-82c1-7a24e5ca7669",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/PassesPerStation/AO01/20210301/20210601?format=json",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "PassesPerStation",
+                        "AO01",
+                        "20210301",
+                        "20210601"
+                    ],
+                    "query": [
+                        {
+                            "key": "format",
+                            "value": "json",
+                            "description": "json | csv\n"
+                        }
+                    ]
+                },
+                "description": "## **Description :**\n\nReturns Passes from a given station during a specified period.\n\n## **Return :**\n\nIf everything done as planned :\n\n🟢 **Status Code** : 200\n\n🟢 **Data** : {\n\nStation : String,\n\nStationOperator : String,\n\nRequestTimestamp : String,\n\nPeriodFrom : String,\n\nPeriodTo : String,\n\nNumberOfPasses : Integer,\n\nPassesList : List\n\n\\[\n\nPassIndex : Integer,\n\nPassID : String,\n\nPassTimeStamp : String,\n\nVehicleID : String,\n\nTagProvider : String,\n\nPassType : string,\n\nPassCharge : Float\n\n\\]\n\n}\n\nelse if no data available :\n\n🟡 **Status Code** : 402\n\n🟡 **Data :** No data\n\nelse if internal error:\n\n🔴 **Status Code** : 500\n\n🔴 **Data** : Internal Server Error"
+            },
+            "response": []
+        },
+        {
+            "name": "/interoperability/api/admin/resetstations",
+            "id": "3dc6320c-3f34-415f-9a66-0c3ade69e9a5",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/admin/resetstations",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "admin",
+                        "resetstations"
+                    ]
+                },
+                "description": "## **Description :**\n\nTruncates stations table and adds original values as specified in *sampledata01_stations.csv*\n\n## **Return :**\n\nIf everything done as planned :\n\n🟢 **Status Code** : 200\n\n🟢 **Data** : {\"status\":\"OK\"}\n\nelse :\n\n🔴 **Status Code** : 500\n\n🔴 **Data** : {\"status\":\"failed\"}"
+            },
+            "response": []
+        },
+        {
+            "name": "/interoperability/api/admin/resetpasses",
+            "id": "8051d711-d0f2-4fd2-9416-816d00c85562",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/admin/resetpasses",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "admin",
+                        "resetpasses"
+                    ]
+                },
+                "description": "## **Description :**\n\nTruncates passes table.\n\n## **Return :**\n\nIf everything done as planned :\n\n🟢 **Status Code** : 200\n\n🟢 **Data** : {\"status\":\"OK\"}\n\nelse :\n\n🔴 **Status Code** : 500\n\n🔴 **Data** : {\"status\":\"failed\"}"
+            },
+            "response": []
+        }
+    ],
+    "auth": {
+        "type": "basic",
+        "basic": [
+            {
+                "key": "username",
+                "value": "<Basic Auth Username>",
+                "type": "string"
+            },
+            {
+                "key": "password",
+                "value": "<Basic Auth Password>",
+                "type": "string"
+            }
+        ]
+    },
+    "variable": [
+        {
+            "id": "09b98c7d-f941-4eb8-8a75-9f1194ac2376",
+            "key": "baseUrl",
+            "value": "localhost:3000",
+            "type": "string"
+        }
+    ]
+}
