@@ -8,7 +8,8 @@ SELECT *
 FROM passes, stations,vehicles , tag
 WHERE passes.VehiclesvehicleID = vehicles.vehicleID and vehicles.tagtagID = tag.tagID
 and stations.stationID = passes.StationsstationID 
-and passes.StationsstationID = ? AND passes.timestamp <= ? AND passes.timestamp >= ?.
+and passes.StationsstationID = ? AND passes.timestamp <= ? AND passes.timestamp >= ?
+GROUP BY passes.timestamp.
 
 Συγκρίνουμε Providername && tagProvider.
 -------------------------------------------------------------------------------
