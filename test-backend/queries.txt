@@ -44,3 +44,47 @@ WHERE passes.VehiclesvehicleID =vehicles.vehicleID AND vehicles.tagtagID=tag.tag
   AND tag.tagProvider='aodos' and passes.StationsstationID=stations.stationID
   AND stations.Providername!='aodos' #op2
   AND passes.timestamp >='2019-01-12 13:15:00' AND passes.timestamp <='2020-06-21 21:23:00'
+
+=========================================================================================================================================================
+=========================================================================================================================================================
+  ------------------------------------------------------------------------NIKOS & NAT---------------------------------
+  A.
+
+
+
+  SELECT StationsstationID, stations.Providername, passes.timestamp,
+       VehiclesvehicleID, tag.tagProvider, passes.charge
+FROM passes, stations, vehicles, tag
+WHERE passes.StationsstationID=stations.stationID and VehiclesvehicleID=vehicles.vehicleID
+AND tagtagID=tag.tagID
++ DATETIME 
+
+
+B.
+
+SELECT  Providername, tagProvider, NOW(), passID, stationID, timestamp, vehicleID, charge
+FROM passes, vehicles, tag, stations
+WHERE passes.VehiclesvehicleID =vehicles.vehicleID AND vehicles.tagtagID=tag.tagID
+  AND tag.tagProvider='aodos' #OP2
+  and passes.StationsstationID=stations.stationID
+  AND stations.Providername='egnatia' #OP1
+  AND stations.Providername!=tag.tagProvider #to leei h ekfwnhsh
+
+C.
+SELECT Providername, tagProvider, NOW(),  count(passes.passID), SUM(passes.charge)
+FROM passes, vehicles, tag, stations
+WHERE passes.VehiclesvehicleID =vehicles.vehicleID AND vehicles.tagtagID=tag.tagID
+  AND tag.tagProvider='aodos' #OP2
+  and passes.StationsstationID=stations.stationID
+  AND stations.Providername='egnatia' #OP1
+  
+D.
+
+
+SELECT Providername, NOW(),  tagProvider , COUNT(passID),SUM(charge)
+FROM passes, vehicles, tag, stations
+WHERE passes.VehiclesvehicleID =vehicles.vehicleID AND vehicles.tagtagID=tag.tagID
+  AND passes.StationsstationID=stations.stationID
+  AND stations.Providername='aodos' #op2
+  AND tag.tagProvider!='aodos'
+GROUP BY tagProvider
