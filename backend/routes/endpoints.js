@@ -41,7 +41,7 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
                         PassTimeStamp: result[i].timestamp,
                         VehicleID: result[i].vehicleID,
                         TagProvider: result[i].tagProvider,
-                        PassType: (tagProvider[i] == Providername[i])?"home":"visitor",
+                        PassType: (result[i].tagProvider == result[i].Providername)?"home":"visitor",
                         PassCharge: result[i].charge
                     });
                 }
