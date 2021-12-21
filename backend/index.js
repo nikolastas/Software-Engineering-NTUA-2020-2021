@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 //initialize routes
 app.use('/interoperability/api', require('./routes/api'));
 app.use('/interoperability/api/admin', require('./routes/admin'));
-
+app.use('/interoperability/api/', require('./routes/endpoints'));
 
 //listen for requests
 app.listen(process.env.port || 9103, function(){
