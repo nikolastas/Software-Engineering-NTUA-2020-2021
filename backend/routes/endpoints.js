@@ -12,8 +12,8 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
     try{
         console.log('entered');
         var str = "SELECT * FROM passes, stations,vehicles, tag "+"WHERE  passes.VehiclesvehicleID = vehicles.vehicleID and vehicles.tagtagID = tag.tagID and stations.stationID = passes.StationsstationID AND passes.StationsstationID = '"+
-        req.params.stationID+"' AND passes.timestamp <= '"+ datefrom.slice(0,4) + "-"+ datefrom.slice(4,6)+"-"+
-        datefrom.slice(6,8)+" 00:00:00' AND passes.timestamp >= '"+dateto.slice(0,4)+"-"+dateto.slice(4,6)+"-"+dateto.slice(6,8) +"23:59:59' "+
+        req.params.stationID+"' AND passes.timestamp >= '"+ datefrom.slice(0,4) + "-"+ datefrom.slice(4,6)+"-"+
+        datefrom.slice(6,8)+" 00:00:00' AND passes.timestamp <= '"+dateto.slice(0,4)+"-"+dateto.slice(4,6)+"-"+dateto.slice(6,8) +"23:59:59' "+
         "GROUP BY passes.timestamp";
         console.log(str);
         console.log("koukou");
