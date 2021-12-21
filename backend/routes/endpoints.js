@@ -20,7 +20,7 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
         `AND passes.timestamp >= '${dateto.slice(0,4)+'-'+dateto.slice(4,6)+'-'+dateto.slice(6,8)} 23:59:59'` ,
         function(err, result, fields){
             if (err) throw err
-            console.log(result);
+            console.log(result[0]);
         });
     }catch(err){
         //handle error
