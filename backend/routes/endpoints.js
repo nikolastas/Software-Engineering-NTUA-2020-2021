@@ -10,3 +10,5 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
     console.log(req.date_from);
     console.log(req.date_to);
 });
+
+module.exports = router;
