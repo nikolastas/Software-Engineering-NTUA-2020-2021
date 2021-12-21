@@ -12,6 +12,7 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
     //console.log(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8));
     // console.log(req.params.date_to);
     try{
+        console.log("koukou");
         con.query("SELECT * FROM passes, stations "+
         `WHERE stations.stationID = passes.StationsstationID 
         AND passes.StationsstationID = ${req.params.stationID} AND passes.timestamp <= 
@@ -23,8 +24,9 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
         });
     }catch(err){
         //handle error
-        return false;
+        
     }
+    console.log("ta pame");
 });
 
 module.exports = router;
