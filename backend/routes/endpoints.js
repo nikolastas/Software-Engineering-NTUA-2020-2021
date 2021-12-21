@@ -9,7 +9,7 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
     // console.log(req.params.stationID);
     var date = req.params.date_from;
     var formated = moment(date).format('YYYY-MM-DD')
-    console.log(formated);
+    console.log(date.slice(0,4)+'-'+date.slice(4,6)+'-'+date.slice(6,8));
     // console.log(req.params.date_to);
     // try{
     //     con.query("SELECT * FROM passes "+
