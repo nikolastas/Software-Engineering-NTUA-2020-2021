@@ -41,7 +41,7 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
                         PassTimeStamp: result[i].timestamp,
                         VehicleID: result[i].vehicleID,
                         TagProvider: result[i].tagProvider,
-                        PassType: (tagProvider == Providername)?"home":"visitor",
+                        PassType: (tagProvider[i] == Providername[i])?"home":"visitor",
                         PassCharge: result[i].charge
                     });
                 }
@@ -55,6 +55,9 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
                     "NumberOfPasess": NumberOfPasses,
                     "PassesList": PassesList
                 });
+            }else{
+                res.status(402);
+                res.send("No Data");
             }
         });
     }catch(err){
