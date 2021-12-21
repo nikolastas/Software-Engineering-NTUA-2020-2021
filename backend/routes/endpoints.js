@@ -8,7 +8,7 @@ const moment = require('moment');
 router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res){
     // console.log(req.params.stationID);
     var date = req.params.date_from;
-    var formated = moment(date).format('YYYY-MM-DD hh:mm:ss')
+    var formated = moment(date).format('YYYY-MM-DD')
     console.log(formated);
     // console.log(req.params.date_to);
     // try{
