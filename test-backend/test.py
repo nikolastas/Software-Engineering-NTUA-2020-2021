@@ -1,10 +1,10 @@
-import mariadb
+import pymysql
 import sys
 import pandas as pd
 import numpy as np
 import datetime
 try:
-    db = mariadb.connect(
+    db = pymysql.connect(
         user="root",
         password="",
         host="localhost",
@@ -12,8 +12,8 @@ try:
         database="softeng"
 
     )
-except mariadb.Error as e:
-    print(f"Error connecting to MariaDB Platform: {e}")
+except pymysql.Error as e:
+    print(f"Error connecting to pymysql Platform: {e}")
     sys.exit(1)
 
 
