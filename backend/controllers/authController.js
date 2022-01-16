@@ -86,7 +86,7 @@ module.exports.login_post = async (req, res) =>{
                 console.log("user found");
                 const auth = bcrypt.compareSync(pass, user.dataValues.password);
                 if(auth){
-                    const token = createToken(user.dataValues.username +user.dataValues.typetypeofuser);
+                    const token = createToken(user.dataValues.username );
                     console.log("[login] token created" );
                     res.cookie('jwt', token, { httpOnly:true, maxAge:1000*60*60*7 });
                     res.status(201).send({
