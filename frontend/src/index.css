@@ -48,3 +48,8 @@
   color: #27caf3;
   margin-bottom: 8px;
 }
+
+
+.blog-preview a{
+  text-decoration: none;
+}
