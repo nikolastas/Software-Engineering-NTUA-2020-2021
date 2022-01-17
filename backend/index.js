@@ -16,8 +16,9 @@ app.use(cookieParser());
 //initialize routes
 app.use('/interoperability/api/admin', require('./routes/admin'));
 app.use('/interoperability/api/', require('./routes/endpoints'));
-app.get('/authToken', requireAuth, (req,res) => res.send("all ok!") );
-app.get('/checkUser', checkUser, (req,res) => res.send(app.locals.user) );
+app.get('/interoperability/api/authToken', requireAuth, (req,res) => res.send("all ok!") );
+app.get('/interoperability/api/checkUser', checkUser, (req,res) => res.send(app.locals.user) );
+
 app.use(authRouter);
 
 //cokies
