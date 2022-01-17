@@ -1,0 +1,220 @@
+{
+    "info": {
+        "_postman_id": "c1047c75-fc9c-49e6-8c40-d7ff15f58f02",
+        "name": "Auth commands",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "example",
+            "id": "22421186-e9aa-4ec0-9c98-17f410389dbd",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/PassesCost/aodos/aodos/20210301/20210601",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "PassesCost",
+                        "aodos",
+                        "aodos",
+                        "20210301",
+                        "20210601"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "login",
+            "id": "2822823e-69f5-4a63-8421-dab4d501c0a0",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "username",
+                            "value": "paris1",
+                            "type": "default"
+                        },
+                        {
+                            "key": "password",
+                            "value": "Nikolastas2019",
+                            "type": "default"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/login",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "login"
+                    ]
+                },
+                "description": "A Login POST request with urlencoded (x-www-form-urlencoded) parameters .\n\n# **Returns :**\n\nif everything is ok :\n\n🟢 Status 200:\n\nData:\n\nA JSON object with 3 or 4 values, dependening if user has registered with email.\n\n{ \"username\": String \\[username of the user\\],\n\n\"email\": String \\[emial of the user\\],\n\n\"typeOfUser\":String \\[EITHER \"admin\" OR \"user\" values\\] ,\n\n\"token\": String \\[token value\\] }\n\n🟡 Status 400 :\n\nData:\n\nAn error message.\n\nEither 1 of the following error messages.\n\n1.  \"no user found\" : \\[menaing\\] there is no user with the username given in our database\n2.  \"password not match\": \\[meaning\\] there is a user in our database with this username but the password we have is not right."
+            },
+            "response": []
+        },
+        {
+            "name": "/set-cokies",
+            "id": "a4acff53-a708-44c3-9541-30782c9f6b1c",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "localhost:9103/set-cookies",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "set-cookies"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "signup",
+            "id": "69bc71a9-b9f2-4aff-9eb3-23bf120cddc1",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "username",
+                            "value": "paris",
+                            "type": "text"
+                        },
+                        {
+                            "key": "password",
+                            "value": "Paris1",
+                            "type": "text"
+                        },
+                        {
+                            "key": "typeOfUser",
+                            "value": "admin",
+                            "type": "text"
+                        },
+                        {
+                            "key": "email",
+                            "value": "nikos@google.com",
+                            "type": "text"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "localhost:9103/interoperability/api/signup",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "signup"
+                    ]
+                },
+                "description": "A Signup POST request with urlencoded (x-www-form-urlencoded) parameters .\n\nEMAIL IS OPTIONAL\n\n# **Returns :**\n\nif everything is ok :\n\n🟢 Status 200:\n\nData:\n\nA JSON object with 3 or 4 values, dependening if user has registered with email.\n\n{ \"username\": String \\[username of the user\\],\n\n\"email\": String \\[emial of the user\\],\n\n\"typeOfUser\":String \\[EITHER \"admin\" OR \"user\" values\\] ,\n\n\"token\": String \\[token value\\] }\n\n🟡 Status 400 :\n\nData:\n\nAn error message. Explaining the reason why our system could not make the registration.\n\nEither 1 of the following error messages.\n\n1.  \"user already exists in db,Validation error\" : \\[meaning\\] the is a user in our database with this username please choose another one.\n2.  \"Validation error: \\[password length\\] Must NOT be less than 8 and Must NOT be greater than 40\" : please choose another password with more than 8 and less than 40 charachters.\n3.  Validation error: \\[password value\\] should contain at minimum at least one letter and one number : choose another passowrd with at least 1 letter and 1 number .\n4.  \"Validation error: \\[typeofuser\\] must be either admin or user\" : user must be either user or admin."
+            },
+            "response": []
+        },
+        {
+            "name": "logout",
+            "id": "e90e99c0-ab34-42f2-87bd-d2f29fb04a9c",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "localhost:9103/logout",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "logout"
+                    ]
+                },
+                "description": "A logout POST request where a user is disconnected from the api.\n\nThis request only happens when a user is logged in, this is checked with the \"jwt\" cookie availabel.\n\n# Returns :\n\n🟢 Status 200: if everithing is fine.\n\n🟢 Data: A string confirming the logout request. \"logout\"\n\n🟡 Status 400 : A error occured.\n\n🟡 Data : -"
+            },
+            "response": []
+        },
+        {
+            "name": "authToken",
+            "id": "6c102f1b-bc29-441e-bf55-1f3a1bb9484d",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "localhost:9103/authToken",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "authToken"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "checkUser",
+            "id": "979861ea-a87a-4f70-9595-42963ca71bbf",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": []
+                },
+                "url": {
+                    "raw": "localhost:9103/checkUser",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "checkUser"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
