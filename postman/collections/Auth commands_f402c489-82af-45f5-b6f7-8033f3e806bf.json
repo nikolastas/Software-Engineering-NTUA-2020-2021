@@ -155,12 +155,14 @@
                 "method": "POST",
                 "header": [],
                 "url": {
-                    "raw": "localhost:9103/logout",
+                    "raw": "localhost:9103/interoperability/api/logout",
                     "host": [
                         "localhost"
                     ],
                     "port": "9103",
                     "path": [
+                        "interoperability",
+                        "api",
                         "logout"
                     ]
                 },
@@ -178,12 +180,14 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "localhost:9103/authToken",
+                    "raw": "localhost:9103/interoperability/api/authToken",
                     "host": [
                         "localhost"
                     ],
                     "port": "9103",
                     "path": [
+                        "interoperability",
+                        "api",
                         "authToken"
                     ]
                 }
@@ -204,12 +208,14 @@
                     "urlencoded": []
                 },
                 "url": {
-                    "raw": "localhost:9103/checkUser",
+                    "raw": "localhost:9103/interoperability/api/checkUser",
                     "host": [
                         "localhost"
                     ],
                     "port": "9103",
                     "path": [
+                        "interoperability",
+                        "api",
                         "checkUser"
                     ]
                 }
