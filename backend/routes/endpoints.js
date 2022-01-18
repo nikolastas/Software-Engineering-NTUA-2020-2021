@@ -204,6 +204,8 @@ router.get('/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to', function(req, res)
     AND stations.Providername='${op1_ID}' #OP1
     AND passes.timestamp <= '${date_to}' AND passes.timestamp >= '${date_from}'`;
     try{
+        console.log(op1_ID,op2_ID , date_from , date_to, 'passescost');
+        console.log(str);
         con.query(str, 
         function(err, result, fields){
             if (err) throw err;

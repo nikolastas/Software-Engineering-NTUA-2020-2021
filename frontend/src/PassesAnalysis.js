@@ -1,21 +1,34 @@
 import { Link } from 'react-router-dom';
 
-const BlogList = ({ blogs }) => {
+const PassesAnalysisList = ({ data }) => {
+  const l = data.PassesList;
   return (
     <div className="blog-list">
-      {blogs.map(blog => (
-        <div className="blog-preview" key={blog.id} >
-          <Link to={`/blogs/${blog.id}`}>
-            <h2>{ blog.title }</h2>
-            <p>Written by { blog.author }</p>
-          </Link>
-        </div>
+      <table>
+      <tr>
+        <th>PassIndex</th>
+        <th>PassID</th>
+        <th>Timestamp</th>
+        <th>VehicleID</th>
+        <th>StationID</th>
+        <th>PassCharge</th>
+      </tr>
+      {l.map(elem => (
+      <tr>
+        <th>{ elem.PassIndex }</th>
+        <th>{ elem.PassID }</th>
+        <th>{ elem.TimeStamp }</th>
+        <th>{ elem.VehicleID } </th>
+        <th>{ elem.stationID }</th>
+        <th>{ elem.PassCharge }</th>
+      </tr>
       ))}
+      </table>
     </div>
   );
 }
  
-export default BlogList;
+export default PassesAnalysisList;
 
 
 

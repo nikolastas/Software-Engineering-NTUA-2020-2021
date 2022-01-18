@@ -1,5 +1,5 @@
 
-import BlogList from './BlogList';
+import BlogList from './PassesAnalysis';
 import useFetch from "./useFetch";
 
 const Home = () => {

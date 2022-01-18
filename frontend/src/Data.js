@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useFetch from "./useFetch";
+import PassesAnalysisList from "./PassesAnalysis";
 
 const Data = () => {
     const [datefrom, setDatefrom ] = useState('2019-01-01');
@@ -10,12 +11,14 @@ const Data = () => {
     const {data , error, isPending} = useFetch(`http://localhost:9103/interoperability/api/PassesAnalysis/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
     console.log(data, datefrom ,dateto);
+   const { costdata , costerror , costisPending } =  useFetch(`http://localhost:9103/interoperability/api/PassesCost/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-       }
+    console.log(costdata);
+    console.log(costerror);
+
     return ( 
-        <form className ="form-inline" className="center" onSubmit={handleSubmit}>
+        <div>
+        <form className ="form-inline" className="center">
             <label>Station 1</label>
             <select
             value={op1}
@@ -48,11 +51,11 @@ const Data = () => {
              <label>Ημερομηνία εώς</label>
             <input type="date" 
             required value = {dateto} onChange={(e) => setDateto(e.target.value)}/>
-            {/* { !isPending && <button>Βρες το</button>}
-            { isPending && <button disabled>Αναμονή...</button>} */}
         </form>
-
-
+            <h3>Passes between {op1}-{op2}</h3>
+            { costisPending && <p>number of passes: { costdata.NumberOfPasses }</p>}
+        {/* <PassesAnalysisList data={ data } /> */}
+        </div>
 
     );
 }
