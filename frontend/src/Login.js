@@ -18,7 +18,9 @@ const Login = () => {
 
     fetch('http://localhost:9103/interoperability/api/login', {
       method: 'POST',
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+    },
       body: JSON.stringify(user)
     }).then((e) => {
       console.log(e);

@@ -11,7 +11,7 @@
   padding: 20px;
   display: flex;
   align-items: center;
-  max-width: 600px;
+  /* max-width: 600px; */
   margin: 0 auto;
   border-bottom: 1px solid #f2f2f2;
 }
@@ -29,8 +29,14 @@
 .navbar a:hover {
   color: #5dd9f8;
 }
-.content {
+.home {
   max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.content {
+  /* max-width: 600px; */
   margin: 40px auto;
   padding: 20px;
 }
@@ -105,4 +111,59 @@
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
+}
+
+
+/* Style the form - display items horizontally */
+.data{
+  align-items: center;
+  margin: auto;
+  display: flex;
+}
+
+.form-inline {
+  /* display: flex;
+  flex-flow: row wrap;
+  align-items: center; */
+}
+
+/* Add some margins for each label */
+.form-inline label {
+  margin: 10px 10px 5px 0;
+}
+
+/* Style the input fields */
+.form-inline select {
+  vertical-align: middle;
+  margin: 5px 10px 5px 0;
+  padding: 10px;
+  /* background-color: #fff; */
+  border: 1px solid #ddd;
+}
+
+/* Style the submit button */
+.form-inline button {
+  background: #2d6877;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 20px;
+}
+
+.form-inline button:hover {
+  background-color: royalblue;
+}
+
+/* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
+@media (max-width: 800px) {
+  .form-inline input {
+    margin: 10px 0;
+  }
+
+  .form-inline {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

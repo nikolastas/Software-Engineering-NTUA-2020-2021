@@ -18,21 +18,7 @@ const Create = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const abortCont = new AbortController();
-    // const user = {};
-    // user.username = username;
-    // user.password = password;
-    // user.typeofuser = type;
-    // user.email = email;
-    // console.log(user);
-    // fetch('http://localhost:9103/interoperability/api/signup', {
-    //   method: 'POST',
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(user)
-    // }).then((e) => {
-    //     console.log(e);
-    //   setIsPending(false);
-    //   history.push('/');
-    // })
+    
     setIsPending(true);
 
     let details = {
@@ -61,6 +47,7 @@ const Create = () => {
         }
         )
     }, 1000);
+    history.push('/');
 }
 
   return (

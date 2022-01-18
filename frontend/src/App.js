@@ -7,6 +7,7 @@ import Login from './Login';
 import Create from './Create';
 import BlogDetails from './BlogDetails';
 import NotFound from './NotFound';
+import Data from './Data';
 
 function App() {
   const title = "SoftEng";
@@ -25,8 +26,8 @@ function App() {
             <Route path="/create">
               <Create />
             </Route>
-            <Route path="/blogs/:id">
-              <BlogDetails />
+            <Route path="/data">
+              <Data />
             </Route>    
             <Route path="*">
               <NotFound />
