@@ -38,8 +38,7 @@ module.exports = (sequelize, Sequelize) => {
         
         type:Sequelize.STRING,
         validate:{
-          equals: {args:'user', msg:"[typeofuser] must be either admin or user"},
-          equals:{args: "admin", msg:"[typeofuser] must be either admin or user"}
+          is:{args: /(?:^user$|^admin$)/, msg:"[typeofuser] must be either admin or user"}
         },
         allowNull: false
       },
