@@ -11,7 +11,7 @@ const Data = () => {
     const {data , error, isPending} = useFetch(`http://localhost:9103/interoperability/api/PassesAnalysis/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
     console.log(data, datefrom ,dateto);
-   const { costdata , costerror , costisPending } =  useFetch(`http://localhost:9103/interoperability/api/PassesCost/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
+    const {data:costdata , error:costerror, isPending:costisPending} = useFetch(`http://localhost:9103/interoperability/api/PassesCost/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
     console.log(costdata);
     console.log(costerror);
@@ -53,8 +53,9 @@ const Data = () => {
             required value = {dateto} onChange={(e) => setDateto(e.target.value)}/>
         </form>
             <h3>Passes between {op1}-{op2}</h3>
-            { costisPending && <p>number of passes: { costdata.NumberOfPasses }</p>}
-        {/* <PassesAnalysisList data={ data } /> */}
+            { costdata && <p>number of passes: { costdata.NumberOfPasses }</p>}
+
+            {data && <PassesAnalysisList data={ data } />}
         </div>
 
     );
