@@ -4,14 +4,19 @@ import requests
 import json
 
 def login(username, password):
-	data = {'username': username, 'password':password}
-	url = 'http://localhost:9103/interoperability/api/login'
-	response = requests.post(url,data=data)
-	print(response.status_code)
-	print(response.json())
+    data = {'username': username, 'password':password}
+    url = 'http://localhost:9103/interoperability/api/login'
+    response = requests.post(url,data=data)
+    print(response.status_code)
+    print(response.json())
+    cookies = response.cookies.get_dict()
+    f= open("cookie.txt","w+")
+    f.write(cookies['jwt'])
+    f.close
 
 
-parser = argparse.ArgumentParser(description= 'This would let a user log in our API accordinly')
+
+parser = argparse.ArgumentParser(description= 'This would let a user log in our API')
 parser.add_argument('-u','--username', required=True, help='The username of the user that is in our DB')
 parser.add_argument('-p','--password', required=True, help='The password that corresponds to the username of the user that is in our DB')
 args = parser.parse_args()
