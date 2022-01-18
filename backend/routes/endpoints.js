@@ -3,7 +3,19 @@ const express = require('express');
 const con = require('../models/dbsetup');
 const router = express.Router();
 const moment = require('moment');
+const converter = require('json-2-csv');
 
+function jsonToCSV(jsonobj){
+    var csvfile;
+    converter.json2csv(jsonobj, (err, csv) => {
+        if(err)
+            throw err;
+        console.log(csv)
+        csvfile = csv;
+    });
+    console.log(csvfile)
+    return csvfile;
+}
 
 
 function formatDate(date, time){
@@ -69,7 +81,7 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
                     });
                 }
                 res.status(200);
-                res.send({
+                var result = {
                     "Station": Station,
                     "StationOperator": StationOperator,
                     "RequestTimestamp": RequestTimestamp,
@@ -77,7 +89,15 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
                     "PeriodTo": periodto,
                     "NumberOfPasses": NumberOfPasses,
                     "PassesList": PassesList
-                });
+                }
+                if(req.query.format === 'csv'){
+                    converter.json2csv(result, (err, csv) => {
+                        if(err)
+                            throw err;
+                        res.send(csv);
+                    });
+                }
+                else res.send(result);
             }
             else{
                 res.status(402);
@@ -133,9 +153,7 @@ router.get('/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to', function(req, 
                     });
 
                 }
-
-                res.status(200);
-                res.send({
+                result = {
                     op1_ID : op1_ID,
                     op2_ID : op2_ID,
                     RequestTimestamp: RequestTimestamp,
@@ -143,7 +161,16 @@ router.get('/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to', function(req, 
                     PeriodTo : date_to,
                     NumberOfPasses : NumberOfPasses,
                     PassesList : PassesList
-                });
+                }
+                res.status(200);
+                if(req.query.format === 'csv'){
+                    converter.json2csv(result, (err, csv) => {
+                        if(err)
+                            throw err;
+                        res.send(csv);
+                    });
+                }
+                else res.send(result);
 
             }
             else{
@@ -192,8 +219,8 @@ router.get('/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to', function(req, res)
                 }
                 var PassesCost = result[0]['SUM(passes.charge)'];
 
-                res.status(200);
-                res.send({
+
+                var result = {
                     op1_ID : op1_ID,
                     op2_ID : op2_ID,
                     RequestTimestamp: RequestTimestamp,
@@ -201,7 +228,16 @@ router.get('/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to', function(req, res)
                     PeriodTo : date_to,
                     NumberOfPasses : NumberOfPasses,
                     PassesCost : PassesCost
-                });
+                }
+                res.status(200);
+                if(req.query.format === 'csv'){
+                    converter.json2csv(result, (err, csv) => {
+                        if(err)
+                            throw err;
+                        res.send(csv);
+                    });
+                }
+                else res.send(result);
 
             }
             else{
@@ -258,13 +294,23 @@ router.get('/ChargesBy/:op_ID/:date_from/:date_to', function(req, res){
                 
                 if(PPOList != []){
                     res.status(200);
-                    res.send({
+                    result = {
                         op_ID : op_ID,
                         RequestTimestamp: RequestTimestamp,
                         PeriodFrom : date_from,
                         PeriodTo : date_to,
                         PPOList : PPOList
-                    });
+                    };
+
+
+                    if(req.query.format === 'csv'){
+                        converter.json2csv(result, (err, csv) => {
+                            if(err)
+                                throw err;
+                            res.send(csv);
+                        });
+                    }
+                    else res.send(result);
                 }
                 
                 else{
