@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import usePostFetch from "./usePostFetch";
+
 
 
 const Create = () => {
@@ -10,8 +10,9 @@ const Create = () => {
     const [type, setType] = useState('admin');
     const [isPending, setIsPending] = useState(false);
     const history = useHistory();
-    let error;
 
+    const [data,setData] = useState(null);
+    const [error, setError] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,11 +40,43 @@ const Create = () => {
         'email' : email
     };
     console.log(details);
-  // const { data: blog, error, isPending } = useFetch('http://localhost:8000/blogs/' + id);
-  // 
-   const {user , error1 , isP} = usePostFetch('http://localhost:9103/interoperability/api/signup', details);
-    setIsPending(isP);
-    error = error1;
+    let formBody = [];
+    for (let property in details) {
+        let encodedKey = encodeURIComponent(property);
+        let encodedValue = encodeURIComponent(details[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    setTimeout(() => {
+        fetch('http://localhost:9103/interoperability/api/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: formBody
+        })
+            .then(res => {
+                if (!res.ok) { // error coming back from server
+                    throw Error('could not fetch the data for that resource');
+                }
+                return res.json();
+            })
+            .then(data => {
+                setIsPending(false);
+                setData(data);
+                setError(null);
+            })
+            .catch(err => {
+                if (err.name === 'AbortError') {
+                    console.log('fetch aborted')
+                } else {
+                    // auto catches network / connection error
+                    setIsPending(false);
+                    setError(err.message);
+                }
+            })
+    }, 1000);
    }
 
   return (
