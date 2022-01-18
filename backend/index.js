@@ -4,7 +4,7 @@ const con = require('./models/dbsetup');
 const authRouter = require('./routes/authRouter');
 const cookieParser = require('cookie-parser');
 const {requireAuth, checkUser } = require('./middleware/authMiddleware');
-
+const cors = require('cors');
 // set up express app
 const app = express();
 app.locals.user = null;
@@ -12,7 +12,7 @@ app.locals.user = null;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+app.use(cors());
 //initialize routes
 app.use('/interoperability/api/admin', require('./routes/admin'));
 app.use('/interoperability/api/', require('./routes/endpoints'));
