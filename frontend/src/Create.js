@@ -14,8 +14,10 @@ const Create = () => {
     const [data,setData] = useState(null);
     const [error, setError] = useState(null);
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    const abortCont = new AbortController();
     // const user = {};
     // user.username = username;
     // user.password = password;
@@ -31,7 +33,7 @@ const Create = () => {
     //   setIsPending(false);
     //   history.push('/');
     // })
-    // setIsPending(true);
+    setIsPending(true);
 
     let details = {
         'username': username,
@@ -54,7 +56,8 @@ const Create = () => {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
             },
-            body: formBody
+            body: formBody,
+            signal: abortCont.signal
         })
             .then(res => {
                 if (!res.ok) { // error coming back from server
