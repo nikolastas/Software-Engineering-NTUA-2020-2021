@@ -1,13 +1,14 @@
 import { useState } from "react";
 import useFetch from "./useFetch";
 import PassesAnalysisList from "./PassesAnalysis";
-
+import DebtOp from "./DebtOp";
 const Data = () => {
     const [datefrom, setDatefrom ] = useState('2019-01-01');
     const [dateto, setDateto ] = useState('2020-01-01');
     const [op1, setOp1] = useState('aodos');
     const [op2, setOp2] = useState('egnatia');
     const [selector, setSelector] = useState('0');
+
     const {data , error, isPending} = useFetch(`http://localhost:9103/interoperability/api/PassesAnalysis/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
     console.log(data, datefrom ,dateto);
@@ -26,7 +27,7 @@ const Data = () => {
             >
                 <option value='0'>Διελεύσεις μεταξύ Operators</option>
                 <option value='1'>Διελεύσεις από σταθμούς</option>
-                <option value='2'>Οφειλές προς Operators</option>
+                <option value='2'>Κέρδη Operator</option>
             </select>
             </form>
         { selector === '0' &&
@@ -73,6 +74,13 @@ const Data = () => {
             <br />
             { data && <PassesAnalysisList data={ data } /> }
         </div>}
+        {/* Casse == 2 */}
+        { selector ==='2' &&
+        <div>
+            <DebtOp />
+        </div>}
+
+
         </div>
 
     );

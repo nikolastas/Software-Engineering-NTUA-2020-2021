@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const PassesAnalysisList = ({ data }) => {
   const l = data.PassesList;
   return (
-    <div className="blog-list">
+    <div className="PassesAnalysisList">
       <table>
       <tr>
         <th>PassIndex</th>
