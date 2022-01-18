@@ -18,7 +18,7 @@ const Create = () => {
 
     fetch('http://localhost:9103/interoperability/api/signup', {
       method: 'POST',
-      headers: { "Content-Type": "application/json" },
+      //headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user)
     }).then(() => {
       setIsPending(false);

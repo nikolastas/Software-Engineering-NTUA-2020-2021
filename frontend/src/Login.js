@@ -20,7 +20,8 @@ const Login = () => {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user)
-    }).then(() => {
+    }).then((e) => {
+      console.log(e);
       setIsPending(false);
       history.push('/');
     })
