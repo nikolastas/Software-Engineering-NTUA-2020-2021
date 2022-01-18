@@ -9,7 +9,7 @@ const Home = () => {
     //     setName('oui2');
        
     // }
-    const { error, isPending, data: blogs } = useFetch('http://localhost:8000/blogs')
+    // const { error, isPending, data: blogs } = useFetch('http://localhost:8000/blogs')
 
     // const [blogs, setB] = useState([
     //     { name: 'giouxou', body: 'lorem ipsum...', author : 'mario',id : 0},
@@ -36,11 +36,16 @@ const Home = () => {
 
     return ( 
         <div className="home">
-            {isPending && <div>Loading...</div> }
-            <h1>Homepage</h1>
-            { error && <div>{ error }</div> }
+            {/* {isPending && <div>Loading...</div> } */}
+            <h1>Αρχική</h1>
+            <p>
+              Το ePass-Όπου πας είναι ένα λογισμικό με στοχο την διαλειτουργικότητα των διοδίων.
+              Συγκεκριμένα, είναι να αποτελέσει ένα ενιαίο σύστημα έκδοσης και αποστολής οφειλών 
+              από διαφορετικούς λειτουργούς αυτοκινητοδρόμων-γνωρίζοντας τα δεδομένα διέλευσης- που επιτρέπουν την διέλευση οδηγών των οποίων οι πομποδέκτες υπάγονται σε άλλον αυτοκινητόδρομο.
+            </p>
+            {/* { error && <div>{ error }</div> }
             { isPending && <div>Loading...</div> }
-            { blogs && <BlogList blogs={blogs} /> }
+            { blogs && <BlogList blogs={blogs} /> } */}
             {/* <BlogList blogs={blogs} title={title} handleDelete={handleDelete}/> 
             <button onClick={handleClick}>Click me</button> */}
         </div>

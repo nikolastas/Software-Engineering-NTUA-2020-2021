@@ -3,6 +3,7 @@
 import Navbar from './Navbar';
 import Home from './Home';
 import { BrowserRouter as Router , Route, Switch } from 'react-router-dom';
+import Login from './Login';
 import Create from './Create';
 import BlogDetails from './BlogDetails';
 import NotFound from './NotFound';
@@ -18,6 +19,9 @@ function App() {
             <Route exact path="/">
               <Home />
             </Route>    
+            <Route path="/login">
+              <Login />
+            </Route>
             <Route path="/create">
               <Create />
             </Route>

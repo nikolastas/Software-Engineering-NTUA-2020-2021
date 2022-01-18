@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 
-const Create = () => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,9 +14,9 @@ const Create = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const user = { username, password , type , email };
+    const user = { username, password };
 
-    fetch('http://localhost:9103/interoperability/api/signup', {
+    fetch('http://localhost:9103/interoperability/api/login', {
       method: 'POST',
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user)
@@ -29,7 +29,7 @@ const Create = () => {
 
   return (
     <div className="create">
-      <h2>Δημιουργία Χρήστη</h2>
+      <h2>Σύνδεση Χρήστη</h2>
       <form onSubmit={handleSubmit}>
         <label>Username</label>
         <input 
@@ -51,7 +51,7 @@ const Create = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         ></input>
-        <label>Εγγράψου ως:</label>
+        <label>Συνδέσου ως:</label>
         <select
           value={type}
           onChange={(e) => setType(e.target.value)}
@@ -59,11 +59,11 @@ const Create = () => {
           <option value="Admin">Admin</option>
           <option value="User">User</option>
         </select>
-        { !isPending && <button>Εγγραφή</button>}
+        { !isPending && <button>Σύνδεση</button>}
         { isPending && <button disabled>Αναμονή...</button>}
       </form>
     </div>
   );
 }
  
-export default Create;
+export default Login;

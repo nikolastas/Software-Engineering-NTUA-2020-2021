@@ -5,9 +5,10 @@ const Navbar = () => {
         <nav className="navbar">
             <h1>E-Pass opou pas</h1>
             <div className="links">
-                <Link to="/">Home</Link>
-                <Link to="/create">New Blog</Link>
-                <Link to="https://github.com/ntua/TL21-64">GitHub</Link>
+                <Link to="/">Αρχική</Link>
+                <Link to="/login">Σύνδεση</Link>
+                <Link to="/create">Εγγραφή</Link>
+                <Link to="/data">Διελεύσεις</Link>
             </div>
         </nav>
     );
