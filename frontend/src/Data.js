@@ -7,7 +7,7 @@ const Data = () => {
     const [dateto, setDateto ] = useState('2020-01-01');
     const [op1, setOp1] = useState('aodos');
     const [op2, setOp2] = useState('egnatia');
-    const [selector, setSelector] = useState(0);
+    const [selector, setSelector] = useState('0');
     const {data , error, isPending} = useFetch(`http://localhost:9103/interoperability/api/PassesAnalysis/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
     console.log(data, datefrom ,dateto);
@@ -15,6 +15,7 @@ const Data = () => {
 
     console.log(costdata);
     console.log(costerror);
+    console.log(selector);
 
     return ( 
         <div>
@@ -23,12 +24,12 @@ const Data = () => {
             value={selector}
             onChange={(e) => setSelector(e.target.value)}
             >
-                <option value={0}>Διελεύσεις μεταξύ Operators</option>
-                <option value={1}>Διελεύσεις από σταθμούς</option>
-                <option value={2}>Οφειλές προς Operators</option>
+                <option value='0'>Διελεύσεις μεταξύ Operators</option>
+                <option value='1'>Διελεύσεις από σταθμούς</option>
+                <option value='2'>Οφειλές προς Operators</option>
             </select>
             </form>
-        { selector === 0 &&
+        { selector === '0' &&
          <form className ="form-inline" className="center">
             <label>Operator from</label>
             <select
@@ -63,7 +64,7 @@ const Data = () => {
             <input type="date" 
             required value = {dateto} onChange={(e) => setDateto(e.target.value)}/>
         </form>}
-        { selector === 0 && <div>
+        { selector === '0' && <div>
             <h3>Passes between {op1}-{op2}</h3>
             { costdata && <p>number of passes: { costdata.NumberOfPasses }</p>}
             <br />
