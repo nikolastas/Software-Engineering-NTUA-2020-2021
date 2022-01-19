@@ -88,3 +88,11 @@ WHERE passes.VehiclesvehicleID =vehicles.vehicleID AND vehicles.tagtagID=tag.tag
   AND stations.Providername='aodos' #op2
   AND tag.tagProvider!='aodos'
 GROUP BY tagProvider
+
+
+
+
+QUERY FOR STATIONS.
+
+SELECT *
+FROM stations

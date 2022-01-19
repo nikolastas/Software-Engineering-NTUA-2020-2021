@@ -9,7 +9,7 @@ const DebtOp = () => {
     const [op1, setOp1] = useState('aodos');
 	
 	const {data , error, isPending} = useFetch(`http://localhost:9103/interoperability/api/ChargesBy/${op1}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
-
+	
 	return ( 
 		<div>
 			<form className ="form-inline" className="center">

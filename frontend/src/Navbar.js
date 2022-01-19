@@ -9,6 +9,7 @@ const Navbar = () => {
                 <Link to="/login">Σύνδεση</Link>
                 <Link to="/create">Εγγραφή</Link>
                 <Link to="/data">Διελεύσεις</Link>
+                <Link to="/logout">Log out</Link>
             </div>
         </nav>
     );

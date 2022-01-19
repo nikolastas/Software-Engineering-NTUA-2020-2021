@@ -2,6 +2,7 @@ import { useState } from "react";
 import useFetch from "./useFetch";
 import PassesAnalysisList from "./PassesAnalysis";
 import DebtOp from "./DebtOp";
+import StationPasses from "./StationPasses";
 const Data = () => {
     const [datefrom, setDatefrom ] = useState('2019-01-01');
     const [dateto, setDateto ] = useState('2020-01-01');
@@ -79,7 +80,9 @@ const Data = () => {
         <div>
             <DebtOp />
         </div>}
-
+        { selector ==='1' &&
+            <StationPasses />
+        }
 
         </div>
 
