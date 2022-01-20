@@ -5,6 +5,10 @@ const authRouter = require('./routes/authRouter');
 const cookieParser = require('cookie-parser');
 const {requireAuth, checkUser } = require('./middleware/authMiddleware');
 const cors = require('cors');
+const fs = require('fs');
+const key = fs.readFileSync('../cert/CA/localhost/localhost.decrypted.key');
+const cert = fs.readFileSync('../cert/CA/localhost/localhost.crt');
+
 // set up express app
 const app = express();
 app.locals.user = null;
@@ -17,14 +21,20 @@ app.use(cors());
 app.use('/interoperability/api/admin', require('./routes/admin'));
 app.use('/interoperability/api/', require('./routes/endpoints'));
 app.get('/interoperability/api/authToken', requireAuth, (req,res) => res.send("all ok!") );
-app.get('/interoperability/api/checkUser', checkUser, (req,res) => res.send(app.locals.user) );
+app.get('/interoperability/api/checkUser', checkUser, (req,res) => res.send({"user":app.locals.user}) );
 
 app.use(authRouter);
 
 //cokies
 
-
+//https
+const https = require('https');
+const server = https.createServer({ key, cert }, app);
 
 //listen for requests
-app.listen(process.env.port || 9103, function(){
-});
+const port = 9103;
+server.listen(process.env.port || port, () => {
+    console.log(`Server is listening on https://localhost:${port}`);
+  });
+// app.listen(process.env.port || 9103, function(){
+// });

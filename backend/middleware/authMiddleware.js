@@ -15,7 +15,7 @@ const requireAuth = (req, res, next) =>{
     if(token){
         jwt.verify(token, random.secret, (err, decodedToken)=>{
             if(err){
-                res.redirect('/login');
+                res.send('err occured while verifing cookie')
                 console.log(err.message);
             }
             else{
@@ -25,7 +25,7 @@ const requireAuth = (req, res, next) =>{
         });
     }
     else{
-        res.redirect('/login');
+        res.status(400).send('[error] user is not log in');
     }
 }
 const checkUser = (req,res, next) =>{
@@ -62,6 +62,7 @@ const checkUser = (req,res, next) =>{
     else{
         req.app.locals.user = null;
         // res.locals.user = null;
+        
         console.log("user toke doesnt exists");
         next();
     }
