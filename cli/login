@@ -5,7 +5,7 @@ import json
 
 def login(username, password):
     data = {'username': username, 'password':password}
-    url = 'http://localhost:9103/interoperability/api/login'
+    url = 'http://192.168.1.15:9103/interoperability/api/login'
     response = requests.post(url,data=data)
     print(response.status_code)
     print(response.json())
@@ -22,3 +22,5 @@ parser.add_argument('-p','--password', required=True, help='The password that co
 args = parser.parse_args()
 
 login(args.username, args.password)
+
+#  python login.py -u paris -p Nikolastas2019

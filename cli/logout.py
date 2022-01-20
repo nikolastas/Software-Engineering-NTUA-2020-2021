@@ -15,7 +15,7 @@ def logout():
         cookie = {'jwt': f.read()}
         f.close()
         f = open("cookie.txt","w")
-        url = 'http://localhost:9103/interoperability/api/logout'
+        url = 'http://192.168.1.15:9103/interoperability/api/logout'
         response = requests.post(url, cookies=cookie)
         print(response.status_code)
         f.close()

@@ -5,7 +5,7 @@ import json
 
 def passesperstation(station, datefrom, dateto, format):
     
-    url = f'http://localhost:9103/interoperability/api/PassesPerStation/{station}/{datefrom}/{dateto}?format={format}'
+    url = f'http://192.168.1.15:9103/interoperability/api/PassesPerStation/{station}/{datefrom}/{dateto}?format={format}'
     response = requests.get(url)
     print(response.status_code)
     if(format=='csv'):
