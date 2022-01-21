@@ -48,14 +48,15 @@ create table tag
 
 create table users
 (
-    Providername char(100) not null,
-    username     char(20)  null,
-    password     char(30)  null,
-    userID       int(10)   not null,
-    email        char(255) null,
-    Providerabbr char(3)   not null,
-    constraint providername_providerabbr
-        foreign key (Providername, Providerabbr) references provider (name, abbr)
+
+    username     char(40)  not null,
+    password     char(100)  not null,
+    typeofuser   char(5) not null,
+    email char(50) null,
+    primary key (username)
+
+
+
 );
 
 create table vehicles

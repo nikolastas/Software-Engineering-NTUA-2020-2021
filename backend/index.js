@@ -11,7 +11,7 @@ const cert = fs.readFileSync('../cert/CA/localhost/localhost.crt');
 
 // set up express app
 const app = express();
-app.locals.user = null;
+// app.locals.user = null;
 //middleweare
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

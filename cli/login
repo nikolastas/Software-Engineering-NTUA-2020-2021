@@ -5,8 +5,8 @@ import json
 
 def login(username, password):
     data = {'username': username, 'password':password}
-    url = 'http://192.168.1.15:9103/interoperability/api/login'
-    response = requests.post(url,data=data)
+    url = 'https://192.168.1.2:9103/interoperability/api/login'
+    response = requests.post(url,data=data, verify='../cert/CA/CA.pem')
     print(response.status_code)
     print(response.json())
     cookies = response.cookies.get_dict()
