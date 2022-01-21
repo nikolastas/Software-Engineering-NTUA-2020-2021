@@ -1,0 +1,8 @@
+#!/usr/bin/env python3
+import argparse
+import requests
+import json
+
+from helperWriter import textCsvWriter
+
+
