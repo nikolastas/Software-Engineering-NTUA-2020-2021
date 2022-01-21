@@ -25,7 +25,8 @@
                     }
                 },
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/admin/healthcheck",
+                    "raw": "https://localhost:9103/interoperability/api/admin/healthcheck",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -51,7 +52,8 @@
                 "method": "POST",
                 "header": [],
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/admin/resetvehicles",
+                    "raw": "https://localhost:9103/interoperability/api/admin/resetvehicles",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -77,7 +79,8 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/PassesAnalysis/aodos/egnatia/20210301/20210601?format=csv",
+                    "raw": "https://localhost:9103/interoperability/api/PassesAnalysis/aodos/egnatia/20210301/20210601?format=csv",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -113,7 +116,8 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/ChargesBy/aodos/20200112/20200116?format=csv",
+                    "raw": "https://localhost:9103/interoperability/api/ChargesBy/aodos/20200112/20200116?format=json",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -129,7 +133,7 @@
                     "query": [
                         {
                             "key": "format",
-                            "value": "csv",
+                            "value": "json",
                             "description": "json | csv"
                         }
                     ]
@@ -148,7 +152,8 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/PassesCost/aodos/aodos/20210301/20210601?format=csv",
+                    "raw": "https://localhost:9103/interoperability/api/PassesCost/aodos/aodos/20210301/20210601?format=csv",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -184,7 +189,8 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/PassesPerStation/AO01/20210301/20210601?format=json",
+                    "raw": "https://localhost:9103/interoperability/api/PassesPerStation/AO01/20210301/20210601?format=json",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -219,7 +225,8 @@
                 "method": "POST",
                 "header": [],
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/admin/resetstations",
+                    "raw": "https://localhost:9103/interoperability/api/admin/resetstations",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -254,7 +261,8 @@
                     }
                 },
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/admin/resetpasses",
+                    "raw": "https://localhost:9103/interoperability/api/admin/resetpasses",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],

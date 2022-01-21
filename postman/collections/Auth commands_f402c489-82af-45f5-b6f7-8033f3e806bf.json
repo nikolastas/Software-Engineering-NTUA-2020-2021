@@ -6,34 +6,6 @@
     },
     "item": [
         {
-            "name": "example",
-            "id": "22421186-e9aa-4ec0-9c98-17f410389dbd",
-            "protocolProfileBehavior": {
-                "disableBodyPruning": true
-            },
-            "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                    "raw": "localhost:9103/interoperability/api/PassesCost/aodos/aodos/20210301/20210601",
-                    "host": [
-                        "localhost"
-                    ],
-                    "port": "9103",
-                    "path": [
-                        "interoperability",
-                        "api",
-                        "PassesCost",
-                        "aodos",
-                        "aodos",
-                        "20210301",
-                        "20210601"
-                    ]
-                }
-            },
-            "response": []
-        },
-        {
             "name": "login",
             "id": "2822823e-69f5-4a63-8421-dab4d501c0a0",
             "protocolProfileBehavior": {
@@ -47,18 +19,19 @@
                     "urlencoded": [
                         {
                             "key": "username",
-                            "value": "paris1",
-                            "type": "default"
+                            "value": "paris123",
+                            "type": "text"
                         },
                         {
                             "key": "password",
-                            "value": "Nikolastas2019",
-                            "type": "default"
+                            "value": "Paris123",
+                            "type": "text"
                         }
                     ]
                 },
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/login",
+                    "raw": "https://localhost:9103/interoperability/api/login",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -69,29 +42,7 @@
                         "login"
                     ]
                 },
-                "description": "A Login POST request with urlencoded (x-www-form-urlencoded) parameters .\n\n# **Returns :**\n\nif everything is ok :\n\n🟢 Status 200:\n\nData:\n\nA JSON object with 3 or 4 values, dependening if user has registered with email.\n\n{ \"username\": String \\[username of the user\\],\n\n\"email\": String \\[emial of the user\\],\n\n\"typeOfUser\":String \\[EITHER \"admin\" OR \"user\" values\\] ,\n\n\"token\": String \\[token value\\] }\n\n🟡 Status 400 :\n\nData:\n\nAn error message.\n\nEither 1 of the following error messages.\n\n1.  \"no user found\" : \\[menaing\\] there is no user with the username given in our database\n2.  \"password not match\": \\[meaning\\] there is a user in our database with this username but the password we have is not right."
-            },
-            "response": []
-        },
-        {
-            "name": "/set-cokies",
-            "id": "a4acff53-a708-44c3-9541-30782c9f6b1c",
-            "protocolProfileBehavior": {
-                "disableBodyPruning": true
-            },
-            "request": {
-                "method": "GET",
-                "header": [],
-                "url": {
-                    "raw": "localhost:9103/set-cookies",
-                    "host": [
-                        "localhost"
-                    ],
-                    "port": "9103",
-                    "path": [
-                        "set-cookies"
-                    ]
-                }
+                "description": "A Login POST request with urlencoded (x-www-form-urlencoded) parameters .\n\n# **Returns :**\n\nif everything is ok :\n\n🟢 Status 200:\n\n🟢 Data:\n\nA JSON object with 3 or 4 values, dependening if user has registered with email.\n\n{ \"username\": String \\[username of the user\\],\n\n\"email\": String \\[emial of the user\\],\n\n\"typeOfUser\":String \\[EITHER \"admin\" OR \"user\" values\\] ,\n\n\"token\": String \\[token value\\] }\n\n🟡 Status 400 :\n\n🟡 Data:\n\nAn error message.\n\nEither 1 of the following error messages.\n\n1.  \"no user found\" : \\[menaing\\] there is no user with the username given in our database\n2.  \"password not match\": \\[meaning\\] there is a user in our database with this username but the password we have is not right.\n    \n\n🔴 Status 500:\n\n🔴 Data:\n\n Internal Server Error"
             },
             "response": []
         },
@@ -109,12 +60,12 @@
                     "urlencoded": [
                         {
                             "key": "username",
-                            "value": "paris",
+                            "value": "paris123",
                             "type": "text"
                         },
                         {
                             "key": "password",
-                            "value": "Paris1",
+                            "value": "Paris123",
                             "type": "text"
                         },
                         {
@@ -130,7 +81,8 @@
                     ]
                 },
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/signup",
+                    "raw": "https://localhost:9103/interoperability/api/signup",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -141,7 +93,7 @@
                         "signup"
                     ]
                 },
-                "description": "A Signup POST request with urlencoded (x-www-form-urlencoded) parameters .\n\nEMAIL IS OPTIONAL\n\n# **Returns :**\n\nif everything is ok :\n\n🟢 Status 200:\n\nData:\n\nA JSON object with 3 or 4 values, dependening if user has registered with email.\n\n{ \"username\": String \\[username of the user\\],\n\n\"email\": String \\[emial of the user\\],\n\n\"typeOfUser\":String \\[EITHER \"admin\" OR \"user\" values\\] ,\n\n\"token\": String \\[token value\\] }\n\n🟡 Status 400 :\n\nData:\n\nAn error message. Explaining the reason why our system could not make the registration.\n\nEither 1 of the following error messages.\n\n1.  \"user already exists in db,Validation error\" : \\[meaning\\] the is a user in our database with this username please choose another one.\n2.  \"Validation error: \\[password length\\] Must NOT be less than 8 and Must NOT be greater than 40\" : please choose another password with more than 8 and less than 40 charachters.\n3.  Validation error: \\[password value\\] should contain at minimum at least one letter and one number : choose another passowrd with at least 1 letter and 1 number .\n4.  \"Validation error: \\[typeofuser\\] must be either admin or user\" : user must be either user or admin."
+                "description": "A Signup POST request with urlencoded (x-www-form-urlencoded) parameters .\n\nEMAIL IS OPTIONAL\n\n# **Returns :**\n\nif everything is ok :\n\n🟢 Status 200:\n\nData:\n\nA JSON object with 3 or 4 values, dependening if user has registered with email.\n\n{ \"username\": String \\[username of the user\\],\n\n\"email\": String \\[emial of the user\\],\n\n\"typeOfUser\":String \\[EITHER \"admin\" OR \"user\" values\\] ,\n\n\"token\": String \\[token value\\] }\n\n🟡 Status 400, Bad Request :\n\nData:\n\nAn error message. Explaining the reason why our system could not make the registration.\n\nEither 1 of the following error messages.\n\n1.  \"user already exists in db,Validation error\" : \\[meaning\\] the is a user in our database with this username please choose another one.\n2.  \"Validation error: \\[password length\\] Must NOT be less than 8 and Must NOT be greater than 40\" : please choose another password with more than 8 and less than 40 charachters.\n3.  Validation error: \\[password value\\] should contain at minimum at least one letter and one number : choose another passowrd with at least 1 letter and 1 number .\n4.  \"Validation error: \\[typeofuser\\] must be either admin or user\" : user must be either user or admin."
             },
             "response": []
         },
@@ -155,7 +107,8 @@
                 "method": "POST",
                 "header": [],
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/logout",
+                    "raw": "https://localhost:9103/interoperability/api/logout",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -180,7 +133,8 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/authToken",
+                    "raw": "https://localhost:9103/interoperability/api/authToken",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -190,7 +144,8 @@
                         "api",
                         "authToken"
                     ]
-                }
+                },
+                "description": "This function is used when we want to check if a user is log-in.\n\nIt is a middleware function and if the user is log-in then it does what the next function do."
             },
             "response": []
         },
@@ -208,7 +163,8 @@
                     "urlencoded": []
                 },
                 "url": {
-                    "raw": "localhost:9103/interoperability/api/checkUser",
+                    "raw": "https://localhost:9103/interoperability/api/checkUser",
+                    "protocol": "https",
                     "host": [
                         "localhost"
                     ],
@@ -218,7 +174,8 @@
                         "api",
                         "checkUser"
                     ]
-                }
+                },
+                "description": "This function is a middleware function is used to take the name of the User from the DB based on the toke(cookie) they have and set a local variable equal to the user name."
             },
             "response": []
         }
