@@ -6,3 +6,30 @@ import json
 from helperWriter import textCsvWriter
 
 
+def usermod (username, password, typeofuser, email):
+    data = {'username': username, 'password':password, 'typeOfUser':typeofuser, 'email': email}
+    url = 'https://192.168.1.2:9103/interoperability/api/signup'
+    response = requests.post(url,data=data, verify='../cert/CA/CA.pem')
+    print(response.status_code)
+    print(response.json())
+    cookies = response.cookies.get_dict()
+    f= open("cookie.txt","w+")
+    f.write(cookies['jwt'])
+    f.close
+def users ():
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
+    url = 'https://192.168.1.2:9103/interoperability/api/checkUser'
+    response = requests.get(url,cookies=cookie, verify='../cert/CA/CA.pem')
+    print(response.status_code)
+    print(response.json())
+
+parser = argparse.ArgumentParser(description= 'This is an admin function')
+parser.add_argument('-u','--username', required=True, help='username')
+parser.add_argument('-p','--password', required=True, help='pass ')
+parser.add_argument('-t','--typeofuser', required=True, help='type')
+parser.add_argument('-e', '--email', required=False, help='emial')
+args = parser.parse_args()
+
+usermod(args.username, args.password, args.typeofuser, args.email)

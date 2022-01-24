@@ -1,6 +1,10 @@
 
 const bcrypt = require("bcryptjs");
-
+function encryptPasswordIfChanged(user, options) {
+  if (user.changed('password')) {
+    encryptPassword(user.get('password'));
+  }
+}
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("users", {
       username: {
@@ -23,12 +27,12 @@ module.exports = (sequelize, Sequelize) => {
         type:Sequelize.STRING,
         validate:{
           len:  {
-            args: [8,40],
-            msg: "[password length] Must NOT be less than 8 and Must NOT be greater than 40"
+            args: [8,200],
+            msg: "[password length] Must NOT be less than 8 and Must NOT be greater than 200"
           },
           is:{
-            args:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/,
-            msg: "[password value] should contain at minimum at least one letter and one number"
+            args:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\w\W]{8,}$/,
+            msg: "[password value] should contain at minimum at least one letter and one number , length should be over 8 charachters"
         }
       },
         
@@ -56,15 +60,18 @@ module.exports = (sequelize, Sequelize) => {
             
             if (user.password) {
               
-             const salt = await bcrypt.genSalt();
-             user.password = bcrypt.hashSync(user.password, salt);
-             console.log(user.password);
+              const salt = await bcrypt.genSalt();
+              user.password = bcrypt.hashSync(user.password, salt);
+              console.log(user.password);
+              
             }
            },
            beforeUpdate:async (user) => {
             if (user.password) {
-             const salt = await bcrypt.genSaltSync(10, 'a');
-             user.password = bcrypt.hashSync(user.password, salt);
+              if(user.changed('password')){
+                const salt = await bcrypt.genSalt();
+                user.password = bcrypt.hashSync(user.password, salt);
+              }
             }
            }
           },

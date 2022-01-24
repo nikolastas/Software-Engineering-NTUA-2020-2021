@@ -32,7 +32,7 @@ const checkUser = (req,res, next) =>{
     const token =  req.cookies.jwt;
     if(token){
         console.log("token exists");
-        jwt.verify(token, random.secret, (err, decodedToken)=>{
+        jwt.verify(token, random.secret, async (err, decodedToken)=>{
             if(err){
                 console.log("token is not valid");
                 console.log(err.message);
@@ -43,7 +43,8 @@ const checkUser = (req,res, next) =>{
             else{
                 console.log(decodedToken);
                 console.log("token is valid");
-                 User.findOne({
+
+                 await User.findOne({
                     where:{
                         username: decodedToken.id
                     }
