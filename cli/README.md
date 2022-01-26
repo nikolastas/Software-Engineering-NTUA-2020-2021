@@ -17,8 +17,8 @@
 
 | Scope     | Minimum User level | Rest parameters | Rest API call   |
 | :---        |    :----:   |  :----:    |    ---: |
-| [healthcheck](#a) | None | None | /Admin/healthcheck |
-| [resetpasses](#b) | None | None | /Admin/resetpasses |
+| [healthcheck](#healthcheck) | None | None | /Admin/healthcheck |
+| [resetpasses](#resetpasses) | None | None | /Admin/resetpasses |
 | [resetstations](#c) | None | None | /Admin/resetstations|
 | [resetvehicles](#d) | None | None | /Admin/resetvehicles|
 | [login](#e) | None | --username --passw | /login |
