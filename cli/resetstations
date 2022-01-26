@@ -5,8 +5,8 @@ import json
 
 def resetstations():
 	
-	url = 'http://192.168.1.2:9103/interoperability/api/admin/resetstations'
-	response = requests.get(url)
+	url = 'https://192.168.1.2:9103/interoperability/api/admin/resetstations'
+	response = requests.post(url, verify='../cert/CA/CA.pem')
 	print(response.status_code)
 	print(response.json())
 

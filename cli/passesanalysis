@@ -26,4 +26,3 @@ args = parser.parse_args()
 passesanalysis(args.op1, args.op2, args.datefrom, args.dateto, args.format)
 
 # python passesanalysis.py -o aodos -O egnatia -df 20210301 -dt 20210601
-# lathos

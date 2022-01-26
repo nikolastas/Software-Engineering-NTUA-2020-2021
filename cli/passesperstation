@@ -25,4 +25,3 @@ args = parser.parse_args()
 
 passesperstation(args.station, args.datefrom, args.dateto, args.format)
 # python passesperstation.py -s AO01 -df 20210301 -dt 20210601 -f json
-# lathos

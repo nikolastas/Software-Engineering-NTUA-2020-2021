@@ -24,12 +24,37 @@ def users ():
     response = requests.get(url,cookies=cookie, verify='../cert/CA/CA.pem')
     print(response.status_code)
     print(response.json())
+def passesupd(source):
+    print("SOMETHING", source)
 
-parser = argparse.ArgumentParser(description= 'This is an admin function')
-parser.add_argument('-u','--username', required=True, help='username')
-parser.add_argument('-p','--password', required=True, help='pass ')
-parser.add_argument('-t','--typeofuser', required=True, help='type')
-parser.add_argument('-e', '--email', required=False, help='emial')
+parser = argparse.ArgumentParser(description= 'This is an admin function', prefix_chars='+')
+subparsers = parser.add_subparsers()
+# usermod parser
+parser_usermod= subparsers.add_parser('--usermod')
+parser_usermod.add_argument('-u','--username', required=True, help='username')
+parser_usermod.add_argument('-t','--typeofuser', required=True, help='type')
+parser_usermod.add_argument('-p','--password', required=True, help='pass ')
+parser_usermod.add_argument('-e', '--email', required=False, help='email')
+parser_usermod.set_defaults(func=usermod)
+
+# user parser
+parser_users= subparsers.add_parser('--users')
+parser_users.set_defaults(func=users)
+
+# passesupd parser
+parser_passesupd = subparsers.add_parser('--passesupd')
+parser_passesupd.add_argument('-s','--source', required=True, help='source')
+parser_passesupd.set_defaults(func=passesupd)
+
+
 args = parser.parse_args()
 
-usermod(args.username, args.password, args.typeofuser, args.email)
+if hasattr(args, 'func'):
+    if (args.func.__name__ == 'usermod'):
+        usermod(args.username, args.password, args.typeofuser, args.email)
+    elif(args.func.__name__ == 'users'):
+        users()
+    elif( args.func.__name__ == 'passesupd'):
+        passesupd(args.source)
+else:
+    parser.print_help()
