@@ -7,7 +7,7 @@ const fs = require('fs');
 const csv = require('csv-parser');
 const e = require('express');
 const { table } = require('console');
-
+const {requireAuth, checkUser, isAdmin } = require('../middleware/authMiddleware');
 
 /*
  * erase table from db with tablename.
@@ -64,7 +64,7 @@ function eraseRefTableTail(tablename){
 /*
  * Healthcheck handler
  */
-router.get('/healthcheck', function(req, res){
+router.get('/healthcheck', isAdmin,function(req, res){
     //Check if connection holds
     if(con.state == 'disconnected'){
         res.status(500);
@@ -77,7 +77,7 @@ router.get('/healthcheck', function(req, res){
 });
 
 //Resets Passes.
-router.post('/resetpasses', function(req, res){
+router.post('/resetpasses', isAdmin,function(req, res){
     
     if(eraseTable("passes")){
         res.status(200);
@@ -92,7 +92,7 @@ router.post('/resetpasses', function(req, res){
 });
 
 //Resets stations (tries to)
-router.post('/resetstations', function(req, res){
+router.post('/resetstations', isAdmin, function(req, res){
     
     try{
         //Removes constraints to other tables needed and truncates the table
@@ -143,7 +143,7 @@ router.post('/resetstations', function(req, res){
 });
 
 //reset vehicles.
-router.post('/resetvehicles', function(req, res){
+router.post('/resetvehicles', isAdmin, function(req, res){
     try{
         if(eraseRefTableHead("vehicles")){
             fs.createReadStream('./defaults/sampledata01_vehicles_100.csv')

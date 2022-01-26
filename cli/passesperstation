@@ -5,14 +5,18 @@ import json
 from helperWriter import textCsvWriter
 
 def passesperstation(station, datefrom, dateto, format):
-    
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
     url = f'https://192.168.1.2:9103/interoperability/api/PassesPerStation/{station}/{datefrom}/{dateto}?format={format}'
-    response = requests.get(url, verify='../cert/CA/CA.pem')
+    response = requests.get(url, cookies=cookie, verify='../cert/CA/CA.pem')
     print(response.status_code)
-    if(format=='csv'):
+    if(format=='csv'and response.status_code==200):
         textCsvWriter("./PassesPerStation.csv",response.text)
-    elif(format == 'json'):
+    elif(format == 'json' and response.status_code==200):
         print(json.dumps(response.json(), indent=5, sort_keys=False))
+    else:
+        print(response.text)
 
 
 parser = argparse.ArgumentParser(description= 'This would return the passes of the station declared in the args and the dates accordingly')
@@ -24,4 +28,4 @@ parser.add_argument('-f', '--format', required=True, help='The format of the res
 args = parser.parse_args()
 
 passesperstation(args.station, args.datefrom, args.dateto, args.format)
-# python passesperstation.py -s AO01 -df 20210301 -dt 20210601 -f json
+# se2164 passesperstation -s AO01 -df 20210301 -dt 20210601 -f json

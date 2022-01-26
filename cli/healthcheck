@@ -4,10 +4,21 @@ import requests
 import json
 
 def healthcheck():
-	url = 'http://192.168.1.15:9103/interoperability/api/admin/healthcheck'
-	response = requests.get(url)
-	print(response.status_code)
-	print(response.json())
+	f = open("cookie.txt","r")
+	cookie = {'jwt': f.read()}
+	f.close()
+	url = 'https://192.168.1.2:9103/interoperability/api/admin/healthcheck'
+	response = requests.get(url, cookies=cookie, verify='../cert/CA/CA.pem')
+	print("status code= ",response.status_code)
+	if(response.status_code == 200):
+		print(response.json())
+		# cookies = response.cookies.get_dict()
+		# f= open("cookie.txt","w+")
+		# f.write(cookies['jwt'])
+		# f.close
+	else:
+		print("Error")
+		print(response.text)
 
 
 parser = argparse.ArgumentParser(description= 'This would give a health check of our API')

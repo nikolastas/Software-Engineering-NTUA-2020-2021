@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+from ast import arg
 import requests
 import json
 
@@ -7,32 +8,76 @@ from helperWriter import textCsvWriter
 
 
 def usermod (username, password, typeofuser, email):
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
     data = {'username': username, 'password':password, 'typeOfUser':typeofuser, 'email': email}
     url = 'https://192.168.1.2:9103/interoperability/api/signup'
-    response = requests.post(url,data=data, verify='../cert/CA/CA.pem')
+    response = requests.post(url,data=data, cookies=cookie, verify='../cert/CA/CA.pem')
     print(response.status_code)
-    print(response.json())
-    cookies = response.cookies.get_dict()
-    f= open("cookie.txt","w+")
-    f.write(cookies['jwt'])
-    f.close
+    if(response.status_code == 200):
+        print(response.json())
+        cookies = response.cookies.get_dict()
+        f= open("cookie.txt","w+")
+        f.write(cookies['jwt'])
+        f.close
+    else:
+        print("Error")
+        print(response.text)
+    
+def change_pass(username, newpassword):
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
+    data = {'username': username, 'password':newpassword}
+    url = 'https://192.168.1.2:9103/interoperability/api/change-password'
+    response = requests.post(url,data=data, cookies=cookie, verify='../cert/CA/CA.pem')
+    print("status code= ",response.status_code)
+    if(response.status_code == 200):
+        print(response.json())
+        cookies = response.cookies.get_dict()
+        f= open("cookie.txt","w+")
+        f.write(cookies['jwt'])
+        f.close
+    else:
+        print("Error")
+        print(response.text)
+    
 def users ():
     f = open("cookie.txt","r")
     cookie = {'jwt': f.read()}
     f.close()
     url = 'https://192.168.1.2:9103/interoperability/api/checkUser'
     response = requests.get(url,cookies=cookie, verify='../cert/CA/CA.pem')
-    print(response.status_code)
-    print(response.json())
+    print("status code= ",response.status_code)
+    if(response.status_code == 200):
+        print(response.json())
+        cookies = response.cookies.get_dict()
+        f= open("cookie.txt","w+")
+        f.write(cookies['jwt'])
+        f.close
+    else:
+        print("Error")
+        print(response.text)
 def passesupd(source):
     print("SOMETHING", source)
+    # print("status code= ",response.status_code)
+    # if(response.status_code == 200):
+    #     print(response.json())
+    #     cookies = response.cookies.get_dict()
+    #     f= open("cookie.txt","w+")
+    #     f.write(cookies['jwt'])
+    #     f.close
+    # else:
+    #     print("Error")
+    #     print(response.text)
 
 parser = argparse.ArgumentParser(description= 'This is an admin function', prefix_chars='+')
 subparsers = parser.add_subparsers()
 # usermod parser
 parser_usermod= subparsers.add_parser('--usermod')
 parser_usermod.add_argument('-u','--username', required=True, help='username')
-parser_usermod.add_argument('-t','--typeofuser', required=True, help='type')
+parser_usermod.add_argument('-t','--typeofuser', required=False, help='type')
 parser_usermod.add_argument('-p','--password', required=True, help='pass ')
 parser_usermod.add_argument('-e', '--email', required=False, help='email')
 parser_usermod.set_defaults(func=usermod)
@@ -51,7 +96,10 @@ args = parser.parse_args()
 
 if hasattr(args, 'func'):
     if (args.func.__name__ == 'usermod'):
-        usermod(args.username, args.password, args.typeofuser, args.email)
+        if(args.typeofuser is not None):
+            usermod(args.username, args.password, args.typeofuser, args.email)
+        else:
+            change_pass(args.username, args.password)
     elif(args.func.__name__ == 'users'):
         users()
     elif( args.func.__name__ == 'passesupd'):

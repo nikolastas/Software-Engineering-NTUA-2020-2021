@@ -6,16 +6,19 @@ import json
 from helperWriter import textCsvWriter
 
 def chargesby(operator,  datefrom, dateto, format):
-    
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
     url = f'https://192.168.1.2:9103/interoperability/api/ChargesBy/{operator}/{datefrom}/{dateto}?format={format}'
-    response = requests.get(url, verify='../cert/CA/CA.pem')
+    response = requests.get(url,  cookies=cookie, verify='../cert/CA/CA.pem')
     print(response.status_code)
     if(format=='csv' and response.status_code==200 ):
         # print(response.json())
-        textCsvWriter("./charges.csv",response.text)
+        textCsvWriter("./ChargesBy.csv",response.text)
     elif(format == 'json' and response.status_code==200):
-        
         print(json.dumps(response.json(), indent=5, sort_keys=False))
+    else:
+        print(response.text)
 
 parser = argparse.ArgumentParser(description= 'This would return the charges by all the other operators for the dates given accordingly')
 parser.add_argument('-o','--op1', required=True, help='The name of the operator you are about to make a query')
@@ -26,4 +29,4 @@ args = parser.parse_args()
 
 chargesby(args.op1, args.datefrom, args.dateto, args.format)
 
-# python chargesby.py -o aodos -df 20200112 -dt 20200116
+# se2164 chargesby -o aodos -df 20200112 -dt 20200116 -f csv

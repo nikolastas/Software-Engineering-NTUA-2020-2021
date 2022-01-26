@@ -4,11 +4,21 @@ import requests
 import json
 
 def resetpasses():
-	
+	f = open("cookie.txt","r")
+	cookie = {'jwt': f.read()}
+	f.close()
 	url = 'https://192.168.1.2:9103/interoperability/api/admin/resetpasses'
-	response = requests.post(url,  verify='../cert/CA/CA.pem')
-	print(response.status_code)
-	print(response.json() )
+	response = requests.post(url, cookies=cookie, verify='../cert/CA/CA.pem')
+	print("status code= ",response.status_code)
+	if(response.status_code == 200):
+		print(response.json())
+		# cookies = response.cookies.get_dict()
+		# f= open("cookie.txt","w+")
+		# f.write(cookies['jwt'])
+		# f.close
+	else:
+		print("Error")
+		print(response.text)
 
 
 parser = argparse.ArgumentParser(description= '[WARNING] This would reset the passes of our API')

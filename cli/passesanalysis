@@ -5,14 +5,18 @@ import json
 from helperWriter import textCsvWriter
 
 def passesanalysis(operator1, operator2, datefrom, dateto, format):
-    
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
     url = f'https://192.168.1.2:9103/interoperability/api/PassesAnalysis/{operator1}/{operator2}/{datefrom}/{dateto}?format={format}'
-    response = requests.get(url, verify='../cert/CA/CA.pem')
+    response = requests.get(url, cookies=cookie, verify='../cert/CA/CA.pem')
     print(response.status_code)
-    if(format=='csv'):
+    if(format=='csv' and response.status_code==200):
         textCsvWriter("./PassesAnalysis.csv",response.text)
-    elif(format == 'json'):
+    elif(format == 'json' and response.status_code==200):
         print(json.dumps(response.json(), indent=5, sort_keys=False))
+    else:
+        print(response.text)
 
 
 parser = argparse.ArgumentParser(description= 'This would return the passes analyssis of the stations declared in the arguments and the dates picked accordingly')
@@ -25,4 +29,4 @@ args = parser.parse_args()
 
 passesanalysis(args.op1, args.op2, args.datefrom, args.dateto, args.format)
 
-# python passesanalysis.py -o aodos -O egnatia -df 20210301 -dt 20210601
+# se2164 passesanalysis -o aodos -O egnatia -df 20210301 -dt 20210601 -f csv

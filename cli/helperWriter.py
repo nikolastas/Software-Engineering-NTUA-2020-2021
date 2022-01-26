@@ -30,31 +30,29 @@ def joinner( s):
                 character+=char
             new.append(character)
             character=""
-    print("new:", new)
-    print("len(new): ", len(new))
-    print("colums are: ", columns)
+    
     new2 = []
     word =""
     counter = 0
     count_words=-1
     for w in new :
         count_words+=1
-        print(counter, w)
+        # print(counter, w)
         counter+=1
         if(counter < columns):
             word+=" "+w
-            print("case 1")
+            
         elif(count_words==len(new)):
             word+=" "+w
             new2.append(word)
-            print("case 2")
+            
 
         else:
             word+=" "+w
             new2.append(word)
             word=""
             counter=0
-            print("case 3")
+            
 
 
 
@@ -81,7 +79,7 @@ def textCsvWriter(filename, dataValues):
     # f.close()
     # dataValues = str(dataValues,"utf-8")
     
-    print("decoded",dataValues)
+    # print("decoded",dataValues)
     dataValues = list2space(dataValues)
     dataValues = (dataValues.replace('"', ""))
     dataValues = dataValues.replace("'", "" )
@@ -91,12 +89,12 @@ def textCsvWriter(filename, dataValues):
     
     dataValues = dataValues.replace("}", "")
     dataValues = dataValues.replace("{", "")
-    print("clean",(dataValues))
+    # print("clean",(dataValues))
     
     dataValues = joinner(dataValues)
-    print("splitted",dataValues)
-    print("split[0]", dataValues[0])
-    print("len: ", len(dataValues))
+    # print("splitted",dataValues)
+    # print("split[0]", dataValues[0])
+    # print("len: ", len(dataValues))
     # filename must be in 'sample.csv ' .
     # with open(filename) as json_file:
     #     data = json.load(json_file)
@@ -115,10 +113,13 @@ def textCsvWriter(filename, dataValues):
     
     
     for data in dataValues:
-        print(count,data)
+        # print(count,data)
         # Writing data of CSV file
         csv_writer.writerow([data])
         count += 1
-    
+    data_file.seek(0)
+    x = from_csv(data_file, delimiter =',')
+    x.set_style(DEFAULT)
+    print(x)
     data_file.close()
     return

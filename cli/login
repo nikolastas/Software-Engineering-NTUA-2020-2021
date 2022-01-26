@@ -7,8 +7,16 @@ def login(username, password):
     data = {'username': username, 'password':password}
     url = 'https://192.168.1.2:9103/interoperability/api/login'
     response = requests.post(url,data=data, verify='../cert/CA/CA.pem')
-    print(response.status_code)
-    print(response.json())
+    print("status code= ",response.status_code)
+    if(response.status_code == 200):
+        print(response.json())
+        cookies = response.cookies.get_dict()
+        f= open("cookie.txt","w+")
+        f.write(cookies['jwt'])
+        f.close
+    else:
+        print("Error")
+        print(response.text)
     cookies = response.cookies.get_dict()
     f= open("cookie.txt","w+")
     f.write(cookies['jwt'])

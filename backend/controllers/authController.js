@@ -89,7 +89,7 @@ module.exports.login_post = async (req, res) =>{
                     const token = createToken(user.dataValues.username );
                     console.log("[login] token created" );
                     res.cookie('jwt', token, { httpOnly:true, maxAge:1000*60*60*7 });
-                    res.status(201).send({
+                    res.status(200).send({
                         username: user.username,
                         email: user.email,
                         typeOfUser: user.typeofuser,
@@ -123,14 +123,20 @@ module.exports.change_password_post = async (req, res) =>{
     var new_pass = req.body.password;
 
     try{
-        const user_who_want_to_update_pass = await  User.findOne({ where:{username: userName } } );
+        const user_who_want_to_update_pass = await  User.findOne({ 
+            where:{
+                username: userName 
+            } 
+        });
+        if (user_who_want_to_update_pass == null){
+            res.status(400).send("user with username "+ userName+ " doesnt exists in DB");
+        }
         console.log("[changing pass] user exist and found ! user:", user_who_want_to_update_pass.username);
         await user_who_want_to_update_pass.update({ password: new_pass});
         await user_who_want_to_update_pass.save();
-        res.send("password updated");
-        const token = createToken(user.dataValues.username );
-        console.log("[change password for re-login] token created" );
-        res.cookie('jwt', token, { httpOnly:true, maxAge:1000*60*60*7 });
+        
+        
+        res.status(200).send("password updated");
         // https://stackoverflow.com/questions/45314883/hash-password-on-create-and-update
     }catch (err){
         console.log(err);

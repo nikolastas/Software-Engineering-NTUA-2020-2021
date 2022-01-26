@@ -1,6 +1,7 @@
 const jwt =require('jsonwebtoken');
 const random = require('../models/secret');
 const { Sequelize, Op, Model, DataTypes }= require("sequelize");
+const e = require('express');
 
 const sequelize = new Sequelize('softeng', 'root', null, {
     dialect: 'mysql'
@@ -89,12 +90,19 @@ const isAdmin = (req,res, next) =>{
                  await User.findOne({
                     where:{
                         username: decodedToken.id,
-                        typeofuser: 'admin'
+                        
                     }
                 }).then(user => {
-                    console.log("found admin");
-                    console.log(user.username);
-                    next();
+                    console.log("found user: checking if is admin ...");
+                    if(user.typeofuser == 'admin'){
+                        console.log("found admin: ",user.username);
+                        next();
+                    }
+                    else{
+                        console.log("user found but he is not admin");
+                        res.status(401).send("error, to request something like that you must be admin")
+                    }
+                    
                 }).catch(err => {
                     console.log(err);
                     res.status(400).send("error while searching for admin")
@@ -106,9 +114,9 @@ const isAdmin = (req,res, next) =>{
     else{
         req.app.locals.user = null;
         // res.locals.user = null;
-        res.status(400).send("error token jwt doesnt exists")
+        res.status(400).send('[error] user is not log in');
         
-        console.log("user toke doesnt exists");
+        console.log("anonymous tried to request data [access denied] ");
         
     }
 

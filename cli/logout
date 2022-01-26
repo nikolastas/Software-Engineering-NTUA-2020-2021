@@ -7,18 +7,24 @@ from auth import auth
 
 def logout():
     
-    if(auth()):
-        print("you need to log in first")
-        return
+    
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
+    
+    url = 'https://192.168.1.2:9103/interoperability/api/logout'
+    response = requests.post(url, cookies=cookie, verify='../cert/CA/CA.pem')
+    
+    
+    print("status code= ",response.status_code)
+    if(response.status_code == 200):
+        print(response.text)
+        # cookies = response.cookies.get_dict()
+        f= open("cookie.txt","w+")
+        
+        f.close
     else:
-        f = open("cookie.txt","r")
-        cookie = {'jwt': f.read()}
-        f.close()
-        f = open("cookie.txt","w")
-        url = 'https://192.168.1.2:9103/interoperability/api/logout'
-        response = requests.post(url, cookies=cookie, verify='../cert/CA/CA.pem')
-        print(response.status_code)
-        f.close()
+        print("Error")
         print(response.text)
 
 
