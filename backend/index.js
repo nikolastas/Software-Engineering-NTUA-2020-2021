@@ -8,7 +8,7 @@ const cors = require('cors');
 const fs = require('fs');
 const key = fs.readFileSync('../cert/CA/localhost/localhost.decrypted.key');
 const cert = fs.readFileSync('../cert/CA/localhost/localhost.crt');
-const csvAdder = require('./routes/csvAdderRouter');
+
 // set up express app
 const app = express();
 // app.locals.user = null;
@@ -25,7 +25,7 @@ app.get('/interoperability/api/authToken', requireAuth, (req,res) => res.send("c
 app.get('/interoperability/api/checkUser', checkUser, (req,res) => res.send({"user":app.locals.user}) );
 app.get('/interoperability/api/isAdmin', isAdmin, (req,res) => res.send("user is Amdin"));
 app.use(authRouter);
-app.use(csvAdder);
+
 
 //cokies
 
