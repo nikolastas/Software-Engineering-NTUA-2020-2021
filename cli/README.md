@@ -34,7 +34,7 @@
 
 
 ## Ανάλυση Εντολών {#3}
-### 1. healthcheck {#a}
+### 1. healthcheck 
 
 This command is used to provide CLI user the status of the node server. If server is listening and working fine the 
 ```
