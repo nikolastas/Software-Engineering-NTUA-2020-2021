@@ -34,7 +34,7 @@
 
 
 ## Ανάλυση Εντολών {#3}
-### 1. healthcheck {#a}
+### 1. healthcheck {#healthcheck}
 
 This command is used to provide CLI user the status of the node server. If server is listening and working fine the 
 ```
@@ -42,7 +42,7 @@ This command is used to provide CLI user the status of the node server. If serve
 ```
 else a status code indicator and the text of the error information will be printed.
 
-### 2. resetpasses {#b}
+### 2. resetpasses {#resetpasses}
 
 This CLI command is user to truncate the table of passes, meaning it will erase all the data of the passes table shown in the ER diagram.
 ### 3. resetstations {#c}
