@@ -40,7 +40,7 @@ Otherwise you have to write :
 
 # CLI commands
 Example of the cli commands :
-<code> $ se2164 scope --param1 value1 [--param2 value2 ...] --format fff "
+<code> $ se2164 scope --param1 value1 [--param2 value2 ...] --format fff 
 
 | Scope     | Minimum User level | Rest parameters | Rest API call   |
 | :---        |    :----:   |  :----:    |    ---: |
@@ -49,7 +49,7 @@ Example of the cli commands :
 | [resetstations](#3-resetstations) | None | None | /Admin/resetstations|
 | [resetvehicles](#4-resetvehicles) | None | None | /Admin/resetvehicles|
 | [login](#5-login) | None | --username --passw | /login |
-| [logout](#6-logout) | User (Login required) | None | /logout |
+| [logout](#6-logout) | User | None | /logout |
 | [passesperstation](#7-passesperstation) | User | --station --datefrom --dateto --format |/PassesPerStation |
 | [passesanalysis](#8-passesanalysis) | User | --op1 --op2 --datefrom --dateto --format | /PassesAnalysis |
 | [passescost](#9-passescost) | User | --op1 --op2 --datefrom --dateto --format | /PassesCost|
@@ -129,25 +129,74 @@ Example:
 se2164 logout
 ```
 ### 7. passesperstation
+❗Format parameter required . 
+
 This command is used to show statistics data .
+It returns a json object :
+{
+Station : String,
+StationOperator : String,
+RequestTimestamp : String,
+PeriodFrom : String,
+PeriodTo : String,
+NumberOfPasses : Integer,
+PassesList : List
+[ PassIndex : Integer, PassID : String, PassTimeStamp : String, VehicleID : String, TagProvider : String, PassType : string, PassCharge : Float ]
+}
+The format parameter is used to determine in what format the user of cli wants the returned object. If the CLI user selects the json format as output it will print the json object and NOT save it localy. If the CLI user selects the CSV format the CLI will automaticaly create a csv file with the same name as the comand used and store the return data there.
 Example:
 ```
 se2164 passesperstation -s AO01 -df 20210301 -dt 20210601 -f json
 ```
 ### 8. passesanalysis
+❗Format parameter required . 
 This command is used to show statistics data .
+It returns a json object based on the parameters you gave.
+{
+op1_ID: String,
+op2_ID : String,
+RequestTimestamp : String,
+PeriodFrom : String,
+PeriodTo : String,
+NumberOfPasses : Integer,
+PassesList : [ PassIndex : Integer, PassID : String, StationID : String, TimeStamp : String, VehicleID : String, PassCharge : Float ]
+}
+The format parameter is used to determine in what format the user of cli wants the returned object. If the CLI user selects the json format as output it will print the json object and NOT save it localy. If the CLI user selects the CSV format the CLI will automaticaly create a csv file with the same name as the comand used and store the return data there.
 Example:
 ```
 se2164 passesanalysis -o aodos -O egnatia -df 20210301 -dt 20210601 -f csv
 ```
 ### 9. passescost 
+❗Format parameter required . 
 This command is used to show statistics data .
+Returns a json object:
+{
+op1_ID: String,
+op2_ID : String,
+RequestTimestamp : String,
+PeriodFrom : String,
+PeriodTo : String,
+NumberOfPasses : Integer,
+PassesCost : Float
+}
+The format parameter is used to determine in what format the user of cli wants the returned object. If the CLI user selects the json format as output it will print the json object and NOT save it localy. If the CLI user selects the CSV format the CLI will automaticaly create a csv file with the same name as the comand used and store the return data there.
 Example:
 ```
 se2164 passescost -o aodos -O egnatia -df 20210301 -dt 20210601 -f csv
 ```
 ### 10. chargesby
+❗Format parameter required . 
 This command is used to show statistics data .
+Returns a json object like so:
+{
+op_ID: String,
+RequestTimestamp : String,
+PeriodFrom : String,
+PeriodTo : String,
+PPOList:
+[ VisitingOperator : String, NumberOfPasses : Integer, PassesCost : Float ]
+}
+The format parameter is used to determine in what format the user of cli wants the returned object. If the CLI user selects the json format as output it will print the json object and NOT save it localy. If the CLI user selects the CSV format the CLI will automaticaly create a csv file with the same name as the comand used and store the return data there.
 Example:
 ```
 se2164 chargesby -o aodos -df 20200112 -dt 20200116 -f json
