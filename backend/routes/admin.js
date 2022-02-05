@@ -90,6 +90,15 @@ router.post('/resetpasses', isAdmin,function(req, res){
     }
 
 });
+//Passes update
+router.post('/passesupd', isAdmin, function(req,res){
+    try{
+        fs.createReadStream('./defaults/testing.csv')
+                .pipe(csv())
+                .on('data', function(row)
+        
+    }
+});
 
 //Resets stations (tries to)
 router.post('/resetstations', isAdmin, function(req, res){
@@ -141,6 +150,7 @@ router.post('/resetstations', isAdmin, function(req, res){
     res.send({"status":"OK"});    
     
 });
+
 
 //reset vehicles.
 router.post('/resetvehicles', isAdmin, function(req, res){
