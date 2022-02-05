@@ -91,13 +91,43 @@ router.post('/resetpasses', isAdmin,function(req, res){
 
 });
 //Passes update
-router.post('/passesupd', isAdmin, function(req,res){
+router.post('/passesupd', isAdmin, function(req, res, source){
+    
     try{
-        fs.createReadStream('./defaults/testing.csv')
-                .pipe(csv())
-                .on('data', function(row)
+
         
+            
+            //fs.createReadStream(source)
+            fs.createReadStream('./defaults/testing.csv') //file name from cli
+                .pipe(csv())
+                .on('data', function(row){
+                    
+                    var pass = row;
+
+                    con.query(
+                    "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
+                    "', '"+pass.stationID+"', '"+pass.passID+"', '"+pass.timestamp+"','"+pass.charge+"')"
+                    , function(err, result, fields){
+                        if (err) {
+                            return;
+                        }
+                    });
+                })
+                .on('end', function(){
+                    console.log("end of data\n");
+                });
+            
+    }catch(error){
+        //handle error
+        console.log("failed to update");
+        console.log(row);
+        res.status(500);
+        res.send({"status":"failed"});
     }
+
+    res.status(200);
+    res.send({"status":"OK"});    
+    
 });
 
 //Resets stations (tries to)
