@@ -8,6 +8,7 @@ const csv = require('csv-parser');
 const e = require('express');
 const { table } = require('console');
 const {requireAuth, checkUser, isAdmin } = require('../middleware/authMiddleware');
+const bodyParser = require('body-parser');
 
 /*
  * erase table from db with tablename.
@@ -90,12 +91,15 @@ router.post('/resetpasses', isAdmin,function(req, res){
     }
 
 });
+
 //Passes update
-router.post('/passesupd', isAdmin, function(req, res, source){
+router.post('/passesupd', isAdmin, function(req, res){
+    //var source= req.body.source;
     
     try{
-            //fs.createReadStream(source)
-            fs.createReadStream('./defaults/testing.csv') //file name from cli
+            fs.createReadStream(req.body.source)
+
+            //fs.createReadStream('./defaults/testing.csv') //file name from cli
                 .pipe(csv())
                 .on('data', function(row){
                     
