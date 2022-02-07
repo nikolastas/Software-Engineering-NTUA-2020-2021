@@ -99,7 +99,6 @@ router.post('/passesupd', isAdmin, function(req, res){
     try{
             fs.createReadStream(req.body.source)
 
-            //fs.createReadStream('./defaults/testing.csv') //file name from cli
                 .pipe(csv())
                 .on('data', function(row){
                     
