@@ -94,7 +94,6 @@ router.post('/resetpasses', isAdmin,function(req, res){
 
 //Passes update
 router.post('/passesupd', isAdmin, function(req, res){
-    //var source= req.body.source;
     
     try{
             fs.createReadStream(req.body.source)
