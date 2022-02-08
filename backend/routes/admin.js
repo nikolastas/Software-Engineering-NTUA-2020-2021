@@ -14,20 +14,27 @@ const bodyParser = require('body-parser');
 /*
  * erase table from db with tablename.
  */
+// from 1/1/2019 6:10 to 01-01-2019 06:10:00
 function formatdate(input){
 input=new Date(input);
 year = input.getFullYear();
 month = input.getMonth()+1;
 dt = input.getDate();
-time="23:00:00";
+var [hour, minutes] = [input.getHours(), input.getMinutes()];
+//time="23:00:00";
 if (dt < 10) {
   dt = '0' + dt;
 }
 if (month < 10) {
   month = '0' + month;
 }
-
-return(year+'-' + month + '-'+ dt + ' '+ time);
+if (hour<10){
+    hour= '0' + hour;
+}
+if (minutes<10){
+    minutes= '0' + minutes;
+}
+return(year+'-' + month + '-'+ dt + ' '+ hour+ ':'+minutes+':'+':00');
 }
 
 function eraseTable(tablename){
