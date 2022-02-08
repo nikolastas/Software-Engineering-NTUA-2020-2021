@@ -10,9 +10,26 @@ const { table } = require('console');
 const {requireAuth, checkUser, isAdmin } = require('../middleware/authMiddleware');
 const bodyParser = require('body-parser');
 
+
 /*
  * erase table from db with tablename.
  */
+function formatdate(input){
+input=new Date(input);
+year = input.getFullYear();
+month = input.getMonth()+1;
+dt = input.getDate();
+time="23:00:00";
+if (dt < 10) {
+  dt = '0' + dt;
+}
+if (month < 10) {
+  month = '0' + month;
+}
+
+return(year+'-' + month + '-'+ dt + ' '+ time);
+}
+
 function eraseTable(tablename){
     try{
         con.query("TRUNCATE TABLE " + tablename, function(err, result, fields){
@@ -92,7 +109,7 @@ router.post('/resetpasses', isAdmin,function(req, res){
 
 });
 
-//Passes update
+//Passes update endpoint
 router.post('/passesupd', isAdmin, function(req, res){
     
     try{
@@ -102,10 +119,12 @@ router.post('/passesupd', isAdmin, function(req, res){
                 .on('data', function(row){
                     
                     var pass = row;
+                    var time=formatdate(pass.timestamp); //pass.timestamp=1/1/2019 6:10
+                    
 
                     con.query(
                     "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
-                    "', '"+pass.stationID+"', '"+pass.passID+"', '"+pass.timestamp+"','"+pass.charge+"')"
+                    "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')"
                     , function(err, result, fields){
                         if (err) {
                             return;
@@ -114,6 +133,7 @@ router.post('/passesupd', isAdmin, function(req, res){
                 })
                 .on('end', function(){
                     console.log("end of data\n");
+                    
                 });
             
     }catch(error){
