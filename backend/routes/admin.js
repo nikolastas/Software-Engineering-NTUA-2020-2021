@@ -118,7 +118,7 @@ router.post('/resetpasses', isAdmin,function(req, res){
 
 //Passes update endpoint
 router.post('/passesupd', isAdmin, function(req, res){
-    console.log("trying to update csv");
+    console.log("trying to update from csv");
     flag = false;
     try{
             fs.createReadStream(req.body.source)
@@ -127,10 +127,7 @@ router.post('/passesupd', isAdmin, function(req, res){
                 .on('data', function(row){
                     
                     var pass = row;
-                    var time=formatdate(pass.timestamp); //pass.timestamp=1/1/2019 6:10
-                    console.log(time)
-                    
-
+                    var time=formatdate(pass.timestamp); //pass.timestamp=1/1/2019 6:10                    
                     con.query(
                     "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
                     "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')"
