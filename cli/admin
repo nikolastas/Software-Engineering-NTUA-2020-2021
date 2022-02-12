@@ -70,7 +70,7 @@ def passesupd(source):
     cookie = {'jwt': f.read()}
     f.close()
     data = {'source': source}
-    url = 'https://192.168.1.2:9103/interoperability/api/admin/passesupd'
+    url = 'https://'+backend_computer_address+':9103/interoperability/api/admin/passesupd'
     response = requests.post(url,data=data, cookies=cookie, verify='../cert/CA/CA.pem')
     print("status code= ",response.status_code)
     if(response.status_code == 200):
