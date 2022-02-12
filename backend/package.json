@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "no",
   "version": "1.0.0",
   "description": "Περιεχόμενα:",
   "main": "index.js",
@@ -31,5 +31,9 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\\"
   }
 }

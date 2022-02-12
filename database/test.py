@@ -53,9 +53,13 @@ for i in range(len(Stations)):
                     VALUES ('{}','{}','{}','{}')""".format(stationID,stationName,stationProvider,mydict[stationProvider])
     cursor.execute(sqlFormula)
     db.commit() #Save Data
+    
 def str2datetime(a):
     newdatetime = datetime.datetime.strptime(a,"%d/%m/%Y %H:%M").strftime('%Y-%m-%d %H:%M:%S')
     return newdatetime
+
+    
+
 Passes=pd.read_csv("./sampledata01_passes100_8000.csv", sep=";")
 for i in range(len(Passes)):
     passID=Passes['passID'][i]

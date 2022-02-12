@@ -8,10 +8,35 @@ const csv = require('csv-parser');
 const e = require('express');
 const { table } = require('console');
 const {requireAuth, checkUser, isAdmin } = require('../middleware/authMiddleware');
+const bodyParser = require('body-parser');
+
 
 /*
  * erase table from db with tablename.
  */
+// from 1/1/2019 6:10 to 01-01-2019 06:10:00
+function formatdate(input){
+input=new Date(input);
+year = input.getFullYear();
+month = input.getMonth()+1;
+dt = input.getDate();
+var [hour, minutes] = [input.getHours(), input.getMinutes()];
+//time="23:00:00";
+if (dt < 10) {
+  dt = '0' + dt;
+}
+if (month < 10) {
+  month = '0' + month;
+}
+if (hour<10){
+    hour= '0' + hour;
+}
+if (minutes<10){
+    minutes= '0' + minutes;
+}
+return(year+'-' + month + '-'+ dt + ' '+ hour+ ':'+minutes+':'+'00');
+}
+
 function eraseTable(tablename){
     try{
         con.query("TRUNCATE TABLE " + tablename, function(err, result, fields){
@@ -91,6 +116,53 @@ router.post('/resetpasses', isAdmin,function(req, res){
 
 });
 
+//Passes update endpoint
+router.post('/passesupd', isAdmin, function(req, res){
+    console.log("trying to update csv");
+    flag = false;
+    try{
+            fs.createReadStream(req.body.source)
+
+                .pipe(csv())
+                .on('data', function(row){
+                    
+                    var pass = row;
+                    var time=formatdate(pass.timestamp); //pass.timestamp=1/1/2019 6:10
+                    console.log(time)
+                    
+
+                    con.query(
+                    "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
+                    "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')"
+                    , function(err, result, fields){
+                        if (err) {
+                            console.log(err);
+                            res.status(500).send({"status":"failed"});
+                            return;
+                        }
+                        else if(result){
+                            console.log(result);
+                        }
+                    });
+                })
+                .on('end', function(){
+                    console.log("end of data\n");
+                    
+                });
+            
+    }catch(error){
+        //handle error
+        console.log("failed to update");
+        console.log(row);
+        res.status(500);
+        res.send({"status":"failed"});
+    }
+
+    res.status(200);
+    res.send({"status":"OK"});    
+    
+});
+
 //Resets stations (tries to)
 router.post('/resetstations', isAdmin, function(req, res){
     
@@ -141,6 +213,7 @@ router.post('/resetstations', isAdmin, function(req, res){
     res.send({"status":"OK"});    
     
 });
+
 
 //reset vehicles.
 router.post('/resetvehicles', isAdmin, function(req, res){
