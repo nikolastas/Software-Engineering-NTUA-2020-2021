@@ -32,11 +32,13 @@ Python packages:
 # Before running it for the first time
 1. Pull the latest version of cli in a clean folder.
 2. Open a bash terminal in the folder you pulled the cli .
-3. Write to following in bash terminal:
+3. Fill in the computer's ip address in the ip_address.txt folder. 
+4. Write to following in bash terminal:
  <code> PATH=$MYDIR:$PATH </code>
 Otherwise you have to write :
 <code> ./ </code>
  before se2164 everytime.
+
 
 # CLI commands
 Example of the cli commands :

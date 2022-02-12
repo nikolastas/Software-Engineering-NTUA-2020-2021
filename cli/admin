@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
 import argparse
 from ast import arg
+from ipaddress import ip_address
 import requests
 import json
 
 from helperWriter import textCsvWriter
 
+f = open("ip_address.txt","r")
+backend_computer_address = f.read()
+f.close()
 
 def usermod (username, password, typeofuser, email):
     f = open("cookie.txt","r")
     cookie = {'jwt': f.read()}
     f.close()
     data = {'username': username, 'password':password, 'typeOfUser':typeofuser, 'email': email}
-    url = 'https://192.168.1.2:9103/interoperability/api/signup'
+    url = 'https://'+backend_computer_address+':9103/interoperability/api/signup'
     response = requests.post(url,data=data, cookies=cookie, verify='../cert/CA/CA.pem')
     print(response.status_code)
     if(response.status_code == 200):
@@ -30,7 +34,7 @@ def change_pass(username, newpassword):
     cookie = {'jwt': f.read()}
     f.close()
     data = {'username': username, 'password':newpassword}
-    url = 'https://192.168.1.2:9103/interoperability/api/change-password'
+    url = 'https://'+backend_computer_address+':9103/interoperability/api/change-password'
     response = requests.post(url,data=data, cookies=cookie, verify='../cert/CA/CA.pem')
     print("status code= ",response.status_code)
     if(response.status_code == 200):
@@ -47,7 +51,7 @@ def users ():
     f = open("cookie.txt","r")
     cookie = {'jwt': f.read()}
     f.close()
-    url = 'https://192.168.1.2:9103/interoperability/api/checkUser'
+    url = 'https://'+backend_computer_address+':9103/interoperability/api/checkUser'
     response = requests.get(url,cookies=cookie, verify='../cert/CA/CA.pem')
     print("status code= ",response.status_code)
     if(response.status_code == 200):
