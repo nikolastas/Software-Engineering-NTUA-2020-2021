@@ -3,11 +3,15 @@ import argparse
 import requests
 import json
 
+f = open("ip_address.txt","r")
+backend_computer_address = f.read()
+f.close()
+
 def resetstations():
 	f = open("cookie.txt","r")
 	cookie = {'jwt': f.read()}
 	f.close()
-	url = 'https://192.168.1.2:9103/interoperability/api/admin/resetstations'
+	url = 'https://'+backend_computer_address+':9103/interoperability/api/admin/resetstations'
 	response = requests.post(url, cookies=cookie,verify='../cert/CA/CA.pem')
 	print("status code= ",response.status_code)
 	if(response.status_code == 200):

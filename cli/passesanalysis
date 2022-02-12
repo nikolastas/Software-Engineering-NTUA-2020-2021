@@ -4,11 +4,15 @@ import requests
 import json
 from helperWriter import textCsvWriter
 
+f = open("ip_address.txt","r")
+backend_computer_address = f.read()
+f.close()
+
 def passesanalysis(operator1, operator2, datefrom, dateto, format):
     f = open("cookie.txt","r")
     cookie = {'jwt': f.read()}
     f.close()
-    url = f'https://192.168.1.2:9103/interoperability/api/PassesAnalysis/{operator1}/{operator2}/{datefrom}/{dateto}?format={format}'
+    url = f'https://'+backend_computer_address+':9103/interoperability/api/PassesAnalysis/{operator1}/{operator2}/{datefrom}/{dateto}?format={format}'
     response = requests.get(url, cookies=cookie, verify='../cert/CA/CA.pem')
     print(response.status_code)
     if(format=='csv' and response.status_code==200):

@@ -5,6 +5,11 @@ import json
 import os
 from auth import auth
 
+f = open("ip_address.txt","r")
+backend_computer_address = f.read()
+f.close()
+
+
 def logout():
     
     
@@ -12,7 +17,7 @@ def logout():
     cookie = {'jwt': f.read()}
     f.close()
     
-    url = 'https://192.168.1.2:9103/interoperability/api/logout'
+    url = 'https://'+backend_computer_address+':9103/interoperability/api/logout'
     response = requests.post(url, cookies=cookie, verify='../cert/CA/CA.pem')
     
     
