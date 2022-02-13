@@ -123,12 +123,12 @@ router.post('/passesupd', isAdmin, function(req, res){
     try{
             fs.createReadStream(req.body.source)
 
-                .pipe(csv())
+                .pipe(csv({ separator: ';' }))
                 .on('data', function(row){
                     
                     var pass = row;
                     console.log(pass.passID);
-                    var time=formatdate(pass.timestamp); //pass.timestamp=1/1/2019 6:10                    
+                    var time=moment(input, "D/M/YYYY H:m").format("YYYY-MM-DD HH:mm:SS"); //pass.timestamp=1/1/2019 6:10                    
                     con.query(
                     "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
                     "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')"
