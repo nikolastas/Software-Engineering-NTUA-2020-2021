@@ -9,34 +9,28 @@ const e = require('express');
 const { table } = require('console');
 const {requireAuth, checkUser, isAdmin } = require('../middleware/authMiddleware');
 const bodyParser = require('body-parser');
+const moment = require('moment');
+const { throws } = require('assert');
 
 
+
+// from 1/1/2019 6:10 to 01-01-2019 06:10:00
+function formatdate(input, passID) {
+    //2021-05-30T02:12:00.000Z
+    //2021-05-30 02:12:00
+    // var dateTime = Date.parse(input);
+    // console.log(input);
+    var dateTime = moment(input, "D/M/YYYY H:m").format("YYYY-MM-DD HH:mm:SS");
+    // console.log(dateTime)
+    if(dateTime == "Invalid date"){
+        console.log(passID);
+        throw "invalid date";
+    }
+    return `${dateTime.slice(0, 10)} ${dateTime.slice(11, 20)}`;
+}
 /*
  * erase table from db with tablename.
  */
-// from 1/1/2019 6:10 to 01-01-2019 06:10:00
-function formatdate(input){
-    input=new Date(input);
-    year = input.getFullYear();
-    month = input.getMonth()+1;
-    dt = input.getDate();
-    var [hour, minutes] = [input.getHours(), input.getMinutes()];
-    //time="23:00:00";
-    if (dt < 10) {
-        dt = '0' + dt;
-    }
-    if (month < 10) {
-        month = '0' + month;
-    }
-    if (hour<10){
-        hour= '0' + hour;
-    }
-    if (minutes<10){
-        minutes= '0' + minutes;
-    }
-    return(year+'-' + month + '-'+ dt + ' '+ hour+ ':'+minutes+':'+'00');
-}
-
 function eraseTable(tablename){
     try{
         con.query("TRUNCATE TABLE " + tablename, function(err, result, fields){
@@ -86,6 +80,58 @@ function eraseRefTableTail(tablename){
     }
 }
 
+async function passesUpdateFromCSV(req){
+    try{
+        const stream = fs.createReadStream(req.body.source)
+
+            .pipe(csv({ separator: ';' }))
+            .on('data', async (row)=> {
+                try{
+                var pass = row;
+                
+                var time=formatdate(pass.timestamp, pass.passID); //pass.timestamp=1/1/2019 6:10        
+                stream.pause();     
+                await con.query(
+                "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
+                "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')"
+                , function(err, result, fields){
+                    if (err) {
+                        console.log("sql error")
+                        console.log(err);
+                        stream.end();
+                        return false;
+                    }
+                    // else if(result){
+                    //     console.log(result);
+                    // }
+                });
+                } finally{
+                    stream.resume();
+                }
+            })
+            .on('end', function(){
+                console.log("end of data\n");
+                return true;
+                
+            })
+            .on('error', function(err) {
+                console.log("eror with pipe");
+                // do something with `err`
+                console.log(err);
+                stream.end();      
+                return false;
+              });
+            
+        
+    }catch(error){
+        //handle error
+        console.log("failed to update");
+        console.log(error);
+        
+        return false;
+    }
+}
+
 /*
  * Healthcheck handler
  */
@@ -117,47 +163,19 @@ router.post('/resetpasses', isAdmin,function(req, res){
 });
 
 //Passes update endpoint
-router.post('/passesupd', isAdmin, function(req, res){
+router.post('/passesupd', isAdmin, async function(req, res){
     console.log("trying to update from csv");
-    flag = false;
-    try{
-            fs.createReadStream(req.body.source)
-
-                .pipe(csv())
-                .on('data', function(row){
-                    
-                    var pass = row;
-                    console.log(pass.passID);
-                    var time=formatdate(pass.timestamp); //pass.timestamp=1/1/2019 6:10                    
-                    con.query(
-                    "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
-                    "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')"
-                    , function(err, result, fields){
-                        if (err) {
-                            console.log(err);
-                            res.status(500).send({"status":"failed"});
-                            return;
-                        }
-                        else if(result){
-                            console.log(result);
-                        }
-                    });
-                })
-                .on('end', function(){
-                    console.log("end of data\n");
-                    
-                });
-            
-    }catch(error){
-        //handle error
-        console.log("failed to update");
-        console.log(row);
+    let flag = await passesUpdateFromCSV(req);
+    if(flag ) {
+        res.status(200);
+        res.send({"status":"OK"});    
+    }
+    else{
         res.status(500);
         res.send({"status":"failed"});
     }
 
-    res.status(200);
-    res.send({"status":"OK"});    
+    
     
 });
 
@@ -169,7 +187,7 @@ router.post('/resetstations', isAdmin, function(req, res){
         if(eraseRefTableHead("stations"))
         {
             
-            fs.createReadStream('./defaults/sampledata01_stations.csv')
+            fs.createReadStream('../backend/defaults/sampledata01_stations.csv')
                 .pipe(csv())
                 .on('data', function(row){
                     //We must add to the database the station
@@ -217,7 +235,7 @@ router.post('/resetstations', isAdmin, function(req, res){
 router.post('/resetvehicles', isAdmin, function(req, res){
     try{
         if(eraseRefTableHead("vehicles")){
-            fs.createReadStream('./defaults/sampledata01_vehicles_100.csv')
+            fs.createReadStream('../backend/defaults/sampledata01_vehicles_100.csv')
                 .pipe(csv())
                 .on('data', function(row){
                     //We must add to the database the station
