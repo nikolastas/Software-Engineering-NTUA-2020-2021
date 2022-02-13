@@ -38,7 +38,13 @@ Python packages:
 Otherwise you have to write :
 <code> ./ </code>
  before se2164 everytime.
+## possible errors you may encounter
 
+- In case: /usr/bin/env: ‘python3\r’: No such file or directory 
+To DO: 
+dos2unix <file_name>
+- In case : -bash: ./se2164: /bin/bash^M: bad interpreter: No such file or directory
+To do: dos2unix se2164
 
 # CLI commands
 Example of the cli commands :
