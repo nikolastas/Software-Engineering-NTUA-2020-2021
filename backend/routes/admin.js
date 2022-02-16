@@ -2,7 +2,7 @@ const { application } = require('express');
 const express = require('express');
 const con = require('../models/dbsetup');
 const router = express.Router();
-
+const moment = require('moment');
 const fs = require('fs');
 const csv = require('csv-parser');
 const e = require('express');
@@ -127,8 +127,8 @@ router.post('/passesupd', isAdmin, function(req, res){
                 .on('data', function(row){
                     
                     var pass = row;
-                    console.log(pass.passID);
-                    var time=moment(input, "D/M/YYYY H:m").format("YYYY-MM-DD HH:mm:SS"); //pass.timestamp=1/1/2019 6:10                    
+                    // console.log(pass.passID);
+                    var time=moment(pass.timestamp, "D/M/YYYY H:m").format("YYYY-MM-DD HH:mm:SS"); //pass.timestamp=1/1/2019 6:10                    
                     con.query(
                     "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
                     "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')"
@@ -139,7 +139,7 @@ router.post('/passesupd', isAdmin, function(req, res){
                             return;
                         }
                         else if(result){
-                            console.log(result);
+                            // console.log(result);
                         }
                     });
                 })
