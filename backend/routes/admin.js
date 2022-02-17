@@ -6,36 +6,32 @@ const moment = require('moment');
 const fs = require('fs');
 const csv = require('csv-parser');
 const e = require('express');
-const { table } = require('console');
+const { table, error } = require('console');
 const {requireAuth, checkUser, isAdmin } = require('../middleware/authMiddleware');
 const bodyParser = require('body-parser');
+const util = require('util');
+const { query, end } = require('../models/dbsetup');
+const { resolve } = require('path');
+const mysql22 = require('mysql2/promise');
+
 
 
 /*
  * erase table from db with tablename.
  */
 // from 1/1/2019 6:10 to 01-01-2019 06:10:00
-function formatdate(input){
-    input=new Date(input);
-    year = input.getFullYear();
-    month = input.getMonth()+1;
-    dt = input.getDate();
-    var [hour, minutes] = [input.getHours(), input.getMinutes()];
-    //time="23:00:00";
-    if (dt < 10) {
-        dt = '0' + dt;
-    }
-    if (month < 10) {
-        month = '0' + month;
-    }
-    if (hour<10){
-        hour= '0' + hour;
-    }
-    if (minutes<10){
-        minutes= '0' + minutes;
-    }
-    return(year+'-' + month + '-'+ dt + ' '+ hour+ ':'+minutes+':'+'00');
-}
+
+async function withTransaction( db, callback ) {
+    try {
+      await db.beginTransaction();
+      await callback();
+      await db.commit();
+    } catch ( err ) {
+      await db.rollback();
+      throw err;
+    } 
+  }
+
 
 function eraseTable(tablename){
     try{
@@ -115,51 +111,83 @@ router.post('/resetpasses', isAdmin,function(req, res){
     }
 
 });
-
+function timeout(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 //Passes update endpoint
-router.post('/passesupd', isAdmin, function(req, res){
+router.post('/passesupd', isAdmin, async function(req, res){
+    
+
+    var con2 = await mysql22.createConnection({
+        host: "localhost",
+        port: 3306,
+        user:"root",
+        password:"",
+        database:"softeng"
+    });
+    await con2.execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
+    await con2.beginTransaction();
     console.log("trying to update from csv");
     flag = false;
     try{
+            var csvData = [];
             fs.createReadStream(req.body.source)
 
                 .pipe(csv({ separator: ';' }))
                 .on('data', function(row){
                     
-                    var pass = row;
-                    // console.log(pass.passID);
-                    var time=moment(pass.timestamp, "D/M/YYYY H:m").format("YYYY-MM-DD HH:mm:SS"); //pass.timestamp=1/1/2019 6:10                    
-                    con.query(
-                    "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
-                    "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')"
-                    , function(err, result, fields){
-                        if (err) {
-                            console.log(err);
-                            res.status(500).send({"status":"failed"});
-                            return;
-                        }
-                        else if(result){
-                            // console.log(result);
-                        }
-                    });
+                    csvData.push(row);
                 })
-                .on('end', function(){
+                .on('end', async function(){
                     console.log("end of data\n");
+                    var arrayLength = csvData.length;
+                    var flag= true;
+                    for (var i = 0; i < arrayLength; i++) {
+                        // console.log(row);
+                        var pass = csvData[i];
+                        // console.log(pass.passID);
+                        var time=moment(pass.timestamp, "D/M/YYYY H:m").format("YYYY-MM-DD HH:mm:SS"); //pass.timestamp=1/1/2019 6:10
+                        
+                        try{ 
+                            await con2.execute(
+                                "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
+                                "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')" );
+                            await con2.commit();
+                        }catch(e){
+                            console.log("failed to update [1]");
+                            console.log("error with query");
+                            // throw error("error with query");
+                            flag =false;
+                            break;
+                        }
+                        
+                            
+                        };
+                    console.log("end with csv update");
+                    if(flag){
+                        res.status(200).send({"status":"ok"});
+                    }
+                    else{
+                        res.status(400).send({"status":"failed"});
+                    }
                     
+                    
+                })
+                .on('error' ,function(){
+                    res.status(500).send({"status":"failed"});
                 });
             
     }catch(error){
         //handle error
-        console.log("failed to update");
+        console.log("failed to update [2]");
         console.log(row);
         res.status(500);
         res.send({"status":"failed"});
     }
-
-    res.status(200);
-    res.send({"status":"OK"});    
+   
     
 });
+
 
 //Resets stations (tries to)
 router.post('/resetstations', isAdmin, function(req, res){
