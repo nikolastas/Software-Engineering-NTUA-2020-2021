@@ -118,60 +118,72 @@ router.post('/passesupd', isAdmin, async function(req, res){
     console.log("trying to update from csv");
     flag = false;
     try{
-            var csvData = [];
-            fs.createReadStream(req.body.source)
-
-                .pipe(csv({ separator: ';' }))
-                .on('data', function(row){
-                    
-                    csvData.push(row);
-                })
-                .on('end', async function(){
-                    console.log("end of data\n");
-                    var arrayLength = csvData.length;
-                    var flag= true;
-                    for (var i = 0; i < arrayLength; i++) {
-                        // console.log(row);
-                        var pass = csvData[i];
-                        // console.log(pass.passID);
-                        var time=moment(pass.timestamp, "D/M/YYYY H:m").format("YYYY-MM-DD HH:mm:SS"); //pass.timestamp=1/1/2019 6:10
-                        const query = util.promisify(con.query).bind(con);
-                        try{ 
-                            await query(
-                                "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
-                                "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')" );
-                            // await con2.commit();
-                        }catch(e){
-                            console.log("failed to update [1]");
-                            console.log("error with query");
-                            console.log(e);
-                            // throw error("error with query");
-                            flag =false;
-                            break;
-                        }finally{
-                            // con.end();
+        fs.stat(req.body.source, function(err,stat){
+            if (err) {
+                console.log("failed to update [0]");
+                res.status(500);
+                res.send({"status":"failed"});
+            
+            }
+            else{
+                var csvData = [];
+                fs.createReadStream(req.body.source)
+    
+                    .pipe(csv({ separator: ';' }))
+                    .on('error' ,function(){
+                        res.status(500).send({"status":"failed"});
+                    })
+                    .on('data', function(row){
+                        
+                        csvData.push(row);
+                    })
+                    .on('end', async function(){
+                        console.log("end of data\n");
+                        var arrayLength = csvData.length;
+                        var flag= true;
+                        for (var i = 0; i < arrayLength; i++) {
+                            // console.log(row);
+                            var pass = csvData[i];
+                            // console.log(pass.passID);
+                            var time=moment(pass.timestamp, "D/M/YYYY H:m").format("YYYY-MM-DD HH:mm:SS"); //pass.timestamp=1/1/2019 6:10
+                            const query = util.promisify(con.query).bind(con);
+                            try{ 
+                                await query(
+                                    "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
+                                    "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')" );
+                                // await con2.commit();
+                            }catch(e){
+                                console.log("failed to update [1]");
+                                console.log("error with query");
+                                console.log(e);
+                                // throw error("error with query");
+                                flag =false;
+                                break;
+                            }finally{
+                                // con.end();
+                            }
+                            
+                                
+                            };
+                        console.log("end with csv update");
+                        if(flag){
+                            res.status(200).send({"status":"ok"});
+                        }
+                        else{
+                            res.status(400).send({"status":"failed"});
                         }
                         
-                            
-                        };
-                    console.log("end with csv update");
-                    if(flag){
-                        res.status(200).send({"status":"ok"});
-                    }
-                    else{
-                        res.status(400).send({"status":"failed"});
-                    }
-                    
-                    
-                })
-                .on('error' ,function(){
-                    res.status(500).send({"status":"failed"});
-                });
+                        
+                    })
+                    ;
+                }
+            })
+
             
-    }catch(error){
+    } catch(error){
         //handle error
         console.log("failed to update [2]");
-        console.log(row);
+        console.log(error);
         res.status(500);
         res.send({"status":"failed"});
     }
