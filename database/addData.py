@@ -78,7 +78,7 @@ for i in range(len(Passes)):
     cursor.execute(sqlFormula)
     db.commit() #Save Data
 
-
+#adding users
 print("done uploading data from CSV , trying to make new default users")
 f = open("../cli/ip_address.txt","r")
 backend_computer_address = f.read()
