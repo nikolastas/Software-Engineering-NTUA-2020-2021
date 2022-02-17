@@ -16,7 +16,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+// var corsOptions = {
+// 	origin: '*'
+// 	// credentials: true,
+// 	// exposedHeaders: ["set-cookie"]
+// };
 app.use(cors());
+app.set('trust proxy', 1);
 //initialize routes
 app.use('/interoperability/api/admin', require('./routes/admin'));
 app.use('/interoperability/api/', require('./routes/endpoints'));

@@ -86,6 +86,7 @@ const Login = () => {
         </select>
         { !isPending && <button>Σύνδεση</button>}
         { isPending && <button disabled>Αναμονή...</button>}
+        <h1>Cookie : {document.cookie}</h1>
       </form>
     </div>
   );

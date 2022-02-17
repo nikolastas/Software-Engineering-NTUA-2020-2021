@@ -14,9 +14,9 @@ const useFetch = (url) => {
     setTimeout(() => {
       fetch(url, {
         signal: abortCont.signal,
-        // headers: {
-        // "Access-Control-Allow-Credentials": true
-        // },
+        headers: {
+         "Content-Type": "application/json"
+        },
         credentials: "include",
         mode: "cors"
         })
