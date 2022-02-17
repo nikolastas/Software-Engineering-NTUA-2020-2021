@@ -44,7 +44,6 @@ const Login = () => {
       console.log(setGlobalLoginToken);
       setGlobalUsername(username);
       setGlobalLoginToken(e.token);
-      document.cookie = e.token;
       console.log(globalUsername, globalLoginToken);
       console.log('after');
       setIsPending(false);

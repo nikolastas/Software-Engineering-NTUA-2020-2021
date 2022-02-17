@@ -12,7 +12,7 @@ const requireAuth = (req, res, next) =>{
     const token = req.cookies.jwt;
     
     // check if jwt exists and if is verified
-
+    console.log(req);
     if(token){
         jwt.verify(token, random.secret, (err, decodedToken)=>{
             if(err){

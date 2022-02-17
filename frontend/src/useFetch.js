@@ -10,13 +10,15 @@ const useFetch = (url) => {
   
   useEffect(() => {
     const abortCont = new AbortController();
-    console.log('Cookie should be' , document.cookie);
+    console.log(document.cookie);
     setTimeout(() => {
       fetch(url, {
         signal: abortCont.signal,
-        headers:{
-          "x-observatory-auth": globalLoginToken
-        }
+        // headers: {
+        // "Access-Control-Allow-Credentials": true
+        // },
+        credentials: "include",
+        mode: "cors"
         })
       .then(res => {
         if (!res.ok) { // error coming back from server
