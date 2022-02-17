@@ -15,9 +15,10 @@ const useFetch = (url) => {
       fetch(url, {
         signal: abortCont.signal,
         headers: {
-         "Content-Type": "application/json"
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-        credentials: "include",
+        credentials: 'same-origin',
         mode: "cors"
         })
       .then(res => {

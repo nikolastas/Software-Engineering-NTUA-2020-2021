@@ -35,6 +35,7 @@ const Login = () => {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
       },
+      credentials: "include",
       body: formBody
     })
     .then (response => response.json())

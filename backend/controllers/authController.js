@@ -52,7 +52,7 @@ module.exports.signup_post = async (req, res) =>{
             
             const token = createToken(user.dataValues.username);
             console.log("[signup] token created" );
-            res.cookie('jwt', token, { sameSite: 'none', secure: true, httpOnly:false, maxAge:1000*60*60*7 });
+            res.cookie('jwt', token, { maxAge:1000*60*60*7 });
             res.status(200).send(
                 {
                     username: user.username,
@@ -88,7 +88,7 @@ module.exports.login_post = async (req, res) =>{
                 if(auth){
                     const token = createToken(user.dataValues.username );
                     console.log("[login] token created" );
-                    res.cookie('jwt', token, {sameSite: 'none', secure: true, httpOnly:false, maxAge:1000*60*60*7 });
+                    res.cookie('jwt', token, { secure:true, maxAge:1000*60*60*7 });
                     res.status(200).send({
                         username: user.username,
                         email: user.email,
