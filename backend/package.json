@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "no",
   "version": "1.0.0",
   "description": "Περιεχόμενα:",
   "main": "index.js",
@@ -24,14 +24,16 @@
     "json2csv": "^5.0.6",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "mongoose": "^6.1.6",
     "mysql": "^2.18.1",
-    "mysql-validator": "^0.1.6",
     "mysql2": "^2.3.3",
     "sequelize": "^6.13.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\\"
   }
 }

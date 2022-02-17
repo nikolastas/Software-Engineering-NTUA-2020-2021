@@ -53,7 +53,7 @@ module.exports.signup_post = async (req, res) =>{
             const token = createToken(user.dataValues.username);
             console.log("[signup] token created" );
             res.cookie('jwt', token, { httpOnly:true, maxAge:1000*60*60*7 });
-            res.status(201).send(
+            res.status(200).send(
                 {
                     username: user.username,
                     email: user.email,
@@ -89,7 +89,7 @@ module.exports.login_post = async (req, res) =>{
                     const token = createToken(user.dataValues.username );
                     console.log("[login] token created" );
                     res.cookie('jwt', token, { httpOnly:true, maxAge:1000*60*60*7 });
-                    res.status(201).send({
+                    res.status(200).send({
                         username: user.username,
                         email: user.email,
                         typeOfUser: user.typeofuser,
@@ -105,7 +105,9 @@ module.exports.login_post = async (req, res) =>{
 
         })
     }catch(err){
+        
         console.log(err);
+        res.status(500).send("Internal Server Error")
     }
     
     
@@ -114,4 +116,30 @@ module.exports.logout_post = (req, res) =>{
     res.cookie('jwt', null, { maxAge:1});
     console.log("user logout");
     res.send('logout');
+}
+
+module.exports.change_password_post = async (req, res) =>{
+    var userName = req.body.username;
+    var new_pass = req.body.password;
+
+    try{
+        const user_who_want_to_update_pass = await  User.findOne({ 
+            where:{
+                username: userName 
+            } 
+        });
+        if (user_who_want_to_update_pass == null){
+            res.status(400).send("user with username "+ userName+ " doesnt exists in DB");
+        }
+        console.log("[changing pass] user exist and found ! user:", user_who_want_to_update_pass.username);
+        await user_who_want_to_update_pass.update({ password: new_pass});
+        await user_who_want_to_update_pass.save();
+        
+        
+        res.status(200).send("password updated");
+        // https://stackoverflow.com/questions/45314883/hash-password-on-create-and-update
+    }catch (err){
+        console.log(err);
+        res.status(400).status("internal error while updating")
+    }
 }
