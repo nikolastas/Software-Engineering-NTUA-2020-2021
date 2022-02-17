@@ -33,9 +33,10 @@ const Login = () => {
     fetch('https://localhost:9103/interoperability/api/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'withCredentials' : true
       },
-      body: formBody
+      body: formBody,
     })
     .then (response => response.json())
     .then((e) => {

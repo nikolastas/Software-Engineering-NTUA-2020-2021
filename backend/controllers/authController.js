@@ -88,6 +88,7 @@ module.exports.login_post = async (req, res) =>{
                 if(auth){
                     const token = createToken(user.dataValues.username );
                     console.log("[login] token created" );
+                    res.set('withCredentials', true);
                     res.cookie('jwt', token, {sameSite: 'none', secure: true, httpOnly:false, maxAge:1000*60*60*7 });
                     res.status(200).send({
                         username: user.username,
