@@ -11,7 +11,7 @@ const Logout = () => {
 		}
 	}) .then(e => {
 		console.log(e);
-		// history.push('/');
+		// history.push('/'); //remove this to redirect to homepage
 	});
 	return ( 
 		<div>

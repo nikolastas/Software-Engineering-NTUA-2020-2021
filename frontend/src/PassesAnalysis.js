@@ -14,7 +14,7 @@ const PassesAnalysisList = ({ data }) => {
         <th>PassCharge</th>
       </tr>
       {l.map(elem => (
-      <tr>
+      <tr key={elem.PassIndex}>
         <th>{ elem.PassIndex }</th>
         <th>{ elem.PassID }</th>
         <th>{ elem.TimeStamp }</th>
