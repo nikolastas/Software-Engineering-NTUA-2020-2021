@@ -12,7 +12,6 @@ const bodyParser = require('body-parser');
 const util = require('util');
 const { query, end } = require('../models/dbsetup');
 const { resolve } = require('path');
-// const mysql22 = require('mysql2/promise');
 
 
 
@@ -116,17 +115,6 @@ function timeout(ms) {
 }
 //Passes update endpoint
 router.post('/passesupd', isAdmin, async function(req, res){
-    
-
-    // var con2 = await mysql22.createConnection({
-    //     host: "localhost",
-    //     port: 3306,
-    //     user:"root",
-    //     password:"",
-    //     database:"softeng"
-    // });
-    // await con2.execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
-    // await con2.beginTransaction();
     console.log("trying to update from csv");
     flag = false;
     try{
