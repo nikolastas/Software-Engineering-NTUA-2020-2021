@@ -110,9 +110,7 @@ router.post('/resetpasses', isAdmin,function(req, res){
     }
 
 });
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+
 //Passes update endpoint
 router.post('/passesupd', isAdmin, async function(req, res){
     console.log("trying to update from csv");
@@ -121,6 +119,7 @@ router.post('/passesupd', isAdmin, async function(req, res){
         fs.stat(req.body.source, function(err,stat){
             if (err) {
                 console.log("failed to update [0]");
+                console.log(req.body.source);
                 res.status(500);
                 res.send({"status":"failed"});
             
@@ -194,7 +193,7 @@ router.post('/passesupd', isAdmin, async function(req, res){
 
 //Resets stations (tries to)
 router.post('/resetstations', isAdmin, function(req, res){
-    
+    console.log("trying to reset stations");
     try{
         //Removes constraints to other tables needed and truncates the table
         if(eraseRefTableHead("stations"))
