@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { LoginContext } from "./Context/LoginContext";
 
 
 const Login = () => {
@@ -9,7 +10,8 @@ const Login = () => {
   const [type, setType] = useState('Admin');
   const [isPending, setIsPending] = useState(false);
   const history = useHistory();
-
+  const {globalUsername, setGlobalUsername,
+     globalLoginToken, setGlobalLoginToken} = useContext(LoginContext);
 
 
   const handleSubmit = (e) => {
@@ -28,14 +30,22 @@ const Login = () => {
     }
     formBody = formBody.join("&");
 
-    fetch('http://localhost:9103/interoperability/api/login', {
+    fetch('https://localhost:9103/interoperability/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
       },
       body: formBody
-    }).then((e) => {
-      console.log(e);
+    })
+    .then (response => response.json())
+    .then((e) => {
+      console.log(e.token);
+      //global for the token
+      console.log(setGlobalLoginToken);
+      setGlobalUsername(username);
+      setGlobalLoginToken(e.token);
+      console.log(globalUsername, globalLoginToken);
+      console.log('after');
       setIsPending(false);
       history.push('/');
     })

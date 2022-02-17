@@ -9,11 +9,18 @@ import BlogDetails from './BlogDetails';
 import NotFound from './NotFound';
 import Data from './Data';
 import Logout from './Logout';
+import { useState } from "react";
+import { LoginContext } from './Context/LoginContext';
 
 function App() {
   const title = "SoftEng";
+  //create login state
+  const [globalUsername, setGlobalUsername] = useState(null);
+  const [globalLoginToken, setGlobalLoginToken] = useState(null);
   return (
+    
     <Router>
+      <LoginContext.Provider value={{globalUsername, setGlobalUsername, globalLoginToken, setGlobalLoginToken}}>
       <div className="App">
         <Navbar />
         <div className="content">
@@ -37,10 +44,12 @@ function App() {
               <NotFound />
             </Route>    
           </Switch>
-          
+        
         </div>
       </div>
+      </LoginContext.Provider>
     </Router>
+    
   );
 }
 

@@ -37,10 +37,10 @@ const Create = () => {
     formBody = formBody.join("&");
 
     setTimeout(() => {
-        fetch('http://localhost:9103/interoperability/api/signup', {
+        fetch('https://localhost:9103/interoperability/api/signup', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
             },
             body: formBody,
             signal: abortCont.signal

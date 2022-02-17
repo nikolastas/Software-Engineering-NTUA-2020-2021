@@ -7,10 +7,10 @@ const StationPasses = () => {
     const [dateto, setDateto ] = useState('2020-01-01');
     const [station, setStation] = useState('AO01');
 	
-	const {data , error, isPending} = useFetch(`http://localhost:9103/interoperability/api/Stations` );
+	const {data , error, isPending} = useFetch(`https://localhost:9103/interoperability/api/Stations` );
 	console.log(data);
 	
-	const {data:passdata, error:passerror, isPending:passisPending} = useFetch(`http://localhost:9103/interoperability/api/PassesPerStation/${station}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
+	const {data:passdata, error:passerror, isPending:passisPending} = useFetch(`https://localhost:9103/interoperability/api/PassesPerStation/${station}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
 	console.log(passdata);
 

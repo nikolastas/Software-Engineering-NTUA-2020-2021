@@ -9,10 +9,10 @@ const BeetweenOps = () => {
     const [op2, setOp2] = useState('egnatia');
    
 
-    const {data , error, isPending} = useFetch(`http://localhost:9103/interoperability/api/PassesAnalysis/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
+    const {data , error, isPending} = useFetch(`https://localhost:9103/interoperability/api/PassesAnalysis/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
     console.log(data, datefrom ,dateto);
-    const {data:costdata , error:costerror, isPending:costisPending} = useFetch(`http://localhost:9103/interoperability/api/PassesCost/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
+    const {data:costdata , error:costerror, isPending:costisPending} = useFetch(`https://localhost:9103/interoperability/api/PassesCost/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
     console.log(costdata);
     console.log(costerror);

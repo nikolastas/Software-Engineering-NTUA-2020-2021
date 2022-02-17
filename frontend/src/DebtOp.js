@@ -8,7 +8,7 @@ const DebtOp = () => {
     const [dateto, setDateto ] = useState('2020-01-01');
     const [op1, setOp1] = useState('aodos');
 	
-	const {data , error, isPending} = useFetch(`http://localhost:9103/interoperability/api/ChargesBy/${op1}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
+	const {data , error, isPending} = useFetch(`https://localhost:9103/interoperability/api/ChargesBy/${op1}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 	
 	return ( 
 		<div>
