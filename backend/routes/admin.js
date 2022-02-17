@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 const util = require('util');
 const { query, end } = require('../models/dbsetup');
 const { resolve } = require('path');
-const mysql22 = require('mysql2/promise');
+// const mysql22 = require('mysql2/promise');
 
 
 
@@ -118,15 +118,15 @@ function timeout(ms) {
 router.post('/passesupd', isAdmin, async function(req, res){
     
 
-    var con2 = await mysql22.createConnection({
-        host: "localhost",
-        port: 3306,
-        user:"root",
-        password:"",
-        database:"softeng"
-    });
-    await con2.execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
-    await con2.beginTransaction();
+    // var con2 = await mysql22.createConnection({
+    //     host: "localhost",
+    //     port: 3306,
+    //     user:"root",
+    //     password:"",
+    //     database:"softeng"
+    // });
+    // await con2.execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
+    // await con2.beginTransaction();
     console.log("trying to update from csv");
     flag = false;
     try{
@@ -147,18 +147,21 @@ router.post('/passesupd', isAdmin, async function(req, res){
                         var pass = csvData[i];
                         // console.log(pass.passID);
                         var time=moment(pass.timestamp, "D/M/YYYY H:m").format("YYYY-MM-DD HH:mm:SS"); //pass.timestamp=1/1/2019 6:10
-                        
+                        const query = util.promisify(con.query).bind(con);
                         try{ 
-                            await con2.execute(
+                            await query(
                                 "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
                                 "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')" );
-                            await con2.commit();
+                            // await con2.commit();
                         }catch(e){
                             console.log("failed to update [1]");
                             console.log("error with query");
+                            console.log(e);
                             // throw error("error with query");
                             flag =false;
                             break;
+                        }finally{
+                            // con.end();
                         }
                         
                             
