@@ -17,7 +17,7 @@ const useFetch = (url) => {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'set-cookie':[document.cookie],
+          'Set-Cookie':[document.cookie],
         },
         credentials: "include",
         mode: "cors",
