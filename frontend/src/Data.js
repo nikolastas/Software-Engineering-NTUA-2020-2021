@@ -9,7 +9,7 @@ const Data = () => {
     const {globalUsername, setGlobalUsername,
         globalLoginToken, setGlobalLoginToken} = useContext(LoginContext);
     return ( 
-        <div>
+        <div className="Data">
         {!globalUsername && <p>Πρέπει να συνδεθείς για να δεις αυτή τη σελίδα</p>}
         {globalUsername &&  <div>
                 <form>
