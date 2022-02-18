@@ -79,7 +79,7 @@ def test_passesanalysis(op1,op2,datefrom,dateto,format):
 	out, err, exitcode = capture(command)
 	assert exitcode == 0
 	assert b"200" in out
-	print("passesanalysis")
+	print("passesanalysis ok")
 test_passesanalysis("aodos","egnatia","20190301","20190601","csv")
 
 def test_passescost(op1,op2,datefrom,dateto,format):
@@ -87,7 +87,7 @@ def test_passescost(op1,op2,datefrom,dateto,format):
 	out, err, exitcode = capture(command)
 	assert exitcode == 0
 	assert b"200" in out
-	print("passescost")
+	print("passescost ok")
 test_passesanalysis("aodos","egnatia","20190301","20190601","csv")
 def test_logout():
 	command = ["./logout"]
