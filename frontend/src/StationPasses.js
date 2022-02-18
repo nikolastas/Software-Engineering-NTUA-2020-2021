@@ -15,9 +15,9 @@ const StationPasses = () => {
 	console.log(passdata);
 
 	return ( 
-		 <div>
+		 <div className="StationPasses">
 			{data && 
-			<form className ="form-inline" className="center">
+			<form className="selectors">
 				<label>Station</label>
 				<select
 				value={station}
@@ -39,8 +39,10 @@ const StationPasses = () => {
 
 			{passdata && 
 			<div>
+				<div className="headings">
 				<h3>Station : { station }</h3>
 				<h3>Total profit : { passdata.PassesList.reduce((prev, elem) => elem.PassCharge + prev, 0) } € </h3>
+				</div>
 				<table className="container">
 					<tr>
 						<th><h1>PassIndex</h1></th>

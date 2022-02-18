@@ -11,8 +11,8 @@ const DebtOp = () => {
 	const {data , error, isPending} = useFetch(`https://localhost:9103/interoperability/api/ChargesBy/${op1}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 	
 	return ( 
-		<div>
-			<form className ="form-inline" className="center">
+		<div className="DebtOp">
+			<form className ="selectors" className="center">
 				<label>Operator</label>
 				<select
 				value={op1}
@@ -33,10 +33,9 @@ const DebtOp = () => {
 				<input type="date" 
 				required value = {dateto} onChange={(e) => setDateto(e.target.value)}/>
 			</form>
-
-			{data && <div className="DebtOpList">
-			<h3>Total Profit from All Passes : {data.PPOList.reduce((prev, elem) => elem.PassesCost + prev, 0)}</h3>
-
+				{data && <div className="DebtOpList">
+				<h3>Total Profit from All Passes : {data.PPOList.reduce((prev, elem) => elem.PassesCost + prev, 0)}</h3>
+			
 			<table className="container">
 			<tr>
 				<th><h1>Visiting Operator</h1></th>

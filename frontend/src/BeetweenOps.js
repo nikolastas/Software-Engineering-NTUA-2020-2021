@@ -19,50 +19,53 @@ const BeetweenOps = () => {
 
 	
 	return (
-		<div className="custom-select">
-			<form className="dropdown-select">
-				<label>Operator from</label>
-				<select
-				value={op1}
-				onChange={(e) => setOp1(e.target.value)}
-				>
-					<option value="aodos">aodos</option>
-					<option value="egnatia">egnatia</option>
-					<option value="gefyra">gefyra</option>
-					<option value="kentriki_odos">kentriki_odos</option>
-					<option value="moreas">moreas</option>
-					<option value="nea_odos">nea_odos</option>
-					<option value="olympia_odos">olympia_odos</option>
-				</select>
-				<label>Operator to</label>
-				<select
-				value={op2}
-				onChange={(e) => setOp2(e.target.value)}
-				>
-					<option value="aodos">aodos</option>
-					<option value="egnatia">egnatia</option>
-					<option value="gefyra">gefyra</option>
-					<option value="kentriki_odos">kentriki_odos</option>
-					<option value="moreas">moreas</option>
-					<option value="nea_odos">nea_odos</option>
-					<option value="olympia_odos">olympia_odos</option>
-				</select>
-				<label>Ημερομηνία από</label>
-				<input type="date" 
-				required value = {datefrom} onChange={(e) => setDatefrom(e.target.value)}/>
-					<label>Ημερομηνία εώς</label>
-				<input type="date" 
-				required value = {dateto} onChange={(e) => setDateto(e.target.value)}/>
-			</form>
-			<div>
+		<div className="BeetweenOps">
+			<div className="selectors">
+				<form>
+					<label>Operator from</label>
+					<select
+					value={op1}
+					onChange={(e) => setOp1(e.target.value)}
+					>
+						<option value="aodos">aodos</option>
+						<option value="egnatia">egnatia</option>
+						<option value="gefyra">gefyra</option>
+						<option value="kentriki_odos">kentriki_odos</option>
+						<option value="moreas">moreas</option>
+						<option value="nea_odos">nea_odos</option>
+						<option value="olympia_odos">olympia_odos</option>
+					</select>
+					<label>Operator to</label>
+					<select
+					value={op2}
+					onChange={(e) => setOp2(e.target.value)}
+					>
+						<option value="aodos">aodos</option>
+						<option value="egnatia">egnatia</option>
+						<option value="gefyra">gefyra</option>
+						<option value="kentriki_odos">kentriki_odos</option>
+						<option value="moreas">moreas</option>
+						<option value="nea_odos">nea_odos</option>
+						<option value="olympia_odos">olympia_odos</option>
+					</select>
+					<label>Ημερομηνία από</label>
+					<input type="date" 
+					required value = {datefrom} onChange={(e) => setDatefrom(e.target.value)}/>
+						<label>Ημερομηνία εώς</label>
+					<input type="date" 
+					required value = {dateto} onChange={(e) => setDateto(e.target.value)}/>
+				</form>
+			</div>
+			<div className="headings">
 				<h3>Passes between {op1}-{op2}</h3>
 				{ costdata && <p>number of passes: { costdata.NumberOfPasses }</p>}
 				<br />
 				<h3>Cost of Passes between {op1}-{op2}</h3>
 				{ costdata && <p>number of passes: { costdata.PassesCost } € </p>}
 				<br />
-				{ data && <PassesAnalysisList data={ data } /> }
 			</div>
+				{ data && <PassesAnalysisList data={ data } /> }
+			
 		</div>
 	);
 }
