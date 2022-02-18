@@ -273,7 +273,9 @@ router.post('/resetvehicles', isAdmin, async function(req, res){
                     }
                 })
                 .on('end', function(){
-                    console.log("end of data\n");
+                    if(process.env.NODE_ENV !== 'test'){
+                        console.log("end of data\n");
+                    }
                 });
 
                 if(!eraseRefTableTail("vehicles")){
