@@ -15,10 +15,7 @@ const Navbar = () => {
                 <Link to="/create">Εγγραφή</Link>
                 <Link to="/data">Διελεύσεις</Link>
                 <Link to="/logout">Log out</Link>
-                
-            </div>
-            <div>
-            {globalUsername && <h3>Hello {globalUsername}</h3>}
+                {globalUsername && <a>Καλώς ορίσατε, {globalUsername}</a>}
             </div>
         </nav>
     );

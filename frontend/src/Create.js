@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-
+import { LoginContext } from "./Context/LoginContext";
+import {  useContext } from "react";
 
 
 const Create = () => {
@@ -13,6 +14,9 @@ const Create = () => {
 
     const [data,setData] = useState(null);
     const [error, setError] = useState(null);
+
+    const {globalUsername, setGlobalUsername,
+      globalLoginToken, setGlobalLoginToken} = useContext(LoginContext);
 
 
   const handleSubmit = (e) => {
@@ -46,9 +50,19 @@ const Create = () => {
             body: formBody,
             signal: abortCont.signal
         }
-        )
+        ).then (response => response.json())
+        .then((e) => {
+          console.log(e.token);
+          //global for the token
+          console.log(setGlobalLoginToken);
+          setGlobalUsername(username);
+          setGlobalLoginToken(e.token);
+          console.log(globalUsername, globalLoginToken);
+          console.log('after');
+          history.push('/');
+        })
     }, 1000);
-    history.push('/');
+    
 }
 
   return (

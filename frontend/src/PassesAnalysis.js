@@ -4,7 +4,7 @@ const PassesAnalysisList = ({ data }) => {
   const l = data.PassesList;
   return (
     <div className="PassesAnalysisList">
-      <table>
+      <table className="analysis">
       <tr>
         <th>PassIndex</th>
         <th>PassID</th>

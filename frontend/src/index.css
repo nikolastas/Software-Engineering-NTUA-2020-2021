@@ -179,3 +179,27 @@
     align-items: stretch;
   }
 }
+
+
+#analysis {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#analysis td, #analysis th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#analysis tr:nth-child(even){background-color: #f2f2f2;}
+
+#analysis tr:hover {background-color: #ddd;}
+
+#analysis th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}

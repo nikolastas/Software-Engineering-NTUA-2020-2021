@@ -41,7 +41,7 @@ const StationPasses = () => {
 			<div>
 				<h3>Station : { station }</h3>
 				<h3>Total profit : { passdata.PassesList.reduce((prev, elem) => elem.PassCharge + prev, 0) } € </h3>
-				<table>
+				<table className='dataTable'>
 					<tr>
 						<th>PassIndex</th>
 						<th>PassID</th>
