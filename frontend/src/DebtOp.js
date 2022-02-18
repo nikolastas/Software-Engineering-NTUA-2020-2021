@@ -12,7 +12,7 @@ const DebtOp = () => {
 	
 	return ( 
 		<div className="DebtOp">
-			<form className ="selectors" className="center">
+			<form className ="selectors">
 				<label>Operator</label>
 				<select
 				value={op1}
@@ -34,8 +34,9 @@ const DebtOp = () => {
 				required value = {dateto} onChange={(e) => setDateto(e.target.value)}/>
 			</form>
 				{data && <div className="DebtOpList">
+				<div className="headings">
 				<h3>Total Profit from All Passes : {data.PPOList.reduce((prev, elem) => elem.PassesCost + prev, 0)}</h3>
-			
+				</div>
 			<table className="container">
 			<tr>
 				<th><h1>Visiting Operator</h1></th>

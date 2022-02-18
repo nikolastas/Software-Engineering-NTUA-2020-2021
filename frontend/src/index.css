@@ -261,8 +261,8 @@ transition-timing-function: line;
   position: static;
   max-width: 100%;
   display:block;
-  padding-left: 50%;
- margin-left: -400px;
+  margin-left: 80%;
+  padding-top: 20px;
 }
 
 .globaldataForm select {
@@ -335,15 +335,57 @@ transition-timing-function: line;
 .headings{
   text-align: center;
   width: 50%;
-  padding: 20px;
   margin: auto;
   position: static;
 }
 
 .selectors{
  position: static;
- display: block;
- width: 55%;
+ display: table;
  margin: auto;
  padding: 30px;
+}
+
+.selectors select{
+  border: solid 1px #ddd;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 10px;
+}
+.selectors input{
+  border-radius: 10px;
+  padding: 5px;
+  margin: 10px;
+}
+
+/* Removes the clear button from date inputs */
+.selectors input[type="date"]::-webkit-clear-button {
+  display: none;
+}
+
+/* Removes the spin button */
+.selectors  input[type="date"]::-webkit-inner-spin-button { 
+  display: none;
+}
+
+/* Always display the drop down caret */
+.selectors input[type="date"]::-webkit-calendar-picker-indicator {
+  color: #2c3e50;
+}
+
+/* A few custom styles for date inputs */
+.selectors input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  border: solid 1px #ddd;
+  border-radius: 10px ;
+  padding:5px;
+  display: inline-block !important;
+  visibility: visible !important;
+}
+
+.selectors input[type="date"], focus {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 }
