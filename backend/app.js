@@ -16,13 +16,30 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-var corsOptions = {
-	origin: 'http://localhost:3000',
-	credentials: true,
-	exposedHeaders: ["set-cookie"]
-};
-app.use(cors(corsOptions));
-app.set('trust proxy', 1);
+// var corsOptions = {
+// 	origin: '*'
+// 	// credentials: true,
+// 	// exposedHeaders: ["set-cookie"]
+// };
+app.use(cors({credentials: true, origin: 'https://localhost:3000'}));
+// app.use(function (req, res, next) {
+
+//     // Website you wish to allow to connect
+//     res.setHeader('Access-Control-Allow-Origin', 'https://localhost:3000');
+
+//     // Request methods you wish to allow
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+//     // Request headers you wish to allow
+//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+//     // Set to true if you need the website to include cookies in the requests sent
+//     // to the API (e.g. in case you use sessions)
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+
+//     // Pass to next layer of middleware
+//     next();
+// });
 //initialize routes
 app.use('/interoperability/api/admin', require('./routes/admin'));
 app.use('/interoperability/api/', require('./routes/endpoints'));

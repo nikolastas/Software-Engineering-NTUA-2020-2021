@@ -15,9 +15,13 @@ const useFetch = (url) => {
       fetch(url, {
         signal: abortCont.signal,
         headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Set-Cookie':[document.cookie],
         },
-        credentials: 'include'
-        // mode: "cors"
+        credentials: "include",
+        mode: "cors",
+        
         })
       .then(res => {
         if (!res.ok) { // error coming back from server
