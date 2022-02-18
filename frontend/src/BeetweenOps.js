@@ -20,7 +20,7 @@ const BeetweenOps = () => {
 	
 	return (
 		<div>
-			<form className ="form-inline" className="center">
+			<form className="dropdown-select">
 				<label>Operator from</label>
 				<select
 				value={op1}

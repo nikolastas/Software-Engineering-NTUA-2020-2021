@@ -37,11 +37,11 @@ const DebtOp = () => {
 			{data && <div className="DebtOpList">
 			<h3>Total Profit from All Passes : {data.PPOList.reduce((prev, elem) => elem.PassesCost + prev, 0)}</h3>
 
-			<table className='dataTable'>
+			<table className="container">
 			<tr>
-				<th>Visiting Operator</th>
-				<th>Number Of Passes</th>
-				<th>PassesCost</th>
+				<th><h1>Visiting Operator</h1></th>
+				<th><h1>Number Of Passes</h1></th>
+				<th><h1>PassesCost</h1></th>
 			</tr>
 			{data.PPOList.map(elem => (
 			<tr>

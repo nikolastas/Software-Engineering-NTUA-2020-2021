@@ -12,7 +12,7 @@ const Data = () => {
         <div className="Data">
         {!globalUsername && <p>Πρέπει να συνδεθείς για να δεις αυτή τη σελίδα</p>}
         {globalUsername &&  <div>
-                <form>
+                <form className="globaldataForm">
                 <select
                 value={selector}
                 onChange={(e) => setSelector(e.target.value)}

@@ -41,15 +41,15 @@ const StationPasses = () => {
 			<div>
 				<h3>Station : { station }</h3>
 				<h3>Total profit : { passdata.PassesList.reduce((prev, elem) => elem.PassCharge + prev, 0) } € </h3>
-				<table className='dataTable'>
+				<table className="container">
 					<tr>
-						<th>PassIndex</th>
-						<th>PassID</th>
-						<th>PassTimeStamp</th>
-						<th>VehicleID</th>
-						<th>TagProvider</th>
-						<th>PassType</th>
-						<th>PassCharge</th>
+						<th><h1>PassIndex</h1></th>
+						<th><h1>PassID</h1></th>
+						<th><h1>PassTimeStamp</h1></th>
+						<th><h1>VehicleID</h1></th>
+						<th><h1>TagProvider</h1></th>
+						<th><h1>PassType</h1></th>
+						<th><h1>PassCharge</h1></th>
 					</tr>
 					{passdata.PassesList.map(elem => (
 					<tr>
