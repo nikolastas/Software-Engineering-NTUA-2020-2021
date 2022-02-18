@@ -19,7 +19,7 @@ const BeetweenOps = () => {
 
 	
 	return (
-		<div>
+		<div className="custom-select">
 			<form className="dropdown-select">
 				<label>Operator from</label>
 				<select
