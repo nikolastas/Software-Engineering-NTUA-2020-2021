@@ -8,6 +8,7 @@
 }
 .navbar {
   padding: 30px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   /* max-width: 600px; */
@@ -126,9 +127,9 @@
 
 
 /* Style the form - display items horizontally */
-.data{
+.Data{
   align-items: center;
-  position: relative;
+  position: static;
 }
 
 .form-inline {
@@ -257,11 +258,11 @@ transition-timing-function: line;
 
 /* Custom dropdown */
 .globaldataForm {
-  position: absolute;
-  left: 80%;
-  display: inline-block;
-  vertical-align: center;
-  margin: 10px; /* demo only */
+  position: static;
+  max-width: 100%;
+  display:block;
+  padding-left: 50%;
+ margin-left: -400px;
 }
 
 .globaldataForm select {
@@ -281,7 +282,6 @@ transition-timing-function: line;
 .globaldataForm::before,
 .globaldataForm::after {
   content: "";
-  position: absolute;
   pointer-events: none;
 }
 
@@ -323,12 +323,12 @@ transition-timing-function: line;
 
 
 .BeetweenOps{
-  position: absolute;
+  position: static;
   top: 20%;
   width: 100%;
 }
 .StationPasses{
-  position: absolute;
+  position: static;
   top: 20%;
   width: 100%;
 }
@@ -337,11 +337,11 @@ transition-timing-function: line;
   width: 50%;
   padding: 20px;
   margin: auto;
-  position: relative;
+  position: static;
 }
 
 .selectors{
- position: relative;
+ position: static;
  display: block;
  width: 55%;
  margin: auto;
