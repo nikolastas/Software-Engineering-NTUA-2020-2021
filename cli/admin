@@ -38,11 +38,7 @@ def change_pass(username, newpassword):
     response = requests.post(url,data=data, cookies=cookie, verify='../cert/CA/CA.pem')
     print("status code= ",response.status_code)
     if(response.status_code == 200):
-        print(response.json())
-        cookies = response.cookies.get_dict()
-        f= open("cookie.txt","w+")
-        f.write(cookies['jwt'])
-        f.close
+        print(response.text)
     else:
         print("Error")
         print(response.text)
