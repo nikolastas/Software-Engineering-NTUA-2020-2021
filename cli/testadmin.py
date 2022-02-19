@@ -2,7 +2,6 @@ import subprocess
 import os
 from pathlib import Path
 
-
 def capture(command):
 	proc = subprocess.Popen(command,
 		stdout = subprocess.PIPE,
@@ -19,8 +18,6 @@ def test_valid_login(username,password):
 	assert b"200" in out
 	print("valid login")
 
-test_valid_login("paris123","Paris123")
-
 
 def changepassword(username,password):
     command = ["./admin", "--usermod","--username", username, "-p", password]
@@ -29,7 +26,7 @@ def changepassword(username,password):
     assert exitcode == 0
     assert b"200" in out
     print("changepassword ok")
-#changepassword("paris123","neyra33")
+
 
 def testsignup(username,password,type,email):
 	command = ["./admin", "--usermod","--username", username, "-p", password, "--typeofuser", type, "-e", email]
@@ -38,7 +35,7 @@ def testsignup(username,password,type,email):
 	assert exitcode == 0
 	assert b"200" in out
 	print ("signup ok")
-#testsignup("danae","Danaealani2004","admin","danae@google.gr")
+
 
 def passesupd(source):
 	command = ["./admin", "--passesupd","--source", source]
@@ -47,7 +44,7 @@ def passesupd(source):
 	#assert exitcode == 0
 	assert b"200" in out
 	print("passesupd ok")
-passesupd("./../backend/defaults/passes_full_original.csv")
+
 
 def testshowusername():
 	command = ["./admin", "--users"]
@@ -56,4 +53,10 @@ def testshowusername():
 	#assert exitcode == 0
 	assert b"200" in out
 	print("users ok")
+
+#running the cli-testing 
+test_valid_login("paris123","Paris123")
+#changepassword("paris123","neyra33")
+#testsignup("danae","Danaealani2004","admin","danae@google.gr")
+passesupd("./../backend/defaults/passes_full_original.csv")
 testshowusername()
