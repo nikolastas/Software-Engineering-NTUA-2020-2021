@@ -30,11 +30,30 @@ def changepassword(username,password):
     assert b"200" in out
     print("usermod ok")
 changepassword("paris123","Paris123")
+
 def testsignup(username,password,type,email):
-    print ("signup ok")
+	command = ["./admin", "--usermod","--username", username, "-p", password, "--typeofuser", type, "-e", email]
+	out, err, exitcode = capture(command)
+	assert os.path.exists('cookie.txt')
+	assert exitcode == 0
+	assert b"200" in out
+	print ("signup ok")
+testsignup("danae","Danaealani2004","admin","danae@google.gr")
 
 def passesupd(source):
-    print("passesupd ok")
+	command = ["./admin", "passesupd","--source", source]
+	out, err, exitcode = capture(command)
+	assert os.path.exists('cookie.txt')
+	assert exitcode == 0
+	assert b"200" in out
+	print("passesupd ok")
+passesupd("C:/Users/nataly/try/backend/defaults/passes_full_original.csv")
 
 def testshowusername():
-    print("users ok")
+	command = ["./admin", "--users"]
+	out, err, exitcode = capture(command)
+	assert os.path.exists('cookie.txt')
+	assert exitcode == 0
+	assert b"200" in out
+	print("users ok")
+testshowusername()

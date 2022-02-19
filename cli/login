@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+from pickle import TRUE
 import requests
 import json
 
@@ -25,6 +26,7 @@ def login(username, password):
     f= open("cookie.txt","w+")
     f.write(cookies['jwt'])
     f.close
+    
 
 
 
