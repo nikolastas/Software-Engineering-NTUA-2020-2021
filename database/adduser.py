@@ -1,32 +1,21 @@
-import pymysql
+import requests
 import sys
 import pandas as pd
 
-try:
-    db = pymysql.connect(
-        user="root",
-        password="",
-        host="localhost",
-        port=3306,
-        database="softeng"
 
-    )
-except pymysql.Error as e:
-    print(f"Error connecting to mysql Platform: {e}")
-    sys.exit(1)
-
-name2abbr={"aodos":"AO",
-"egnatia":"EG",
-"gefyra":"GF",
-"kentriki_odos":"KO",
-"moreas":"MR",
-"nea_odos":"NE",
-"olympia_odos":"OO"
-}
-cursor = db.cursor()
-def add(username , password, email, provider , id):
-    sqlFormula = """INSERT INTO users (Providername, username, password, userID, email, Providerabbr) 
-                    VALUES ('{}','{}','{}','{}', '{}','{}')""".format(provider, username, password, id, email, name2abbr[provider])
-    cursor.execute(sqlFormula)
-    db.commit()
-add("admin","softeng","admin@softeng.com","aodos",0)
+print("done uploading data from CSV , trying to make new default users")
+f = open("../cli/ip_address.txt","r")
+backend_computer_address = f.read()
+f.close()
+def usermod (username, password, typeofuser, email):
+    data = {'username': username, 'password':password, 'typeOfUser':typeofuser, 'email':email}
+    url = 'https://'+backend_computer_address+':9103/interoperability/api/signup'
+    response = requests.post(url,data=data, verify=False)
+    print("status code= ",response.status_code)
+    if(response.status_code == 200):
+        print("successfuly done adding user:", username)
+    else:
+        print("error with user:", username)
+        print(response.text)
+usermod ("admin", "Softeng2022", "admin", "admin@softeng.com")
+usermod ("user", "Softeng2022", "user", "admin@softeng.com")

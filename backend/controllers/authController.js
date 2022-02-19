@@ -53,7 +53,7 @@ module.exports.signup_post = async (req, res) =>{
             const token = createToken(user.dataValues.username);
             console.log("[signup] token created" );
             res.cookie('jwt', token, { httpOnly:true, maxAge:1000*60*60*7 });
-            res.status(201).send(
+            res.status(200).send(
                 {
                     username: user.username,
                     email: user.email,

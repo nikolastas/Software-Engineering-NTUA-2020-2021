@@ -1,0 +1,20 @@
+{
+  "name": "test-backend",
+  "version": "1.0.0",
+  "description": "Περιεχόμενα:",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.17.2",
+    "jest": "^27.5.1",
+    "supertest": "^6.2.2"
+  },
+  "dependencies": {
+    "syswide-cas": "^5.3.0"
+  }
+}
