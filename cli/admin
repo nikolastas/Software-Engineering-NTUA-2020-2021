@@ -42,7 +42,8 @@ def change_pass(username, newpassword):
     else:
         print("Error")
         print(response.text)
-    
+file =  open('cookie.txt', 'r')
+data = file.read().replace('\n', '')   
 def users ():
     f = open("cookie.txt","r")
     cookie = {'jwt': f.read()}
@@ -60,8 +61,6 @@ def users ():
         print("Error")
         print(response.text)
 def passesupd(source):
-    print("SOMETHING", source)
-    #EDO GRAFOYME
     f = open("cookie.txt","r")
     cookie = {'jwt': f.read()}
     f.close()
