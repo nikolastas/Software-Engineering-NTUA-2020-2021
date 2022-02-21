@@ -6,6 +6,20 @@ const request = require("supertest");
 const app = require("../../backend/app");
 var jwt;
 
+function getCookie(name, response) {
+  var ca = (response.headers['set-cookie'].toString().split(';'));
+  // console.log("ca= ",ca);
+  var nameEQ = 'jwt' + "=";
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    // console.log("i= ",i, " c= ", c, "type of c= ", typeof(c));
+    c = c.split('=');
+    cookie_name = c[0];
+    cookie_value = c[1];
+    if(cookie_name == name && cookie_value !== 'j%3Anull' ) return cookie_value;
+    else if (i == ca.length-1 || cookie_value == 'j%3Anull') return null;
+  }
+}
 
 describe("PassesCost, [data or no data | csv or json]", () => {
     test("PassesCost 400 status, access denied user not logged in [csv]", done => {
@@ -30,13 +44,8 @@ describe("PassesCost, [data or no data | csv or json]", () => {
                 expect(response.statusCode).toBe(200);
                 expect(response.body.token).toBeTruthy();
                 var ca = (response.headers['set-cookie'].toString().split(';'));
-                var nameEQ = 'jwt' + "=";
-                // const jwt;
-                for(var i=0;i < ca.length;i++) {
-                  var c = ca[i];
-                  while (c.charAt(0)==' ') c = c.substring(1,c.length);
-                  if (c.indexOf(nameEQ) == 0) jwt = c.substring(nameEQ.length,c.length);
-                }
+                jwt = getCookie("jwt", response);
+                expect(jwt).not.toBeNull();
                 done();
               });
           });

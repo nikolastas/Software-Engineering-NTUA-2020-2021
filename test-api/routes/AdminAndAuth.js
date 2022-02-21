@@ -3,18 +3,26 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const { response } = require("express");
 const request = require("supertest");
 const app = require("../../backend/app");
-const https = require('https');
 
 var jwt;
 function getCookie(name, response) {
-        
-  return response.headers['set-cookie'].name;
+  var ca = (response.headers['set-cookie'].toString().split(';'));
+  // console.log("ca= ",ca);
+  var nameEQ = 'jwt' + "=";
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    // console.log("i= ",i, " c= ", c, "type of c= ", typeof(c));
+    c = c.split('=');
+    cookie_name = c[0];
+    cookie_value = c[1];
+    if(cookie_name == name && cookie_value !== 'j%3Anull' ) return cookie_value;
+    else if (i == ca.length-1 || cookie_value == 'j%3Anull') return null;
+  }
 }
 describe("Admin Testing, [login, healthcheck, reset]",  () => {
   test("[unauthorised] Resets all passes",  done => {
     request(app)
       .post("/interoperability/api/admin/resetpasses", )
-      .set("Cookie", ['jwt='+jwt])
       .then(response => {
         expect(response.statusCode).toBe(400);
         done();
@@ -30,15 +38,10 @@ describe("Admin Testing, [login, healthcheck, reset]",  () => {
       .send(user)
       .then(response => {
         expect(response.statusCode).toBe(200);
-        expect(response.body.token).toBeTruthy();
-        var ca = (response.headers['set-cookie'].toString().split(';'));
-        var nameEQ = 'jwt' + "=";
-        // const jwt;
-        for(var i=0;i < ca.length;i++) {
-          var c = ca[i];
-          while (c.charAt(0)==' ') c = c.substring(1,c.length);
-          if (c.indexOf(nameEQ) == 0) jwt = c.substring(nameEQ.length,c.length);
-        }
+        
+        jwt = getCookie("jwt", response);
+        expect(jwt).not.toBeNull();
+        console.log(jwt);
         done();
       });
   });
@@ -59,8 +62,9 @@ test("Logout from user", done => {
     .then(response => {
       
       expect(response.statusCode).toBe(200);
-      console.log(getCookie(jwt, response));
-      jwt = getCookie(jwt, response);
+      jwt = getCookie("jwt", response);
+      expect(jwt).toBeNull();
+      console.log(jwt);
       done();
     });
 });
@@ -69,22 +73,15 @@ test("Logout from user", done => {
   test("Login as admin [system default]", done => {
     const user = {
       username: "admin",
-      password: "Softeng2022"
+      password: "Softeng2023"
     };
     request(app)
       .post("/interoperability/api/login")
       .send(user)
       .then(response => {
         expect(response.statusCode).toBe(200);
-        expect(response.body.token).toBeTruthy();
-        var ca = (response.headers['set-cookie'].toString().split(';'));
-                var nameEQ = 'jwt' + "=";
-                // const jwt;
-                for(var i=0;i < ca.length;i++) {
-                  var c = ca[i];
-                  while (c.charAt(0)==' ') c = c.substring(1,c.length);
-                  if (c.indexOf(nameEQ) == 0) jwt = c.substring(nameEQ.length,c.length);
-                }
+        jwt = getCookie("jwt", response);
+        expect(jwt).not.toBeNull();
         done();
       });
   });
