@@ -1,13 +1,11 @@
 import { useState, useContext } from "react";
-import useFetch from "./useFetch";
 import DebtOp from "./DebtOp";
 import StationPasses from "./StationPasses";
 import BeetweenOps from "./BeetweenOps";
 import { LoginContext } from "./Context/LoginContext";
 const Data = () => {
     const [selector, setSelector] = useState('0');
-    const {globalUsername, setGlobalUsername,
-        globalLoginToken, setGlobalLoginToken} = useContext(LoginContext);
+    const {globalUsername} = useContext(LoginContext);
     return ( 
         <div className="Data">
         {!globalUsername && <p>Πρέπει να συνδεθείς για να δεις αυτή τη σελίδα</p>}
@@ -26,7 +24,6 @@ const Data = () => {
             <div>
                 <BeetweenOps />
             </div>}
-            {/* Casse == 2 */}
             { selector ==='2' &&
             <div>
                 <DebtOp />

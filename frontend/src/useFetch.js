@@ -1,12 +1,9 @@
-import { useState, useEffect, useContext } from 'react';
-import { LoginContext } from "./Context/LoginContext";
+import { useState, useEffect} from 'react';
 
 const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(true);
   const [error, setError] = useState(null);
-  const {globalUsername, setGlobalUsername,
-    globalLoginToken, setGlobalLoginToken} = useContext(LoginContext);
   
   useEffect(() => {
     const abortCont = new AbortController();
@@ -25,6 +22,7 @@ const useFetch = (url) => {
         })
       .then(res => {
         if (!res.ok) { // error coming back from server
+          setData(null);
           throw Error('could not fetch the data for that resource');
         } 
         return res.json();

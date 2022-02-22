@@ -1,11 +1,8 @@
-
-
 import Navbar from './Navbar';
 import Home from './Home';
 import { BrowserRouter as Router , Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import Create from './Create';
-import BlogDetails from './BlogDetails';
 import NotFound from './NotFound';
 import Data from './Data';
 import Logout from './Logout';

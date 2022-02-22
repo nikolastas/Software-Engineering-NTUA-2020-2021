@@ -5,9 +5,7 @@ import { LoginContext } from "./Context/LoginContext";
 
 const Login = () => {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [type, setType] = useState('Admin');
   const [isPending, setIsPending] = useState(false);
   const history = useHistory();
   const {globalUsername, setGlobalUsername,
@@ -63,7 +61,6 @@ const Login = () => {
       history.push('/');
     })
     .catch(async res => {
-      console.log('MPHKA EDW PERA');
       let response = await res.json();
       console.log(response.failmsg);
       
@@ -87,12 +84,6 @@ const Login = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        {/* <label>Email</label>
-        <input 
-          type="email" 
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        /> */}
         <label>Password</label>
         <input
           type="password"
@@ -100,14 +91,7 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         ></input>
-        {/* <label>Συνδέσου ως:</label>
-        <select
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-        >
-          <option value="Admin">Admin</option>
-          <option value="User">User</option>
-        </select> */}
+        
         {errmsg && <p className="errormsg">{errmsg}</p>}
         { !isPending && <button>Σύνδεση</button>}
         { isPending && <button disabled>Αναμονή...</button>}

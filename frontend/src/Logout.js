@@ -5,8 +5,8 @@ import {  useContext } from "react";
 
 const Logout = () => {
 	const history = useHistory();
-	const {globalUsername, setGlobalUsername,
-		globalLoginToken, setGlobalLoginToken} = useContext(LoginContext);
+	const {setGlobalUsername,
+		setGlobalLoginToken} = useContext(LoginContext);
 
 	let res = null;
 	fetch('https://localhost:9103/interoperability/api/logout', {
@@ -16,7 +16,8 @@ const Logout = () => {
 		'withCredentials' : true
 		},
 		credentials: "include"
-	}) .then(e => {
+	})
+	.then(e => {
 		console.log(e);
 		//set logged in globalState to null
 		setGlobalUsername(null);
@@ -25,7 +26,7 @@ const Logout = () => {
 	});
 	return ( 
 		<div>
-			{res && <h1>Error </h1>}
+			{res && <h1> Error </h1>}
 		</div>
 		
 	 );

@@ -9,14 +9,14 @@ const BeetweenOps = () => {
     const [op2, setOp2] = useState('egnatia');
    
 
-    const {data , error, isPending} = useFetch(`https://localhost:9103/interoperability/api/PassesAnalysis/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
+    const {data, error} = useFetch(`https://localhost:9103/interoperability/api/PassesAnalysis/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
     console.log(data, datefrom ,dateto);
-    const {data:costdata , error:costerror, isPending:costisPending} = useFetch(`https://localhost:9103/interoperability/api/PassesCost/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
+    const {data:costdata , error:costerror} = useFetch(`https://localhost:9103/interoperability/api/PassesCost/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
 
     console.log(costdata);
     console.log(costerror);
-
+	console.log('data = ', data, 'error = ', error);
 	
 	return (
 		<div className="BeetweenOps">
@@ -58,10 +58,10 @@ const BeetweenOps = () => {
 			</div>
 			<div className="headings">
 				<h3>Passes between {op1}-{op2}</h3>
-				{ costdata && <p>number of passes: { costdata.NumberOfPasses }</p>}
+				{ costdata && <p>Number of passes: { costdata.NumberOfPasses }</p>}
 				<br />
 				<h3>Cost of Passes between {op1}-{op2}</h3>
-				{ costdata && <p>number of passes: { costdata.PassesCost } € </p>}
+				{ costdata && <p>Total Cost : { costdata.PassesCost } € </p>}
 				<br />
 			</div>
 				{ data && <PassesAnalysisList data={ data } /> }

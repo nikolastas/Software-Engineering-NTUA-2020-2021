@@ -54,27 +54,9 @@
   padding: 20px;
 }
 
-.blog-preview {
-  padding: 10px 16px;
-  margin: 20px 0;
-  border-bottom: 1px solid #fafafa;
-}
-.blog-preview:hover {
-  box-shadow: 1px 3px 5px rgba(252, 250, 250, 0.5);
-}
-.blog-preview h2 {
-  font-size: 20px;
-  color: #27caf3;
-  margin-bottom: 8px;
-}
 
 
-.blog-preview a{
-  text-decoration: none;
-}
-
-
-/* create new blog form */
+/* create form */
 .create {
   max-width: 400px;
   margin: 0 auto;
@@ -108,24 +90,6 @@
 }
 
 
-/* blog details page */
-.blog-details h2 {
-  font-size: 20px;
-  color: #35c5f1;
-  margin-bottom: 10px;
-}
-.blog-details div {
-  margin: 20px 0;
-}
-.blog-details button {
-  background: #238292;
-  color: #fff;
-  border: 0;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
 
 /* Style the form - display items horizontally */
 .Data{
@@ -133,11 +97,6 @@
   position: static;
 }
 
-.form-inline {
-  /* display: flex;
-  flex-flow: row wrap;
-  align-items: center; */
-}
 
 /* Add some margins for each label */
 .form-inline label {

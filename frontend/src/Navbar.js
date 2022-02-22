@@ -3,8 +3,7 @@ import { LoginContext } from "./Context/LoginContext";
 import { useContext } from "react";
 
 const Navbar = () => {
-    const {globalUsername, setGlobalUsername,
-        globalLoginToken, setGlobalLoginToken} = useContext(LoginContext);
+    const {globalUsername} = useContext(LoginContext);
    
     return (  
         <nav className="navbar">
@@ -14,8 +13,8 @@ const Navbar = () => {
                 <Link to="/login">Σύνδεση</Link>
                 <Link to="/create">Εγγραφή</Link>
                 <Link to="/data">Διελεύσεις</Link>
-                <Link to="/logout">Log out</Link>
-                {globalUsername && <a>Καλώς ορίσατε, {globalUsername}</a>}
+                {globalUsername && <Link to="/logout">Log out</Link>}
+                {globalUsername && <span>Καλώς ορίσατε, {globalUsername}</span>}
             </div>
         </nav>
     );
