@@ -8,6 +8,7 @@ const cors = require('cors');
 const fs = require('fs');
 const key = fs.readFileSync('../cert/CA/localhost/localhost.decrypted.key');
 const cert = fs.readFileSync('../cert/CA/localhost/localhost.crt');
+const path = require('path');
 
 // set up express app
 const app = express();
@@ -49,6 +50,12 @@ app.get('/interoperability/api/checkUser', checkUser, (req,res) => res.send({"us
 app.get('/interoperability/api/isAdmin', isAdmin, (req,res) => res.send("user is Amdin"));
 app.use(authRouter);
 
+//for serving files
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+app.get('/', (req, res) => {
+	res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+});
 
 //cokies
 
