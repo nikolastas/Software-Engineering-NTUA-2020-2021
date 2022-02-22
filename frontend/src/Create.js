@@ -12,12 +12,13 @@ const Create = () => {
     const [isPending, setIsPending] = useState(false);
     const history = useHistory();
 
-    const [data,setData] = useState(null);
-    const [error, setError] = useState(null);
+    // const [data,setData] = useState(null);
+    // const [error, setError] = useState(null);
 
     const {globalUsername, setGlobalUsername,
       globalLoginToken, setGlobalLoginToken} = useContext(LoginContext);
-
+    
+    const [errmsg, setErrmsg] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,7 +51,15 @@ const Create = () => {
             body: formBody,
             signal: abortCont.signal
         }
-        ).then (response => response.json())
+        )
+        .then(res => {
+          console.log(res.status);
+          if(!res.ok){
+            throw res;
+          }
+          return res;
+        })
+        .then (response => response.json())
         .then((e) => {
           console.log(e.token);
           //global for the token
@@ -59,7 +68,19 @@ const Create = () => {
           setGlobalLoginToken(e.token);
           console.log(globalUsername, globalLoginToken);
           console.log('after');
+          setIsPending(false);
           history.push('/');
+        })
+        .catch(async res => {
+          console.log('MPHKA EDW PERA');
+          let response = await res.json();
+          console.log(response.failmsg);
+          
+          //Set state to display error message.
+          setErrmsg(response.failmsg);
+          
+          //reset button state
+          setIsPending(false);
         })
     }, 1000);
     
@@ -97,9 +118,9 @@ const Create = () => {
           <option value="admin">admin</option>
           <option value="user">user</option>
         </select>
+        {errmsg && <p className="errormsg">{errmsg}</p>}
         { !isPending && <button>Εγγραφή</button>}
         { isPending && <button disabled>Αναμονή...</button>}
-        { error && <div>{ error }</div> }
       </form>
     </div>
   );

@@ -23,7 +23,7 @@ const handleErrors = (err) =>{
     if(err.original){
         if(err.original.errno==1062){
             console.log("user already exists in db");
-            errors.push("user already exists in db");
+            errors.push("User already exists");
         }
     }
     if(err.message){
@@ -67,7 +67,7 @@ module.exports.signup_post = async (req, res) =>{
       }
       catch(err) {
         const errors = handleErrors(err);
-        res.status(400).send(String(errors));
+        res.status(400).send({"failmsg": String(errors)});
       }
 }
 module.exports.login_post = async (req, res) =>{
@@ -80,7 +80,7 @@ module.exports.login_post = async (req, res) =>{
             }
         }).then(user => {
             if(!user){
-                res.status(400).send("no user found");
+                res.status(400).send({"failmsg": "Username not found"});
             }
             else{
                 console.log("user found");
@@ -99,7 +99,7 @@ module.exports.login_post = async (req, res) =>{
                 }
                 else{
                     res.cookie('jwt', null);
-                    res.status(401).send("password not match");
+                    res.status(401).send({"failmsg": "Wrong Password"});
                 }
             }
 
@@ -129,7 +129,7 @@ module.exports.change_password_post = async (req, res) =>{
             } 
         });
         if (user_who_want_to_update_pass == null){
-            res.status(400).send("user with username "+ userName+ " doesnt exists in DB");
+            res.status(400).send({"failmsg": "user with username "+ userName+ " doesnt exists in DB"});
         }
         console.log("[changing pass] user exist and found ! user:", user_who_want_to_update_pass.username);
         await user_who_want_to_update_pass.update({ password: new_pass});
@@ -140,6 +140,6 @@ module.exports.change_password_post = async (req, res) =>{
         // https://stackoverflow.com/questions/45314883/hash-password-on-create-and-update
     }catch (err){
         console.log(err);
-        res.status(400).status("internal error while updating")
+        res.status(400).status({"failmsg":"internal error while updating"})
     }
 }

@@ -9,14 +9,17 @@ import BlogDetails from './BlogDetails';
 import NotFound from './NotFound';
 import Data from './Data';
 import Logout from './Logout';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoginContext } from './Context/LoginContext';
 
 function App() {
-  const title = "SoftEng";
+  const title = "EPOP";
   //create login state
   const [globalUsername, setGlobalUsername] = useState(null);
   const [globalLoginToken, setGlobalLoginToken] = useState(null);
+  useEffect(() => {
+    document.title = title
+  }, []);
   return (
     
     <Router>
