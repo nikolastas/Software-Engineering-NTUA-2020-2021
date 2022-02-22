@@ -252,7 +252,7 @@ se2164 admin users
 ### 14. admin load passes from csv file
 Command: 
 ```
-admin passesupd --source <csv file address>
+admin --passesupd --source <csv file address>
 ```
 
 This command is used to load passes from csv file to the database.

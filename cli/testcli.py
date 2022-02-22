@@ -19,14 +19,9 @@ def test_valid_login(username,password):
 	assert b"200" in out
 	print("valid login")
 
-#login for testing other functions
-#file =  open('cookie.txt', 'r')
-#data = file.read().replace('\n', '')
-
 def chargesby(operator,  datefrom, dateto, format):
 	command = ["./chargesby", "-o", operator, "-df", datefrom , "-dt", dateto ,"-f", format]
 	out, err, exitcode = capture(command)
-	#assert err != 0
 	assert b"200" in out
 	print("chargesby ok")
 

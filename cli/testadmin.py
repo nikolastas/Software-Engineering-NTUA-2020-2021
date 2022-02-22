@@ -43,7 +43,7 @@ def passesupd(source):
 	command = ["./admin", "--passesupd","--source", source]
 	out, err, exitcode = capture(command)
 	assert os.path.exists('cookie.txt')
-	#assert exitcode == 0
+	assert exitcode == 0
 	assert b"200" in out
 	print("passesupd ok")
 
@@ -52,14 +52,15 @@ def testshowusername():
 	command = ["./admin", "--users"]
 	out, err, exitcode = capture(command)
 	assert os.path.exists('cookie.txt')
-	#assert exitcode == 0
 	assert b"200" in out
 	print("users ok")
 
 #running the cli-testing 
 test_valid_login("paris123","Paris123")
 #testsignup("danae","Danaealani2004","admin","danae@google.gr")
-#changepassword("danae","neyra33")
+# danae pass right now==Password11
+#changepassword("danae","Password11")
+#changepassword("danae","Password22")
 
-#passesupd("./../backend/defaults/passes_full_original.csv")
+passesupd("./../backend/defaults/passes_full_original.csv")
 testshowusername()
