@@ -19,11 +19,10 @@ def test_valid_login(username,password):
 	assert b"200" in out
 	print("valid login")
 
-test_valid_login("paris123","Paris123")
+#login for testing other functions
+#file =  open('cookie.txt', 'r')
+#data = file.read().replace('\n', '')
 
-file =  open('cookie.txt', 'r')
-data = file.read().replace('\n', '')
-#se2164 chargesby -o aodos -df 20200112 -dt 20200116 -f json
 def chargesby(operator,  datefrom, dateto, format):
 	command = ["./chargesby", "-o", operator, "-df", datefrom , "-dt", dateto ,"-f", format]
 	out, err, exitcode = capture(command)
@@ -31,15 +30,12 @@ def chargesby(operator,  datefrom, dateto, format):
 	assert b"200" in out
 	print("chargesby ok")
 
-chargesby("aodos","20190102","20190107","json")
-
 def test_healthcheck():
 	command = ["./healthcheck"]
 	out, err, exitcode = capture(command)
 	assert exitcode == 0
 	assert b"200" in out
 	print("test healthcheck ok")
-test_healthcheck()
 
 def test_resetpasses():
 	command = ["./resetpasses"]
@@ -47,7 +43,6 @@ def test_resetpasses():
 	assert exitcode == 0
 	assert b"200" in out
 	print ("resetpasses ok")
-#test_resetpasses()
 
 def test_resetstations():
 	command = ["./resetstations"]
@@ -55,7 +50,6 @@ def test_resetstations():
 	assert exitcode == 0
 	assert b"200" in out
 	print ("resetstations ok")
-test_resetstations()
 
 def test_resetvehicles():
 	command = ["./resetvehicles"]
@@ -63,8 +57,6 @@ def test_resetvehicles():
 	assert exitcode == 0
 	assert b"200" in out
 	print("resetvehicles ok")
-test_resetvehicles()
-
 
 def test_passesperstation(operator,datefrom,dateto,format):
 	command = ["./passesperstation", "-s", operator, "-df", datefrom, "-dt", dateto,"-f", format]
@@ -72,7 +64,6 @@ def test_passesperstation(operator,datefrom,dateto,format):
 	assert exitcode == 0
 	assert b"200" in out
 	print ("passesperstation ok")
-test_passesperstation("AO01","20190301","20190601","json")
 
 def test_passesanalysis(op1,op2,datefrom,dateto,format):
 	command = ["./passesanalysis", "-o", op1, "-O", op2,"-df", datefrom, "-dt", dateto, "-f", format]
@@ -80,7 +71,6 @@ def test_passesanalysis(op1,op2,datefrom,dateto,format):
 	assert exitcode == 0
 	assert b"200" in out
 	print("passesanalysis ok")
-test_passesanalysis("aodos","egnatia","20190301","20190601","csv")
 
 def test_passescost(op1,op2,datefrom,dateto,format):
 	command = ["./passescost", "-o", op1, "-O", op2,"-df", datefrom, "-dt", dateto, "-f", format]
@@ -89,12 +79,20 @@ def test_passescost(op1,op2,datefrom,dateto,format):
 	assert b"200" in out
 	print("passescost ok")
 
-test_passesanalysis("aodos","egnatia","20190301","20190601","csv")
-
 def test_logout():
 	command = ["./logout"]
 	out, err, exitcode = capture(command)
 	assert exitcode == 0
 	assert b"200" in out
 	print("test logout ok")
+
+#running testing
+test_valid_login("paris123","Paris123")
+chargesby("aodos","20190102","20190107","json")
+test_passesanalysis("aodos","egnatia","20190301","20190601","csv")
+test_passesperstation("AO01","20190301","20190601","json")
+test_healthcheck()
+test_resetstations()
+test_resetvehicles()
+test_resetpasses()
 test_logout()

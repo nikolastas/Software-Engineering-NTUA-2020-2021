@@ -19,13 +19,15 @@ def test_valid_login(username,password):
 	print("valid login")
 
 
+
 def changepassword(username,password):
-    command = ["./admin", "--usermod","--username", username, "-p", password]
-    out, err, exitcode = capture(command)
-    assert os.path.exists('cookie.txt')
-    assert exitcode == 0
-    assert b"200" in out
-    print("changepassword ok")
+
+	command = ["./admin", "--usermod","--username", username, "-p", password]
+	out, err, exitcode = capture(command)
+	assert os.path.exists('cookie.txt')
+	assert exitcode == 0
+	assert b"200" in out
+	print("changepassword ok")
 
 
 def testsignup(username,password,type,email):
@@ -56,7 +58,8 @@ def testshowusername():
 
 #running the cli-testing 
 test_valid_login("paris123","Paris123")
-#changepassword("paris123","neyra33")
 #testsignup("danae","Danaealani2004","admin","danae@google.gr")
-passesupd("./../backend/defaults/passes_full_original.csv")
+#changepassword("danae","neyra33")
+
+#passesupd("./../backend/defaults/passes_full_original.csv")
 testshowusername()
