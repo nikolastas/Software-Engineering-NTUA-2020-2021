@@ -281,10 +281,7 @@ def compare_passes_cost_with_csv():
     # file = './sampledata01_calcs.xlsx'
     # xls = pd.ExcelFile(file)
     df = pd.read_excel(xls, "backend test")
-    # print(df)
-    # number_of_tests = df.loc[1][0]
-    # print(number_of_tests)
-    # df.columns = ['operator1','operator2','date','PassesCost']
+
     for i in range (len(df)):
         date = df.loc[i]['date'].replace("-", "")
         datefrom = date + "01"
@@ -375,22 +372,6 @@ def compare_passes_per_station_with_csv():
             print(passesperstation(station, start_d.strftime('%Y%m%d'), end_d.strftime('%Y%m%d')))
             return False
     print("[result] passes per station no errors found")
-
-
-
-
-
-
-
-
-
-
-# valid_charges("aodos", "201901")
-# print(compare_with_csv("aodos", "2019-01"))
-
-# print(passescost("aodos", "egnatia", "20201201", "20201231"))
-# print((passesanalysis("egnatia", "gefyra", "20200801", "20200831")))
-# print((passesperstation("AO01", "20210103","20210704")))
 
 #---------------------testing -------------------
 login_failed()

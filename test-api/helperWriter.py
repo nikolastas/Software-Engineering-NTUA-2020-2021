@@ -69,17 +69,6 @@ def list2space(s):
     return s
 
 def textCsvWriter(filename, dataValues):
-    # f = open(filename,'w+')
-    # f.truncate(0)
-    # f.write(dataValues)
-    # f.seek(0)
-    # x = from_csv(f, delimiter =',')
-    # x.set_style(DEFAULT)
-    # print(x)
-    # f.close()
-    # dataValues = str(dataValues,"utf-8")
-    
-    # print("decoded",dataValues)
     dataValues = list2space(dataValues)
     dataValues = (dataValues.replace('"', ""))
     dataValues = dataValues.replace("'", "" )
@@ -93,22 +82,12 @@ def textCsvWriter(filename, dataValues):
     
     dataValues = joinner(dataValues)
     # print("splitted",dataValues)
-    # print("split[0]", dataValues[0])
-    # print("len: ", len(dataValues))
-    # filename must be in 'sample.csv ' .
-    # with open(filename) as json_file:
-    #     data = json.load(json_file)
-    # for d in dataValues:
-    # dataValuesALL = data['emp_details']
-    
-    # now we will open a file for writing
+
     data_file = open(filename, 'w+')
     
     # create the csv writer object
     csv_writer = csv.writer(data_file)
-    
-    # Counter variable used for writing
-    # headers to the CSV file
+
     count = 0
     
     
