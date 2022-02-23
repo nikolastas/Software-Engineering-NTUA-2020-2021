@@ -1,11 +1,8 @@
 
-from cmath import nan
-from encodings import utf_8
 
 from helperWriter import textCsvWriter ;
 import requests
-import certifi
-import urllib3
+
 import json
 import pandas as pd
 import datetime
