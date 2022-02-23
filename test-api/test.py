@@ -20,8 +20,68 @@ backend_computer_address = f.read()
 f.close()
 all_operators = ["aodos", "egnatia", "gefyra", "kentriki_odos", "moreas", "nea_odos", "olympia_odos"]
 
+# ------------------------------------------------ FAILED TO AUTHERIZED --------------------------------------------------------
 
+def login_failed():
+    data = {'username': "<no name>", 'password':"<no password>"}
+    url = 'https://'+backend_computer_address+':9103/interoperability/api/login'
+    response = requests.post(url,data=data, verify="../cert/CA/CA.pem")
+    # print("status code= ",response.status_code)
+    if(response.status_code == 400):
+        print("[success] authorized failed as expected")
+    else:
+        print("Error")
+        print(response.text)
+    cookies = response.cookies.get_dict()
+    if( 'jwt' not in cookies):
+        cookies['jwt']=""
+    f= open("cookie.txt","w+")
+    f.write(cookies['jwt'])
+    f.close
 
+def chargesby_failed():
+    operator = "aodos"
+    datefrom ="20200101"
+    dateto = "20200131"
+    format="json"
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
+    url = f'https://{backend_computer_address}:9103/interoperability/api/ChargesBy/{operator}/{datefrom}/{dateto}?format={format}'
+    # print(url)
+    response = requests.get(url,  cookies=cookie, verify="../cert/CA/CA.pem")
+    if(response.status_code == 400):
+        print("[success] expected to failed endpoing")
+    else :
+        print("not ok ")
+        print(response.status_code)
+        print(response.text)
+        return {}
+def logout():
+    
+    
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
+    
+    url = 'https://'+backend_computer_address+':9103/interoperability/api/logout'
+    response = requests.post(url, cookies=cookie, verify='../cert/CA/CA.pem')
+    
+    
+    # print("status code= ",response.status_code)
+    if(response.status_code == 400):
+        # print(response.text)
+        # cookies = response.cookies.get_dict()
+        f= open("cookie.txt","w+")
+        
+        f.close
+        print("[success] logout failed as expected")
+    else:
+        print("Error")
+        print(response.text)
+# ------------------------------------------------ LOGIN --------------------------------------------------------
+
+# require to auth 
 def login():
     data = {'username': "admin", 'password':"Softeng2022"}
     url = 'https://'+backend_computer_address+':9103/interoperability/api/login'
@@ -42,6 +102,8 @@ def login():
     f.close
 
 
+# ------------------------------------------------ CHARGES BY --------------------------------------------------------
+# charges by endpoint data
 def chargesby(operator, datefrom , dateto):
     
     format="json"
@@ -65,7 +127,7 @@ def chargesby(operator, datefrom , dateto):
         print(response.status_code)
         print(response.text)
         return {}
-
+# check if valid
 def valid_charges(operator, date):
     # print(operator,date)
     datefrom = date + "01"
@@ -89,9 +151,10 @@ def valid_charges(operator, date):
 mydictionary={
     "aodos":(5,15), "egnatia":(6,16), "gefyra":(7,17), "kentriki_odos":(8,18), "moreas":(9,19), "nea_odos":(10,20), "olympia_odos":(11,21)
 }
+# compare charges by data with endpoint , function helper
 def compare_with_csv(operator, date):
-    file = './sampledata01_calcs.xlsx'
-    xls = pd.ExcelFile(file)
+    # file = './sampledata01_calcs.xlsx'
+    # xls = pd.ExcelFile(file)
     df = pd.read_excel(xls, date)
     row,column = mydictionary[operator]
     right_data={}
@@ -111,8 +174,8 @@ def compare_with_csv(operator, date):
         # print("charges by error")
         # return False 
     
-    print(df.loc[15][5])
-def chech_all():  
+# compare charges by data with endpoint , actual fucntion
+def compare_charges_by_with_csv():  
     result = 0
     timedelta_index = pd.date_range(start=start_datetime, end=end_datetime, freq='m').to_series()  
     all_dates =0
@@ -130,26 +193,10 @@ def chech_all():
     print("[result] checked:", all_dates, " no errors found:" ,result)
 
 
+# ------------------------------------------------ PASSES ANALYSSIS --------------------------------------------------------
 
 
-def passescost(operator1, operator2, datefrom, dateto):
-    
-    format="json"
-    f = open("cookie.txt","r")
-    cookie = {'jwt': f.read()}
-    f.close()
-    url = f'https://{backend_computer_address}:9103/interoperability/api/PassesCost/{operator1}/{operator2}/{datefrom}/{dateto}?format={format}'
-    # print(url)
-    response = requests.get(url,  cookies=cookie, verify="../cert/CA/CA.pem")
-    if(response.status_code == 200):
-        response_json = response.json()
-        # passescost = (response_json["PassesCost"])
-
-        return round(response_json["PassesCost"],2)
-    else :
-        print(response.text)
-        return 0
-
+# passes analysis endpoing get data
 def passesanalysis(operator1, operator2, datefrom, dateto):
     
     format="json"
@@ -178,9 +225,10 @@ def passesanalysis(operator1, operator2, datefrom, dateto):
         print(response.text)
         return []
 op_to_station = {"aodos":"AO", "egnatia":"EG", "gefyra":"GF", "kentriki_odos":"KO", "moreas":"MR", "nea_odos":"NE", "olympia_odos":"OO" }
+# passes analysis: compare data from endpoint to csv data 
 def compare_passes_analysis_with_csv():
-    file = './sampledata01_calcs.xlsx'
-    xls = pd.ExcelFile(file)
+    # file = './sampledata01_calcs.xlsx'
+    # xls = pd.ExcelFile(file)
     df = pd.read_excel(xls, "passes100_8000")
     # print(df)
     
@@ -193,6 +241,7 @@ def compare_passes_analysis_with_csv():
             start_d = datetime.datetime.strptime('2020-02-01', '%Y-%m-%d')
             end_d = datetime.datetime.strptime('2020-08-31', '%Y-%m-%d')
             print(op1_op2)
+
             for i in range(len(df)):
                 # print(type(df.loc[i]['timestamp']))
                 
@@ -210,17 +259,36 @@ def compare_passes_analysis_with_csv():
                 print(passesanalysis(op1, op2, start_d.strftime('%Y%m%d'), end_d.strftime('%Y%m%d')))
                 return False
     print("[result] passes analysis no errors")
+# ------------------------------------------------ PASSES COST --------------------------------------------------------
+# passes cost endpoing get data
+def passescost(operator1, operator2, datefrom, dateto):
     
+    format="json"
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
+    url = f'https://{backend_computer_address}:9103/interoperability/api/PassesCost/{operator1}/{operator2}/{datefrom}/{dateto}?format={format}'
+    # print(url)
+    response = requests.get(url,  cookies=cookie, verify="../cert/CA/CA.pem")
+    if(response.status_code == 200):
+        response_json = response.json()
+        # passescost = (response_json["PassesCost"])
 
+        return round(response_json["PassesCost"],2)
+    else :
+        print(response.text)
+        return 0
+# passes cost compare data with csv
+     
 def compare_passes_cost_with_csv():
-    file = './sampledata01_calcs.xlsx'
-    xls = pd.ExcelFile(file)
+    # file = './sampledata01_calcs.xlsx'
+    # xls = pd.ExcelFile(file)
     df = pd.read_excel(xls, "backend test")
     # print(df)
     # number_of_tests = df.loc[1][0]
     # print(number_of_tests)
     # df.columns = ['operator1','operator2','date','PassesCost']
-    for i in range (0,6):
+    for i in range (len(df)):
         date = df.loc[i]['date'].replace("-", "")
         datefrom = date + "01"
         dateto = date +"31"
@@ -230,13 +298,15 @@ def compare_passes_cost_with_csv():
                 # print(True)
             # else:
                 print("passes cost error")
-                print(df.loc[i]['PassesCost'])
-                print(passescost(df.loc[i]['operator1'], df.loc[i]['operator2'], datefrom, dateto))
+                print("found: ",df.loc[i]['PassesCost'])
+                print("got: ",passescost(df.loc[i]['operator1'], df.loc[i]['operator2'], datefrom, dateto))
                 print(df.loc[i]['operator1'], df.loc[i]['operator2'], datefrom, dateto)
                 return False
     print("[result] passes cost no errors")
     # print(df)
+# ------------------------------------------------ PASSES PER STATION --------------------------------------------------------
 
+# passes per station : get data from endpoint
 def passesperstation(station, datefrom, dateto):
     
     format="json"
@@ -266,17 +336,21 @@ def passesperstation(station, datefrom, dateto):
     else :
         print(response.text)
         return []
-# op_to_station = {"aodos":"AO", "egnatia":"EG", "gefyra":"GF", "kentriki_odos":"KO", "moreas":"MR", "nea_odos":"NE", "olympia_odos":"OO" }
+# fucntion for searching in a dictionary with value 
 def get_key(val):
     for key, value in op_to_station.items():
          if val == value:
              return key
  
     return ""
+
 pass_type_csv_to_dict = {"home": "home", "away": "visitor"}
+
+# compare csv data with end point
+
 def compare_passes_per_station_with_csv():
-    file = './sampledata01_calcs.xlsx'
-    xls = pd.ExcelFile(file)
+    # file = './sampledata01_calcs.xlsx'
+    # xls = pd.ExcelFile(file)
     df = pd.read_excel(xls, "passes100_8000")
     # print(df)
     station_df = pd.read_excel(xls, "stations")
@@ -313,7 +387,7 @@ def compare_passes_per_station_with_csv():
 
 
 
-login()
+
 # valid_charges("aodos", "201901")
 # print(compare_with_csv("aodos", "2019-01"))
 
@@ -322,12 +396,18 @@ login()
 # print((passesperstation("AO01", "20210103","20210704")))
 
 #---------------------testing -------------------
-
+login_failed()
+chargesby_failed()
+logout()
+print("auth testing ended , testing endpoints")
+login()
+file = './sampledata01_calcs.xlsx'
+xls = pd.ExcelFile(file)
 print("starting passes per station")
-compare_passes_per_station_with_csv()
+compare_passes_per_station_with_csv() # static dates
 print("starting charges by ")
-chech_all()
+compare_charges_by_with_csv() # static data from csv
 print("starting passes analysis")
-compare_passes_analysis_with_csv()
+compare_passes_analysis_with_csv() #static dates
 print("starting passes cost ")
-compare_passes_cost_with_csv()
+compare_passes_cost_with_csv() #static data from csv
