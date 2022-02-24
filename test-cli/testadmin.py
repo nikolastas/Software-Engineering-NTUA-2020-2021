@@ -11,7 +11,7 @@ def capture(command):
 	return out, err, proc.returncode
 
 def test_valid_login(username,password):
-	command = ["./login", "-u", username, "-p", password]
+	command = ["./../cli/login", "-u", username, "-p", password]
 	out, err, exitcode = capture(command)
 	assert os.path.exists('cookie.txt')
 	assert exitcode == 0
@@ -22,7 +22,7 @@ def test_valid_login(username,password):
 
 def changepassword(username,password):
 
-	command = ["./admin", "--usermod","--username", username, "-p", password]
+	command = ["./../cli/admin", "--usermod","--username", username, "-p", password]
 	out, err, exitcode = capture(command)
 	assert os.path.exists('cookie.txt')
 	assert exitcode == 0
@@ -31,7 +31,7 @@ def changepassword(username,password):
 
 
 def testsignup(username,password,type,email):
-	command = ["./admin", "--usermod","--username", username, "-p", password, "--typeofuser", type, "-e", email]
+	command = ["./../cli/admin", "--usermod","--username", username, "-p", password, "--typeofuser", type, "-e", email]
 	out, err, exitcode = capture(command)
 	assert os.path.exists('cookie.txt')
 	assert exitcode == 0
@@ -40,7 +40,7 @@ def testsignup(username,password,type,email):
 
 
 def passesupd(source):
-	command = ["./admin", "--passesupd","--source", source]
+	command = ["./../cli/admin", "--passesupd","--source", source]
 	out, err, exitcode = capture(command)
 	assert os.path.exists('cookie.txt')
 	assert exitcode == 0
@@ -49,7 +49,7 @@ def passesupd(source):
 
 
 def testshowusername():
-	command = ["./admin", "--users"]
+	command = ["./../cli/admin", "--users"]
 	out, err, exitcode = capture(command)
 	assert os.path.exists('cookie.txt')
 	assert b"200" in out
