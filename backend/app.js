@@ -10,6 +10,8 @@ const key = fs.readFileSync('../cert/CA/localhost/localhost.decrypted.key');
 const cert = fs.readFileSync('../cert/CA/localhost/localhost.crt');
 const path = require('path');
 
+const https = require('https');
+
 // set up express app
 const app = express();
 // app.locals.user = null;
@@ -61,7 +63,7 @@ app.get('/', (req, res) => {
 //cokies
 
 //https
-const https = require('https');
+
 const server = https.createServer({ key, cert }, app);
 
 

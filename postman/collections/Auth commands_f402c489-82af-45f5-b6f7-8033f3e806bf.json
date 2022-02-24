@@ -1,0 +1,183 @@
+{
+    "info": {
+        "_postman_id": "c1047c75-fc9c-49e6-8c40-d7ff15f58f02",
+        "name": "Auth commands",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "login",
+            "id": "2822823e-69f5-4a63-8421-dab4d501c0a0",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "username",
+                            "value": "paris123",
+                            "type": "text"
+                        },
+                        {
+                            "key": "password",
+                            "value": "Paris123",
+                            "type": "text"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "https://localhost:9103/interoperability/api/login",
+                    "protocol": "https",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "login"
+                    ]
+                },
+                "description": "A Login POST request with urlencoded (x-www-form-urlencoded) parameters .\n\n# **Returns :**\n\nif everything is ok :\n\n🟢 Status 200:\n\n🟢 Data:\n\nA JSON object with 3 or 4 values, dependening if user has registered with email.\n\n{ \"username\": String \\[username of the user\\],\n\n\"email\": String \\[emial of the user\\],\n\n\"typeOfUser\":String \\[EITHER \"admin\" OR \"user\" values\\] ,\n\n\"token\": String \\[token value\\] }\n\n🟡 Status 400 :\n\n🟡 Data:\n\nAn error message.\n\nEither 1 of the following error messages.\n\n1.  \"no user found\" : \\[menaing\\] there is no user with the username given in our database\n2.  \"password not match\": \\[meaning\\] there is a user in our database with this username but the password we have is not right.\n    \n\n🔴 Status 500:\n\n🔴 Data:\n\n Internal Server Error"
+            },
+            "response": []
+        },
+        {
+            "name": "signup",
+            "id": "69bc71a9-b9f2-4aff-9eb3-23bf120cddc1",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        {
+                            "key": "username",
+                            "value": "paris123",
+                            "type": "text"
+                        },
+                        {
+                            "key": "password",
+                            "value": "Paris123",
+                            "type": "text"
+                        },
+                        {
+                            "key": "typeOfUser",
+                            "value": "admin",
+                            "type": "text"
+                        },
+                        {
+                            "key": "email",
+                            "value": "nikos@google.com",
+                            "type": "text"
+                        }
+                    ]
+                },
+                "url": {
+                    "raw": "https://localhost:9103/interoperability/api/signup",
+                    "protocol": "https",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "signup"
+                    ]
+                },
+                "description": "A Signup POST request with urlencoded (x-www-form-urlencoded) parameters .\n\nEMAIL IS OPTIONAL\n\n# **Returns :**\n\nif everything is ok :\n\n🟢 Status 200:\n\nData:\n\nA JSON object with 3 or 4 values, dependening if user has registered with email.\n\n{ \"username\": String \\[username of the user\\],\n\n\"email\": String \\[emial of the user\\],\n\n\"typeOfUser\":String \\[EITHER \"admin\" OR \"user\" values\\] ,\n\n\"token\": String \\[token value\\] }\n\n🟡 Status 400, Bad Request :\n\nData:\n\nAn error message. Explaining the reason why our system could not make the registration.\n\nEither 1 of the following error messages.\n\n1.  \"user already exists in db,Validation error\" : \\[meaning\\] the is a user in our database with this username please choose another one.\n2.  \"Validation error: \\[password length\\] Must NOT be less than 8 and Must NOT be greater than 40\" : please choose another password with more than 8 and less than 40 charachters.\n3.  Validation error: \\[password value\\] should contain at minimum at least one letter and one number : choose another passowrd with at least 1 letter and 1 number .\n4.  \"Validation error: \\[typeofuser\\] must be either admin or user\" : user must be either user or admin."
+            },
+            "response": []
+        },
+        {
+            "name": "logout",
+            "id": "e90e99c0-ab34-42f2-87bd-d2f29fb04a9c",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "https://localhost:9103/interoperability/api/logout",
+                    "protocol": "https",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "logout"
+                    ]
+                },
+                "description": "A logout POST request where a user is disconnected from the api.\n\nThis request only happens when a user is logged in, this is checked with the \"jwt\" cookie availabel.\n\n# Returns :\n\n🟢 Status 200: if everithing is fine.\n\n🟢 Data: A string confirming the logout request. \"logout\"\n\n🟡 Status 400 : A error occured.\n\n🟡 Data : -"
+            },
+            "response": []
+        },
+        {
+            "name": "authToken",
+            "id": "6c102f1b-bc29-441e-bf55-1f3a1bb9484d",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "https://localhost:9103/interoperability/api/authToken",
+                    "protocol": "https",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "authToken"
+                    ]
+                },
+                "description": "This function is used when we want to check if a user is log-in.\n\nIt is a middleware function and if the user is log-in then it does what the next function do."
+            },
+            "response": []
+        },
+        {
+            "name": "checkUser",
+            "id": "979861ea-a87a-4f70-9595-42963ca71bbf",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": []
+                },
+                "url": {
+                    "raw": "https://localhost:9103/interoperability/api/checkUser",
+                    "protocol": "https",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "9103",
+                    "path": [
+                        "interoperability",
+                        "api",
+                        "checkUser"
+                    ]
+                },
+                "description": "This function is a middleware function is used to take the name of the User from the DB based on the toke(cookie) they have and set a local variable equal to the user name."
+            },
+            "response": []
+        }
+    ]
+}

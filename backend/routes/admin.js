@@ -110,17 +110,17 @@ router.post('/resetpasses', isAdmin,function(req, res){
     }
 
 });
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+
 //Passes update endpoint
 router.post('/passesupd', isAdmin, async function(req, res){
     console.log("trying to update from csv");
     flag = false;
+    console.log(req.body);
     try{
         fs.stat(req.body.source, function(err,stat){
             if (err) {
                 console.log("failed to update [0]");
+                console.log(req.body.source);
                 res.status(500);
                 res.send({"status":"failed"});
             
@@ -193,8 +193,8 @@ router.post('/passesupd', isAdmin, async function(req, res){
 
 
 //Resets stations (tries to)
-router.post('/resetstations', isAdmin, function(req, res){
-    
+router.post('/resetstations', isAdmin, async function(req, res){
+    console.log("trying to reset stations");
     try{
         //Removes constraints to other tables needed and truncates the table
         if(eraseRefTableHead("stations"))
@@ -202,21 +202,25 @@ router.post('/resetstations', isAdmin, function(req, res){
             
             fs.createReadStream('./defaults/sampledata01_stations.csv')
                 .pipe(csv())
-                .on('data', function(row){
+                .on('data',async function(row){
                     //We must add to the database the station
                     var station = row;
                     //Query on the base to add to stations
-                    con.query(
+                    const query = util.promisify(con.query).bind(con);
+                    await query(
                     "INSERT INTO softeng.stations (stationID, stationName, Providername, Providerabbr) VALUES ('"+ station.stationID+
                     "', '"+station.stationName+"', '"+station.stationProvider+"', '"+station.providerAbbr+"')"
                     , function(err, result, fields){
                         if (err) {
-                            return;
+                            console.log("error with query");
+                            throw err;
                         }
                     });
                 })
                 .on('end', function(){
-                    console.log("end of data\n");
+                    if(process.env.NODE_ENV !== 'test'){
+                        console.log("end of data\n");
+                    }
                 });
             
             //Adds Back the constraints needed for DB to work
@@ -245,17 +249,18 @@ router.post('/resetstations', isAdmin, function(req, res){
 
 
 //reset vehicles.
-router.post('/resetvehicles', isAdmin, function(req, res){
+router.post('/resetvehicles', isAdmin, async function(req, res){
     try{
         if(eraseRefTableHead("vehicles")){
             fs.createReadStream('./defaults/sampledata01_vehicles_100.csv')
                 .pipe(csv())
-                .on('data', function(row){
+                .on('data', async function(row){
                     //We must add to the database the station
                     var vehicle = row;
                     //Query on the base to add to stations
                     try{
-                        con.query(
+                        const query = util.promisify(con.query).bind(con);
+                        await query(
                         "INSERT INTO softeng.vehicles (vehicleID, licenseYear, tagtagID) VALUES ('"+
                         vehicle.vehicleID+"', "+vehicle.licenseYear+", '"+ vehicle.tagID +"')", 
                         function(err, result, fields){
@@ -268,7 +273,9 @@ router.post('/resetvehicles', isAdmin, function(req, res){
                     }
                 })
                 .on('end', function(){
-                    console.log("end of data\n");
+                    if(process.env.NODE_ENV !== 'test'){
+                        console.log("end of data\n");
+                    }
                 });
 
                 if(!eraseRefTableTail("vehicles")){

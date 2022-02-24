@@ -31,7 +31,7 @@ function SQLDateTimeToResponse(dateTime){
     //2021-05-30T02:12:00.000Z
     //2021-05-30 02:12:00
     var dateTime = Date.parse(dateTime.toString());
-    var dateTime = moment(dateTime).format('YYYY-MM-DD HH:MM:SS');
+    var dateTime = moment(dateTime).format('YYYY-MM-DD HH:mm:SS');
     return `${dateTime.slice(0, 10)} ${dateTime.slice(11, 20)}`;
 }
 
