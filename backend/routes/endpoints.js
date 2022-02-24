@@ -343,6 +343,23 @@ router.get('/ChargesBy/:op_ID/:date_from/:date_to', requireAuth, function(req, r
 
 });
 
+router.get('/Stations', (req, res) => {
+    let str = 'SELECT * FROM stations';
+    try{
+        con.query(str, (err, result, fields) => {
+            if(err) throw err;
+            // console.log(result);
+            res.status(200);
+            res.send(result);
+        });
+        
+    }
+    catch(err){
+        console.log(err);
+        res.status(500);
+        res.send('Internal Server Error');
+    }
 
+});
 
 module.exports = router;
