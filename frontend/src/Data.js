@@ -1,62 +1,39 @@
-import { useState } from "react";
-import useFetch from "./useFetch";
-import PassesAnalysisList from "./PassesAnalysis";
-
+import { useState, useContext } from "react";
+import DebtOp from "./DebtOp";
+import StationPasses from "./StationPasses";
+import BeetweenOps from "./BeetweenOps";
+import { LoginContext } from "./Context/LoginContext";
 const Data = () => {
-    const [datefrom, setDatefrom ] = useState('2019-01-01');
-    const [dateto, setDateto ] = useState('2020-01-01');
-    const [op1, setOp1] = useState('aodos');
-    const [op2, setOp2] = useState('egnatia');
-
-    const {data , error, isPending} = useFetch(`http://localhost:9103/interoperability/api/PassesAnalysis/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
-
-    console.log(data, datefrom ,dateto);
-   const { costdata , costerror , costisPending } =  useFetch(`http://localhost:9103/interoperability/api/PassesCost/${op1}/${op2}/${datefrom.replaceAll('-','')}/${dateto.replaceAll('-','')}`);
-
-    console.log(costdata);
-    console.log(costerror);
-
+    const [selector, setSelector] = useState('0');
+    const {globalUsername} = useContext(LoginContext);
     return ( 
-        <div>
-        <form className ="form-inline" className="center">
-            <label>Station 1</label>
-            <select
-            value={op1}
-            onChange={(e) => setOp1(e.target.value)}
-            >
-                <option value="aodos">aodos</option>
-                <option value="egnatia">egnatia</option>
-                <option value="gefyra">gefyra</option>
-                <option value="kentriki_odos">kentriki_odos</option>
-                <option value="moreas">moreas</option>
-                <option value="nea_odos">nea_odos</option>
-                <option value="olympia_odos">olympia_odos</option>
-            </select>
-            <label>Station 2</label>
-            <select
-            value={op2}
-            onChange={(e) => setOp2(e.target.value)}
-            >
-                <option value="aodos">aodos</option>
-                <option value="egnatia">egnatia</option>
-                <option value="gefyra">gefyra</option>
-                <option value="kentriki_odos">kentriki_odos</option>
-                <option value="moreas">moreas</option>
-                <option value="nea_odos">nea_odos</option>
-                <option value="olympia_odos">olympia_odos</option>
-            </select>
-            <label>Ημερομηνία από</label>
-            <input type="date" 
-            required value = {datefrom} onChange={(e) => setDatefrom(e.target.value)}/>
-             <label>Ημερομηνία εώς</label>
-            <input type="date" 
-            required value = {dateto} onChange={(e) => setDateto(e.target.value)}/>
-        </form>
-            <h3>Passes between {op1}-{op2}</h3>
-            { costisPending && <p>number of passes: { costdata.NumberOfPasses }</p>}
-        {/* <PassesAnalysisList data={ data } /> */}
-        </div>
+        <div className="Data">
+        {!globalUsername && <p>Πρέπει να συνδεθείς για να δεις αυτή τη σελίδα</p>}
+        {globalUsername &&  <div>
+                <form className="globaldataForm">
+                <select
+                value={selector}
+                onChange={(e) => setSelector(e.target.value)}
+                >
+                    <option value='0'>Διελεύσεις μεταξύ Operators</option>
+                    <option value='1'>Διελεύσεις από σταθμούς</option>
+                    <option value='2'>Κέρδη Operator</option>
+                </select>
+                </form>
+            {selector === '0' &&
+            <div>
+                <BeetweenOps />
+            </div>}
+            { selector ==='2' &&
+            <div>
+                <DebtOp />
+            </div>}
+            { selector ==='1' &&
+                <StationPasses />
+            }
 
+            </div>}
+        </div>
     );
 }
  

@@ -1,70 +1,169 @@
-# Getting Started with Create React App
+# Front-end
+Front-end παρουσίασης δεδομένων σε περιβάλλον web.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+`Περιεχόμενα:`
+- [Building from source](#Building-from-source)
+- [Αρχική Σελίδα](#Αρχική-Σελίδα)
+- [Σύνδεση και Αποσύνδεση Χρήστη](#Σύνδεση-Χρήστη)
+- [Εγγραφή Χρήστη](#Εγγραφή-Χρήστη)
+- [Διελεύσεις](#Διελεύσεις)
 
-## Available Scripts
+## `Building from source`
+Στον φάκελο `frontend` καλείται το script 
+```shell
+	npm run build
+```
+και τοποθετείται στον φάκελο `frontend/build` απ'όπου το βρίσκει ο backend express server και το κάνει serve στο endpoint [https://localhost:9103/](https://localhost:9103/) 
 
-In the project directory, you can run:
+## `Αρχική Σελίδα`
+Περιέχει πληροφορίες για το έργο λογισμικού E-Pass όπου πας. Οι πληροφορίες παρουσιάζονται στην μορφή :
+```html
+	<h1>Αρχική</h1>
+	<p>...</p>
+```
 
-### `npm start`
+## `Σύνδεση Χρήστη`
+Σελίδα όπου γίνεται η σύνδεση των χρηστών για την προβολή δεδομένων. Η σελίδα περιέχει ένα form της μορφής
+```javascript 
+	<h2>Σύνδεση Χρήστη</h2>
+      <form onSubmit={handleSubmit}>
+        <label>Username</label>
+        <input 
+          type="text" 
+          required 
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <label>Password</label>
+        <input
+          type="password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        ></input>
+        { !isPending && <button>Σύνδεση</button>}
+        { isPending && <button disabled>Αναμονή...</button>}
+```
+Κατά το πάτημα του button στέλνεται ένα  **https POST request**
+στο endpoint https://localhost:9103/interoperability/api/login με τα κατάλληλα δεδομένα από το form 
+```javascript
+	fetch('https://localhost:9103/interoperability/api/login', {
+		method: 'POST',
+		...
+	})
+```
+✔️ Σε περίπτωση επιτυχίας κρατείται το cookie με το jwt από τον browser για τις επόμενες κλήσεις στο api μέσω του browser και ο χρήστης ανακατευθύνεται στην προηγούμενη σελίδα. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Επιπλέον εμφανίζεται στο navbar ένα πεδίο `Logout` για την αποσύνδεση του χρήστη. 
+Το πάτημα αυτού μεταφράζεται στο αντίστοιχο **https POST request** https://localhost:9103/interoperability/api/logout που αποδεσμεύει το access token του χρήστη που χρησιμοποιείται από το backend.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+❌ Σε περίπτωση αποτυχίας κατάλληλο μήνυμα εμφανίζεται που δηλώνει τον λόγο αποτυχίας (Username not found, Wrong Password, ...)
 
-### `npm test`
+## `Εγγραφή Χρήστη`
+Σελίδα όπου γίνεται η εγγραφή νέων χρηστών για την προβολή των δεδομένων. Οι χρήστες μπορούν να εγγραφούν είτε ως admin είτε απλοί users. Οι admin χρήστες έχουν μετέπειτα πλήρη πρόσβαση στο api και τα admin endpoints.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Η σελίδα περιλαμβάνει ένα form της μορφής 
+```js
+	<h2>Δημιουργία Χρήστη</h2>
+      <form onSubmit={handleSubmit}>
+        <label>Username</label>
+        <input 
+          type="text" 
+          required 
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <label>Email</label>
+        <input 
+          type="email" 
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label>Password</label>
+        <input
+          type="password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        ></input>
+        <label>Εγγράψου ως:</label>
+        <select
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+        >
+          <option value="admin">admin</option>
+          <option value="user">user</option>
+        </select>
+        { !isPending && <button>Εγγραφή</button>}
+        { isPending && <button disabled>Αναμονή...</button>}
+      </form>
+```
 
-### `npm run build`
+Κατά το πάτημα του button στέλνεται ένα  **https POST request**
+στο endpoint https://localhost:9103/interoperability/api/signup με τα κατάλληλα δεδομένα από το form 
+```javascript
+	fetch('https://localhost:9103/interoperability/api/signup', {
+		method: 'POST',
+		...
+	})
+```
+✔️ Σε περίπτωση επιτυχίας κρατείται το cookie με το jwt από τον browser για τις επόμενες κλήσεις στο api μέσω του browser και ο χρήστης ανακατευθύνεται στην προηγούμενη σελίδα.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+❌ Σε περίπτωση αποτυχίας κατάλληλο message εμφανίζεται που δηλώνει τον λόγο αποτυχίας (Username already exists, Password too short, ...)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## `Διελεύσεις`
+*Αυτή η σελίδα μπορεί να προβληθεί μόνο από συνδεδεμένους χρήστες.* 
 
-### `npm run eject`
+Περιλαμβάνει έναν selector όπου ο χρήστης μπορεί να επιλέξει για προβολή :
+- ## **Διελέυσεις μεταξύ Operators**
+		
+	Μπορεί από κατάλληλo form να επιλεγούν
+	- Home Operator
+	- Visiting Operator 
+	- Date from
+	- Date to
+	
+	Αυτό μεταφράζεται σε δύο **https GET requests** στο api. Συγκεκριμένα στα 
+	
+	https://localhost:9103/interoperability/api/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to, 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+	https://localhost:9103/interoperability/api/PassesAnalysis/:op1_ID/:op2_ID/:date_from/date_to. 
+	Στην συνέχεια εμφανίζονται τα εξής δεδομένα :
+	- Το πλήθος των διελεύσεων για την ζητούμενη περίοδο
+	- Το συνολικό κόστος αυτών
+	- Ένας πίνακας με συγκεκριμένες πληροφορίες για την κάθε διέλευση όπως αυτές επιστρέφονται από το api
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- ## **Διελέυσεις από συγκεκριμένους σταθμούς**
+	
+	Μπορεί από κατάλληλο form να επιλεγεί 
+	- Station 
+	
+		(Πρώτα καλείται ένα **https GET request** στο endpoint https://localhost:9103/interoperability/api/Stations από όπου λαμβάνεται η λίστα με τους διαθέσιμους σταθμούς)
+	- Date from
+	- Date to
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+	Αυτό μεταφράζεται σε ένα **https GET request** στο api. Συγκεκριμένα στο 
+	https://localhost:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+	Στην συνέχεια εμφανίζονται τα εξής δεδομένα :
+	- Ο σταθμός που επιλέχθηκε
+	- Το συνολικό κέρδος από τις διελεύσεις του σταθμού
+	- Ένας πίνακας με συγκεκριμένες πληροφορίες για την κάθε διέλευση όπως αυτές επιστρέφονται από το api
+- ## **Κέρδη των Operator**
 
-## Learn More
+	Μπορεί από κατάλληλο form να επιλεγεί :
+	- Operator
+	- Date from
+	- Date to
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+	Αυτό μεταφράζεται σε ένα **https GET request** στο api. Συγκεκριμένα στο 
+	https://localhost:9103/interoperability/api/ChargesBy/:op_ID/:date_from/:date_to
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+	Στην συνέχεια εμφανίζονται τα εξής δεδομένα :
+	- Το συνολικό κέρδος από τις διελεύσεις οχημάτων άλλων operators σε σταθμούς του operator που επιλέχθηκε.
+	- Ένας πίνακας με το πλήθος των διελεύσεων από οχήματα του κάθε operator και το συνολικό κέρδος από αυτές.
+	
+✔️ Σε περίπτωση επιτυχίας επικοινωνίας με τον backend server εμφανίζονται όπως αναμένονται τα δεδομένα που ζητήθηκαν.
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+❌ Αλλιώς δεν εμφανίζονται καθόλου δεδομένα

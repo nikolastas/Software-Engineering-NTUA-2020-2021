@@ -1,0 +1,9 @@
+Label,# Samples,Average,Min,Max,Std. Dev.,Error %,Throughput,Received KB/sec,Sent KB/sec,Avg. Bytes;
+HTTP Request,3000,5134,6,15358,6431.66,0.000%,48.21523,44.32,17.74,941.3;
+TOTAL,3000,5134,6,15358,6431.66,0.000%,48.21523,44.32,17.74,941.3;
+;
+;
+Threads;250
+Loops;4
+3 requests per loop;
+login + healthcheck + passesanalysis;

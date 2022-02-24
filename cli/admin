@@ -39,6 +39,7 @@ def change_pass(username, newpassword):
     print("status code= ",response.status_code)
     if(response.status_code == 200):
         print(response.text)
+
     else:
         print("Error")
         print(response.text)

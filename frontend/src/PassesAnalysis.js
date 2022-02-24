@@ -1,20 +1,21 @@
-import { Link } from 'react-router-dom';
 
 const PassesAnalysisList = ({ data }) => {
   const l = data.PassesList;
   return (
-    <div className="blog-list">
-      <table>
-      <tr>
-        <th>PassIndex</th>
-        <th>PassID</th>
-        <th>Timestamp</th>
-        <th>VehicleID</th>
-        <th>StationID</th>
-        <th>PassCharge</th>
-      </tr>
+    <div className="PassesAnalysisList">
+      <table className="container">
+      <thead>
+        <tr>
+          <th><h1>PassIndex</h1></th>
+          <th><h1>PassID</h1></th>
+          <th><h1>Timestamp</h1></th>
+          <th><h1>VehicleID</h1></th>
+          <th><h1>StationID</h1></th>
+          <th><h1>PassCharge</h1></th>
+        </tr>
+      </thead>
       {l.map(elem => (
-      <tr>
+      <tr key={elem.PassIndex}>
         <th>{ elem.PassIndex }</th>
         <th>{ elem.PassID }</th>
         <th>{ elem.TimeStamp }</th>
