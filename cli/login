@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+import argparse
+from pickle import TRUE
+import requests
+import json
+
+f = open("ip_address.txt","r")
+backend_computer_address = f.read()
+f.close()
+
+def login(username, password):
+    data = {'username': username, 'password':password}
+    url = 'https://'+backend_computer_address+':9103/interoperability/api/login'
+    response = requests.post(url,data=data, verify='../cert/CA/CA.pem')
+    print("status code= ",response.status_code)
+    if(response.status_code == 200):
+        print(response.json())
+        cookies = response.cookies.get_dict()
+        f= open("cookie.txt","w+")
+        f.write(cookies['jwt'])
+        f.close
+    else:
+        print("Error")
+        print(response.text)
+    cookies = response.cookies.get_dict()
+    f= open("cookie.txt","w+")
+    f.write(cookies['jwt'])
+    f.close
+    
+
+
+
+parser = argparse.ArgumentParser(description= 'This would let a user log in our API')
+parser.add_argument('-u','--username', required=True, help='The username of the user that is in our DB')
+parser.add_argument('-p','--password', required=True, help='The password that corresponds to the username of the user that is in our DB')
+args = parser.parse_args()
+
+login(args.username, args.password)
+
+#  python login.py -u paris -p Nikolastas2019

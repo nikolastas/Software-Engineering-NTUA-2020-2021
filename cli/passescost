@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+import argparse
+import requests
+import json
+from helperWriter import textCsvWriter
+
+f = open("ip_address.txt","r")
+backend_computer_address = f.read()
+f.close()
+
+def passescost(operator1, operator2, datefrom, dateto, format):
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
+    url = f'https://{backend_computer_address}:9103/interoperability/api/PassesCost/{operator1}/{operator2}/{datefrom}/{dateto}?format={format}'
+    response = requests.get(url, cookies=cookie, verify='../cert/CA/CA.pem')
+    print(response.status_code)
+    if(format=='csv' and response.status_code==200):
+       textCsvWriter("./PassesCost.csv",response.text)
+    elif(format == 'json' and response.status_code==200):
+       print(json.dumps(response.json(), indent=5, sort_keys=False))
+    else:
+       print(response.text)
+
+
+parser = argparse.ArgumentParser(description= 'This would return the cost between 2 stations given in the args and the dates accordingly')
+parser.add_argument('-o','--op1', required=True, help='The name of the operator1 you are about to make a query')
+parser.add_argument('-O','--op2', required=True, help='The name of the operator1 you are about to make a query')
+parser.add_argument('-df','--datefrom', required=True, help='The date for the period starts and you want to make a query ')
+parser.add_argument('-dt','--dateto', required=True, help='The date for the period ends and you want to make a query')
+parser.add_argument('-f', '--format', required=True, help='The format of the responce data should have')
+args = parser.parse_args()
+
+passescost(args.op1, args.op2, args.datefrom, args.dateto, args.format)
+
+# se2164 passescost -o aodos -O egnatia -df 20210301 -dt 20210601 -f csv

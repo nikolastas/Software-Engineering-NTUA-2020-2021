@@ -3,3 +3,4 @@
 Περιεχόμενα:
 
 - RESTful API
+Schema & Documentation

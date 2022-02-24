@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+import argparse
+import requests
+import json
+
+from helperWriter import textCsvWriter
+
+f = open("ip_address.txt","r")
+backend_computer_address = f.read()
+f.close()
+
+def chargesby(operator,  datefrom, dateto, format):
+    f = open("cookie.txt","r")
+    cookie = {'jwt': f.read()}
+    f.close()
+    url = f'https://{backend_computer_address}:9103/interoperability/api/ChargesBy/{operator}/{datefrom}/{dateto}?format={format}'
+    print(url)
+    response = requests.get(url,  cookies=cookie, verify='../cert/CA/CA.pem')
+    print(response.status_code)
+    if(format=='csv' and response.status_code==200 ):
+        # print(response.json())
+        textCsvWriter("./ChargesBy.csv",response.text)
+    elif(format == 'json' and response.status_code==200):
+        print(json.dumps(response.json(), indent=5, sort_keys=False))
+    else:
+        print(response.text)
+
+parser = argparse.ArgumentParser(description= 'This would return the charges by all the other operators for the dates given accordingly')
+parser.add_argument('-o','--op1', required=True, help='The name of the operator you are about to make a query')
+parser.add_argument('-df','--datefrom', required=True, help='The date for the period starts and you want to make a query ')
+parser.add_argument('-dt','--dateto', required=True, help='The date for the period ends and you want to make a query')
+parser.add_argument('-f', '--format', required=True, help='The format of the responce data should have')
+args = parser.parse_args()
+
+chargesby(args.op1, args.datefrom, args.dateto, args.format)
+
+# se2164 chargesby -o aodos -df 20200112 -dt 20200116 -f csv
