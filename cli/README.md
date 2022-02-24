@@ -252,14 +252,14 @@ se2164 admin users
 ### 14. admin load passes from csv file
 Command: 
 ```
-admin passesupd --source <csv file address>
+admin --passesupd --source <csv file address>
 ```
 
 This command is used to load passes from csv file to the database.
 Example:
 
 ```
-se2164 admin passesupd --source ./data/newpasses2022.csv
+se2164 admin --passesupd --source ./data/newpasses2022.csv
 ```
 # Parameters shortcuts
 In order to use the cli efficiently we used the following shortcuts.

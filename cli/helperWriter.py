@@ -2,12 +2,13 @@
 import os
 import json
 import csv
+import string
 from prettytable import from_csv
 from prettytable import DEFAULT
  
 # Opening JSON file and loading the data
-# into the variable data
-def joinner( s):
+# into the variable new2
+def joinner(s):
     new = []
     character=""
     firstTime = True
@@ -52,10 +53,6 @@ def joinner( s):
             new2.append(word)
             word=""
             counter=0
-            
-
-
-
     return new2
 
 def list2space(s):
@@ -69,38 +66,17 @@ def list2space(s):
     return s
 
 def textCsvWriter(filename, dataValues):
-    # f = open(filename,'w+')
-    # f.truncate(0)
-    # f.write(dataValues)
-    # f.seek(0)
-    # x = from_csv(f, delimiter =',')
-    # x.set_style(DEFAULT)
-    # print(x)
-    # f.close()
-    # dataValues = str(dataValues,"utf-8")
     
-    # print("decoded",dataValues)
     dataValues = list2space(dataValues)
     dataValues = (dataValues.replace('"', ""))
     dataValues = dataValues.replace("'", "" )
 
-    # dataValues = dataValues.replace("]", "")
-    # dataValues = dataValues.replace("[", "")
     
     dataValues = dataValues.replace("}", "")
     dataValues = dataValues.replace("{", "")
-    # print("clean",(dataValues))
     
     dataValues = joinner(dataValues)
-    # print("splitted",dataValues)
-    # print("split[0]", dataValues[0])
-    # print("len: ", len(dataValues))
-    # filename must be in 'sample.csv ' .
-    # with open(filename) as json_file:
-    #     data = json.load(json_file)
-    # for d in dataValues:
-    # dataValuesALL = data['emp_details']
-    
+
     # now we will open a file for writing
     data_file = open(filename, 'w+')
     
@@ -113,7 +89,6 @@ def textCsvWriter(filename, dataValues):
     
     
     for data in dataValues:
-        # print(count,data)
         # Writing data of CSV file
         csv_writer.writerow([data])
         count += 1
