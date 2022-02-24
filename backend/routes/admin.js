@@ -2,16 +2,36 @@ const { application } = require('express');
 const express = require('express');
 const con = require('../models/dbsetup');
 const router = express.Router();
-
+const moment = require('moment');
 const fs = require('fs');
 const csv = require('csv-parser');
 const e = require('express');
-const { table } = require('console');
+const { table, error } = require('console');
+const {requireAuth, checkUser, isAdmin } = require('../middleware/authMiddleware');
+const bodyParser = require('body-parser');
+const util = require('util');
+const { query, end } = require('../models/dbsetup');
+const { resolve } = require('path');
+
 
 
 /*
  * erase table from db with tablename.
  */
+// from 1/1/2019 6:10 to 01-01-2019 06:10:00
+
+async function withTransaction( db, callback ) {
+    try {
+      await db.beginTransaction();
+      await callback();
+      await db.commit();
+    } catch ( err ) {
+      await db.rollback();
+      throw err;
+    } 
+  }
+
+
 function eraseTable(tablename){
     try{
         con.query("TRUNCATE TABLE " + tablename, function(err, result, fields){
@@ -64,7 +84,7 @@ function eraseRefTableTail(tablename){
 /*
  * Healthcheck handler
  */
-router.get('/healthcheck', function(req, res){
+router.get('/healthcheck', isAdmin,function(req, res){
     //Check if connection holds
     if(con.state == 'disconnected'){
         res.status(500);
@@ -77,7 +97,7 @@ router.get('/healthcheck', function(req, res){
 });
 
 //Resets Passes.
-router.post('/resetpasses', function(req, res){
+router.post('/resetpasses', isAdmin,function(req, res){
     
     if(eraseTable("passes")){
         res.status(200);
@@ -91,9 +111,90 @@ router.post('/resetpasses', function(req, res){
 
 });
 
-//Resets stations (tries to)
-router.post('/resetstations', function(req, res){
+//Passes update endpoint
+router.post('/passesupd', isAdmin, async function(req, res){
+    console.log("trying to update from csv");
+    flag = false;
+    console.log(req.body);
+    try{
+        fs.stat(req.body.source, function(err,stat){
+            if (err) {
+                console.log("failed to update [0]");
+                console.log(req.body.source);
+                res.status(500);
+                res.send({"status":"failed"});
+            
+            }
+            else{
+                var csvData = [];
+                fs.createReadStream(req.body.source)
     
+                    .pipe(csv({ separator: ';' }))
+                    .on('error' ,function(){
+                        res.status(500).send({"status":"failed"});
+                    })
+                    .on('data', function(row){
+                        
+                        csvData.push(row);
+                    })
+                    .on('end', async function(){
+                        console.log("end of data\n");
+                        var arrayLength = csvData.length;
+                        var flag= true;
+                        for (var i = 0; i < arrayLength; i++) {
+                            // console.log(row);
+                            var pass = csvData[i];
+                            // console.log(pass.passID);
+                            var time=moment(pass.timestamp, "D/M/YYYY H:m").format("YYYY-MM-DD HH:mm:SS"); //pass.timestamp=1/1/2019 6:10
+                            const query = util.promisify(con.query).bind(con);
+                            try{ 
+                                await query(
+                                    "INSERT INTO softeng.passes (VehiclesvehicleID, StationsstationID, passID, timestamp, charge) VALUES ('"+ pass.vehicleID+
+                                    "', '"+pass.stationID+"', '"+pass.passID+"', '"+time+"', '" +pass.charge+"')" );
+                                // await con2.commit();
+                            }catch(e){
+                                console.log("failed to update [1]");
+                                console.log("error with query");
+                                console.log(e);
+                                // throw error("error with query");
+                                flag =false;
+                                break;
+                            }finally{
+                                // con.end();
+                            }
+                            
+                                
+                            };
+                        console.log("end with csv update");
+                        if(flag){
+                            res.status(200).send({"status":"ok"});
+                        }
+                        else{
+                            res.status(400).send({"status":"failed"});
+                        }
+                        
+                        
+                    })
+                    ;
+                }
+            })
+
+            
+    } catch(error){
+        //handle error
+        console.log("failed to update [2]");
+        console.log(error);
+        res.status(500);
+        res.send({"status":"failed"});
+    }
+   
+    
+});
+
+
+//Resets stations (tries to)
+router.post('/resetstations', isAdmin, async function(req, res){
+    console.log("trying to reset stations");
     try{
         //Removes constraints to other tables needed and truncates the table
         if(eraseRefTableHead("stations"))
@@ -101,21 +202,25 @@ router.post('/resetstations', function(req, res){
             
             fs.createReadStream('./defaults/sampledata01_stations.csv')
                 .pipe(csv())
-                .on('data', function(row){
+                .on('data',async function(row){
                     //We must add to the database the station
                     var station = row;
                     //Query on the base to add to stations
-                    con.query(
+                    const query = util.promisify(con.query).bind(con);
+                    await query(
                     "INSERT INTO softeng.stations (stationID, stationName, Providername, Providerabbr) VALUES ('"+ station.stationID+
                     "', '"+station.stationName+"', '"+station.stationProvider+"', '"+station.providerAbbr+"')"
                     , function(err, result, fields){
                         if (err) {
-                            return;
+                            console.log("error with query");
+                            throw err;
                         }
                     });
                 })
                 .on('end', function(){
-                    console.log("end of data\n");
+                    if(process.env.NODE_ENV !== 'test'){
+                        console.log("end of data\n");
+                    }
                 });
             
             //Adds Back the constraints needed for DB to work
@@ -142,18 +247,20 @@ router.post('/resetstations', function(req, res){
     
 });
 
+
 //reset vehicles.
-router.post('/resetvehicles', function(req, res){
+router.post('/resetvehicles', isAdmin, async function(req, res){
     try{
         if(eraseRefTableHead("vehicles")){
             fs.createReadStream('./defaults/sampledata01_vehicles_100.csv')
                 .pipe(csv())
-                .on('data', function(row){
+                .on('data', async function(row){
                     //We must add to the database the station
                     var vehicle = row;
                     //Query on the base to add to stations
                     try{
-                        con.query(
+                        const query = util.promisify(con.query).bind(con);
+                        await query(
                         "INSERT INTO softeng.vehicles (vehicleID, licenseYear, tagtagID) VALUES ('"+
                         vehicle.vehicleID+"', "+vehicle.licenseYear+", '"+ vehicle.tagID +"')", 
                         function(err, result, fields){
@@ -166,7 +273,9 @@ router.post('/resetvehicles', function(req, res){
                     }
                 })
                 .on('end', function(){
-                    console.log("end of data\n");
+                    if(process.env.NODE_ENV !== 'test'){
+                        console.log("end of data\n");
+                    }
                 });
 
                 if(!eraseRefTableTail("vehicles")){

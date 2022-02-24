@@ -4,6 +4,7 @@ const con = require('../models/dbsetup');
 const router = express.Router();
 const moment = require('moment');
 const converter = require('json-2-csv');
+const {requireAuth, checkUser, isAdmin } = require('../middleware/authMiddleware');
 
 function jsonToCSV(jsonobj){
     var csvfile;
@@ -30,13 +31,13 @@ function SQLDateTimeToResponse(dateTime){
     //2021-05-30T02:12:00.000Z
     //2021-05-30 02:12:00
     var dateTime = Date.parse(dateTime.toString());
-    var dateTime = moment(dateTime).format('YYYY-MM-DD HH:MM:SS');
+    var dateTime = moment(dateTime).format('YYYY-MM-DD HH:mm:SS');
     return `${dateTime.slice(0, 10)} ${dateTime.slice(11, 20)}`;
 }
 
 
 
-router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res){
+router.get('/PassesPerStation/:stationID/:date_from/:date_to', requireAuth, function(req, res){
     var datefrom = req.params.date_from;
     var dateto = req.params.date_to;
 
@@ -113,7 +114,7 @@ router.get('/PassesPerStation/:stationID/:date_from/:date_to', function(req, res
 
 
 
-router.get('/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to', function(req, res){
+router.get('/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to', requireAuth, function(req, res){
     //parse arguments
     var op1_ID = req.params.op1_ID;
     var op2_ID = req.params.op2_ID;
@@ -187,7 +188,7 @@ router.get('/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to', function(req, 
 });
 
 
-router.get('/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to', function(req, res){
+router.get('/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to', requireAuth, function(req, res){
     //parse arguments
     var op1_ID = req.params.op1_ID;
     var op2_ID = req.params.op2_ID;
@@ -204,6 +205,8 @@ router.get('/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to', function(req, res)
     AND stations.Providername='${op1_ID}' #OP1
     AND passes.timestamp <= '${date_to}' AND passes.timestamp >= '${date_from}'`;
     try{
+        console.log(op1_ID,op2_ID , date_from , date_to, 'passescost');
+        console.log(str);
         con.query(str, 
         function(err, result, fields){
             if (err) throw err;
@@ -257,7 +260,7 @@ router.get('/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to', function(req, res)
 
 
 
-router.get('/ChargesBy/:op_ID/:date_from/:date_to', function(req, res){
+router.get('/ChargesBy/:op_ID/:date_from/:date_to', requireAuth, function(req, res){
     var op_ID = req.params.op_ID;
     var date_from = formatDate(req.params.date_from, "00:00:00");
     var date_to = formatDate(req.params.date_to, "23:59:59");
