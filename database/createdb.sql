@@ -48,8 +48,7 @@ create table tag
 
 create table users
 (
-<<<<<<< HEAD
-=======
+
 
     username     char(40)  not null,
     password     char(100)  not null,
@@ -59,14 +58,6 @@ create table users
 
 
 
-);
->>>>>>> https-backend-cli
-
-    username     char(40)  not null,
-    password     char(100)  not null,
-    typeofuser   char(5) not null,
-    email char(50) null,
-    primary key (username)
 
 
 

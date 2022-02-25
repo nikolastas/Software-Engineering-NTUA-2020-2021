@@ -3,6 +3,7 @@ import sys
 import pandas as pd
 import numpy as np
 import datetime
+import requests
 try:
     db = pymysql.connect(
         user="root",
@@ -16,7 +17,7 @@ except pymysql.Error as e:
     print(f"Error connecting to mysql Platform: {e}")
     sys.exit(1)
 
-
+'''
 # Get Cursor
 cursor = db.cursor()
 
@@ -77,7 +78,7 @@ for i in range(len(Passes)):
     # break
     cursor.execute(sqlFormula)
     db.commit() #Save Data
-
+'''
 #adding users
 print("done uploading data from CSV , trying to make new default users")
 f = open("../cli/ip_address.txt","r")
@@ -85,7 +86,7 @@ backend_computer_address = f.read()
 f.close()
 def usermod (username, password, typeofuser, email):
     data = {'username': username, 'password':password, 'typeOfUser':typeofuser, 'email':email}
-    url = 'https://'+backend_computer_address+':9103/interoperability/api/signup'
+    url = 'https://'+'localhost'+':9103/interoperability/api/signup'
     response = requests.post(url,data=data, verify=False)
     print("status code= ",response.status_code)
     if(response.status_code == 200):
